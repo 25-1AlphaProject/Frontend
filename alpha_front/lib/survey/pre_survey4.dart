@@ -34,9 +34,28 @@ class _PreSurvey4State extends State<PreSurvey4> {
                 ),
               ),
             ),
+
+            Container(
+              margin: EdgeInsets.fromLTRB(10, 20, 10, 20),
+              child: TextField(
+                keyboardType : TextInputType.number,
+                decoration: InputDecoration(
+                  hintText: '질환명',
+                  enabledBorder : UnderlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xff000000),
+                    )
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xff118B50),
+                    ),  
+                  ),
+                ), 
+              ),
+            ),
+
             Center(
               child: Container(
-                padding: EdgeInsets.fromLTRB(10, 50, 10, 20),
+                padding: EdgeInsets.fromLTRB(10, 50, 10, 10),
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -67,7 +86,42 @@ class _PreSurvey4State extends State<PreSurvey4> {
                   ),
                   ),
               ),
-            ),  
+            ),
+
+            Center(
+              child: Container(
+                padding: EdgeInsets.fromLTRB(10, 10, 10, 30),
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xff118B50),
+                    shape : RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    side: BorderSide(color: Color(0xff118B50), width: 1),
+                    elevation: 3,
+                    
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PreSurvey5())
+                    );
+                  }, 
+                    child: Text(
+                    '생략할게요',
+                      style: TextStyle(
+                      fontFamily: 'PretendartVariable',
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                
+                    ),
+                  ),
+                  ),
+              ),
+            ),
           ]
           
         )
