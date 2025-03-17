@@ -1,14 +1,14 @@
-import 'package:alpha_front/survey/pre_survey3.dart';
+import 'package:alpha_front/survey/pre_survey5.dart';
 import 'package:flutter/material.dart';
 
-class PreSurvey2 extends StatefulWidget {
-  const PreSurvey2({super.key});
+class PreSurvey4 extends StatefulWidget {
+  const PreSurvey4({super.key});
 
   @override
-  State<PreSurvey2> createState() => _PreSurvey2State();
+  State<PreSurvey4> createState() => _PreSurvey4State();
 }
 
-class _PreSurvey2State extends State<PreSurvey2> {
+class _PreSurvey4State extends State<PreSurvey4> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +25,7 @@ class _PreSurvey2State extends State<PreSurvey2> {
               child: Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  '앓고 계신 식품 관련 \n알레르기 질환이 있나요?',
+                  '식이요법 관리가 필요한 \n질환이 있나요?',
                   style: TextStyle(
                     color: Colors.black,
                     fontFamily: 'yg-jalnan',
@@ -52,7 +52,7 @@ class _PreSurvey2State extends State<PreSurvey2> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => PreSurvey3())
+                        builder: (context) => PreSurvey5())
                     );
                   }, 
                     child: Text(
@@ -67,7 +67,7 @@ class _PreSurvey2State extends State<PreSurvey2> {
                   ),
                   ),
               ),
-            ),
+            ),  
           ]
           
         )
