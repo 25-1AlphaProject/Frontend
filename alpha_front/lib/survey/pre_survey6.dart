@@ -8,6 +8,7 @@ class PreSurvey6 extends StatefulWidget {
 }
 
 class _PreSurvey6State extends State<PreSurvey6> {
+    List<int> selectedGoal = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,8 +34,144 @@ class _PreSurvey6State extends State<PreSurvey6> {
                 ),
               ),
             ),
-          ]
-        )
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: selectedGoal.contains(1) ? Color(0xff118B50) : Colors.white,
+                        shape : RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        side: BorderSide(color: Color(0xff118B50), width: 1),
+                        elevation: 3,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          if (selectedGoal.contains(1)) {
+                            // 이미 선택된 상태이면 리스트에서 제거
+                            selectedGoal.remove(1);
+                          } else {
+                            // 선택되지 않은 상태이면 리스트에 추가
+                            selectedGoal.add(1);
+                          }
+                        }); 
+                      }, 
+                      child: Text(
+                        '다이어트',
+                        style: TextStyle(
+                          fontFamily: 'PretendartVariable',
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: selectedGoal.contains(1) ? Colors.white : Color(0xff118B50),
+                
+                        ),
+                      ),
+                    ),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: selectedGoal.contains(2)? Color(0xff118B50) : Colors.white,                    
+                        shape : RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        side: BorderSide(color: Color(0xff118B50), width: 1),
+                        elevation: 3,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          if (selectedGoal.contains(2)) {
+                            // 이미 선택된 상태이면 리스트에서 제거
+                            selectedGoal.remove(2);
+                          } else {
+                            // 선택되지 않은 상태이면 리스트에 추가
+                            selectedGoal.add(2);
+                          }
+                        });
+                      }, 
+                      child: Text(
+                        '질환관리',
+                        style: TextStyle(
+                          fontFamily: 'PretendartVariable',
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: selectedGoal.contains(2) ? Colors.white : Color(0xff118B50),
+                
+                        ),
+                      ),
+                    ),
+                    
+                    Row(
+                      children: [
+                        ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: selectedGoal.contains(3) ? Color(0xff118B50) : Colors.white,
+                                shape : RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                side: BorderSide(color: Color(0xff118B50), width: 1),
+                                elevation: 3,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  if (selectedGoal.contains(3)) {
+                                    // 이미 선택된 상태이면 리스트에서 제거
+                                    selectedGoal.remove(3);
+                                  } else {
+                                    // 선택되지 않은 상태이면 리스트에 추가
+                                    selectedGoal.add(3);
+                                  }
+                                });
+                              }, 
+                              child: Text(
+                                '잘 모르겠음',
+                                style: TextStyle(
+                                  fontFamily: 'PretendartVariable',
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: selectedGoal.contains(3) ? Colors.white : Color(0xff118B50),
+                        
+                                ),
+                              ),
+                            ),
+                        ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: selectedGoal.contains(4) ? Color(0xff118B50) : Colors.white,
+                                shape : RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                side: BorderSide(color: Color(0xff118B50), width: 1),
+                                elevation: 3,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  if (selectedGoal.contains(4)) {
+                                    // 이미 선택된 상태이면 리스트에서 제거
+                                    selectedGoal.remove(4);
+                                  } else {
+                                    // 선택되지 않은 상태이면 리스트에 추가
+                                    selectedGoal.add(4);
+                                  }
+                                });
+                              }, 
+                              child: Text(
+                                '식습관 개선',
+                                style: TextStyle(
+                                  fontFamily: 'PretendartVariable',
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: selectedGoal.contains(4) ? Colors.white : Color(0xff118B50),
+                        
+                                ),
+                              ),
+                            ),
+                      ],
+                    ),
+                    ],
+                ),
+              ],
+            ),
+     
       )
     );
   }
