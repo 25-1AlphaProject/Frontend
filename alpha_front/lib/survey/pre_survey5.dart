@@ -1,14 +1,14 @@
-import 'package:alpha_front/survey/pre_survey3.dart';
+import 'package:alpha_front/survey/pre_survey6.dart';
 import 'package:flutter/material.dart';
 
-class PreSurvey2 extends StatefulWidget {
-  const PreSurvey2({super.key});
+class PreSurvey5 extends StatefulWidget {
+  const PreSurvey5({super.key});
 
   @override
-  State<PreSurvey2> createState() => _PreSurvey2State();
+  State<PreSurvey5> createState() => _PreSurvey5State();
 }
 
-class _PreSurvey2State extends State<PreSurvey2> {
+class _PreSurvey5State extends State<PreSurvey5> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +25,7 @@ class _PreSurvey2State extends State<PreSurvey2> {
               child: Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  '앓고 계신 식품 관련 \n알레르기 질환이 있나요?',
+                  '한 끼당 \n희망 섭취 칼로리 수는?',
                   style: TextStyle(
                     color: Colors.black,
                     fontFamily: 'yg-jalnan',
@@ -33,6 +33,37 @@ class _PreSurvey2State extends State<PreSurvey2> {
                   ),
                 ),
               ),
+            ),
+
+            Row(
+              children: [
+                Container(
+                  margin: EdgeInsets.fromLTRB(10, 20, 10, 20),
+                  child: TextField(
+                    keyboardType : TextInputType.number,
+                    decoration: InputDecoration(
+                      enabledBorder : UnderlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xff000000),
+                        )
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xff118B50),
+                        ),  
+                      ),
+                    ), 
+                  ),
+                ),
+                SizedBox(
+                  child: Text(
+                    'kcal',
+                    style: TextStyle(
+                      fontFamily: 'yg-jalnan',
+                      color: Colors.black,
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
+              ],
             ),
             Center(
               child: Container(
@@ -52,7 +83,7 @@ class _PreSurvey2State extends State<PreSurvey2> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => PreSurvey3())
+                        builder: (context) => PreSurvey6())
                     );
                   }, 
                     child: Text(
@@ -69,7 +100,6 @@ class _PreSurvey2State extends State<PreSurvey2> {
               ),
             ),
           ]
-          
         )
       )
     );
