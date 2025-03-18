@@ -12,10 +12,24 @@ class _PreSurvey2State extends State<PreSurvey2> {
   TextEditingController searchController = TextEditingController();
 
     Map<String, int> allergyMap = {
-    "가": 1,
-    "나": 2,
-    "다": 3,
-    "라": 4,
+    "알류": 1,
+    "우유": 2,
+    "메밀": 3,
+    "견과류": 4,
+    "밀가루": 5,
+    "고등어": 6,
+    "갑각류": 7,
+    "새우": 8,
+    "오징어": 9,
+    "조개류": 10,
+    "복숭아": 11,
+    "토마토": 12,
+    "닭고기": 13,
+    "돼지고기": 14,
+    "쇠고기": 15,
+    "아황산류": 16,
+    "호두": 17,
+    "잣": 18,
   };
 
   List<String> selectedAllergy = [];
@@ -49,7 +63,7 @@ class _PreSurvey2State extends State<PreSurvey2> {
            TextField(
               controller: searchController,
               decoration: InputDecoration(
-                labelText: "알러지 검색 (가~라)",
+                labelText: "알러지 검색",
                 border: UnderlineInputBorder(
                 ),
               ),
@@ -59,7 +73,8 @@ class _PreSurvey2State extends State<PreSurvey2> {
             ),
             SizedBox(height: 20),
 
-            // 알러지지 리스트 (검색 결과 기반)
+            // 알러지 리스트 (검색 결과 기반)
+          if(searchController.text.isNotEmpty)
             Wrap(
               spacing: 10,
               children: allergyMap.keys
