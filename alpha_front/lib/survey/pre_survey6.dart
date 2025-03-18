@@ -169,7 +169,43 @@ class _PreSurvey6State extends State<PreSurvey6> {
                     ),
                     ],
                 ),
+                            Center(
+              child: Container(
+                padding: EdgeInsets.fromLTRB(10, 30, 10, 30),
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xff118B50),
+                    shape : RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    side: BorderSide(color: Color(0xff118B50), width: 1),
+                    elevation: 3,
+                    
+                  ),
+                  onPressed: () {
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => PreSurvey4())
+                    // );
+                    print("home");
+                  }, 
+                    child: Text(
+                    '작성 완료',
+                      style: TextStyle(
+                      fontFamily: 'PretendartVariable',
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                
+                    ),
+                  ),
+                  ),
+              ),
+            ),
               ],
+              
             ),
      
       )
