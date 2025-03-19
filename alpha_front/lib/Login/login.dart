@@ -9,9 +9,9 @@ class loginScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizotal: 30.0),
+          padding: const EdgeInsets.symmetric(horizontal: 30.0),
           child: Column(
-            mainAxisAlignmet: MainAxisAlignmet.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 '척척박사',
@@ -22,76 +22,87 @@ class loginScreen extends StatelessWidget {
                   color: Colors.green.shade800,
                 ),
               ), //앱명
-              TetxtFild(
-                obscureText: true,
+              const SizedBox(height: 100),
+              TextField(
+                // obscureText: true,
                 decoration: InputDecoration(
-                  hintText: '아이디',
+                  hintText: '아이디를 입력해주세요',
                   hintStyle: TextStyle(
-                    fontFamily: 'PretendardBariable',
+                    fontFamily: 'PretendardVariable',
                     color: Colors.grey.shade400,
                   ),
-                  filled: true,
-                  fillColor: colors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(40),
-                    borderSide: BorderSide(color: Colors.green),
+                  // filled: true,
+                  // fillColor: Colors.white,
+                  enabledBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                  focusedBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
                   ),
                 ),
               ), // 아이디
-              const SizedBox(height: 15),
-              TextFild(
+              const SizedBox(height: 20),
+              TextField(
                 obscureText: true,
                 decoration: InputDecoration(
-                  hintText: '비밀번호',
+                  hintText: '비밀번호를 입력해주세요',
                   hintStyle: TextStyle(
-                    fontFamily: 'PretendardBariable',
+                    fontFamily: 'PretendardVariable',
                     color: Colors.grey.shade400,
                   ),
-                  filled: true,
-                  fillColor: colors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(40),
-                    borderSide: BorderSide(color: Colors.green),
+                  // filled: true,
+                  // fillColor: Colors.white,
+                  enabledBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                  focusedBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
                   ),
                 ),
               ), // 비번
-              const SizedBox(height: 30),
+              const SizedBox(height: 100),
               ElevatedButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green.shade700,
+                  backgroundColor: Colors.grey.shade400,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 15, horizontal: 80),
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  minimumSize: const Size(double.infinity, 50),
+                  elevation: 0,
                 ),
-                child: Text(
-                  "로그인",
+                child: const Text(
+                  "로그인하기",
                   style: TextStyle(
                     fontFamily: "PretendardVariable",
                     fontSize: 18,
-                    color: Colors.white,
+                    color: Colors.black87,
                   ),
                 ),
               ), //로그인 버튼
+              const SizedBox(height: 70),
               TextButton(
                 onPressed: () {},
-                chlid: Text(
+                child: Text(
                   '아이디 / 비밀번호 찾기',
                   style: TextStyle(
                     fontFamily: 'PretendardVariable',
-                    color: Colors.green,
+                    color: Colors.green.shade700,
+                    decorationColor: Colors.green.shade700,
+                    decoration: TextDecoration.underline,
                   ),
                 ),
               ), //아이디/비밀번호 찾기 버튼
               TextButton(
                 onPressed: () {},
-                chlid: Text(
-                  '아직 회원이 아니신가요? 회원가입하기',
+                child: Text(
+                  '아직 회원이 아니신가요? 회원가입 하기',
                   style: TextStyle(
                     fontFamily: 'PretendardVariable',
-                    color: Colors.green,
+                    color: Colors.green.shade700,
+                    decorationColor: Colors.green.shade700,
+                    decoration: TextDecoration.underline,
                   ),
                 ),
               ), // 회원가입 버튼
