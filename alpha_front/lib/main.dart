@@ -1,9 +1,10 @@
 import 'package:alpha_front/survey/pre_survey.dart';
 import 'package:alpha_front/Login/login.dart';
+import 'package:alpha_front/SignUp/signup.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(CCBS());
+  runApp(const CCBS());
 }
 
 class CCBS extends StatelessWidget {
@@ -18,12 +19,13 @@ class CCBS extends StatelessWidget {
       theme: ThemeData(
         fontFamily: "yg-jalnan",
         // Theme 설정
-        colorScheme: ColorScheme.fromSeed(seedColor: Color(0xff118B50)),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff118B50)),
         useMaterial3: true,
       ),
       // home: const MyHomePage(title: '척척밥사'),
-      home: Survey(),
-      // home: loginScreen(),
+      // home: Survey(),
+      // home: const loginScreen(),
+      home: const signupScreen(),
     );
   }
 }
