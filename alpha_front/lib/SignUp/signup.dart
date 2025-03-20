@@ -20,7 +20,7 @@ class _signupScreenState extends State<signupScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '척척박사',
+              '척척밥사',
               style: TextStyle(
                 fontFamily: 'yg-jalnan',
                 fontSize: 32,
@@ -242,7 +242,7 @@ class _signupScreenState extends State<signupScreen> {
             ),
 
             Visibility(
-              visible: currentStep >= 7,
+              visible: currentStep >= 8,
               child: Column(
                 children: [
                   Row(
@@ -252,7 +252,7 @@ class _signupScreenState extends State<signupScreen> {
                             const InputDecoration(labelText: "인증번호를 입력해주세요"),
                         onSubmitted: (value) {
                           setState(() {
-                            currentStep = 8; // 다음 단계로 이동
+                            currentStep = 9; // 다음 단계로 이동
                           });
                         },
                       ),

@@ -14,7 +14,7 @@ class loginScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                '척척박사',
+                '척척밥사',
                 style: TextStyle(
                   fontFamily: 'yg-jalnan',
                   fontSize: 32,
