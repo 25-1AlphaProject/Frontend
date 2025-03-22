@@ -11,28 +11,22 @@ class PreSurvey3 extends StatefulWidget {
 class _PreSurvey3State extends State<PreSurvey3> {
   TextEditingController searchController = TextEditingController();
 
-      Map<String, int> allergyMap = {
-    "알류": 1,
-    "우유": 2,
-    "메밀": 3,
-    "견과류": 4,
-    "밀가루": 5,
-    "고등어": 6,
-    "갑각류": 7,
-    "새우": 8,
-    "오징어": 9,
-    "조개류": 10,
-    "복숭아": 11,
-    "토마토": 12,
-    "닭고기": 13,
-    "돼지고기": 14,
-    "쇠고기": 15,
-    "아황산류": 16,
-    "호두": 17,
-    "잣": 18,
-  };
+  List<String> selectedLikeFood = [];
 
-    List<String> selectedLikeFood = [];
+  void _addLikeFood(String term) {
+    if (term.isNotEmpty && !selectedLikeFood.contains(term)) {
+      setState(() {
+        selectedLikeFood.add(term);
+      });
+      searchController.clear();
+    }
+  }
+
+  void _removeLikeFood(String term) {
+    setState(() {
+      selectedLikeFood.remove(term);
+    });
+  }
 
 
 
@@ -75,70 +69,61 @@ class _PreSurvey3State extends State<PreSurvey3> {
             ),
             SizedBox(height: 20),
 
-            // 선호 식품품 리스트 (검색 결과 기반)
-          if(searchController.text.isNotEmpty)
+
+
             Wrap(
-              spacing: 10,
-              children: allergyMap.keys
-                  .where((k) =>
-                      k.contains(searchController.text) ||
-                      allergyMap[k].toString().contains(searchController.text))
-                  .map((k) => ElevatedButton(
-                        onPressed: () {
-                          if (!selectedLikeFood.contains(k)) {
-                            setState(() {
-                              selectedLikeFood.add(k);
-                            });
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: selectedLikeFood.contains(k) ? Color(0xff118B50) : Colors.white,
-                          foregroundColor: selectedLikeFood.contains(k) ? Colors.white : Colors.black,
-                        ),
-                        child: Text("$k", 
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontFamily: 'PretendardVariable',
-                          fontWeight: FontWeight.bold,
-                          )),
-                      ))
-                  .toList(),
+              spacing: 8.0,
+              children: selectedLikeFood.map((term) => ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xff118B50), 
+                  foregroundColor: Colors.white, 
+                ),
+                onPressed: () {},
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(term),
+                    SizedBox(width: 8),
+                    GestureDetector(
+                      onTap: () => _removeLikeFood(term),
+                      child: Icon(Icons.close, color: Colors.white, size: 16),
+                    ),
+                  ],
+                ),
+              )).toList(),
             ),
             SizedBox(height: 20),
 
-            // 선택된 항목 목록 (박스 안)
-            Text("선택된 항목", 
-            style: TextStyle(
-              fontSize: 15,
-              color: Color(0xff115B50))),
-            SizedBox(height: 10),
-            Container(
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                border: Border.all(color: Color(0xff118B50)),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Wrap(
-                spacing: 10,
-                children: selectedLikeFood
-                    .map((k) => Chip(
-                          label: Text("$k", 
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'PretendardVariable',
-                            fontWeight: FontWeight.bold,
-                            )),
-                          backgroundColor: Color(0xff118B50),
-                          deleteIcon: Icon(Icons.close, color: Colors.white),
-                          onDeleted: () {
-                            setState(() {
-                              selectedLikeFood.remove(k);
-                            });
-                          },
-                        ))
-                    .toList(),
-              ),
-            ),
+          //   // 선호 식품 리스트 (검색 결과 기반)
+          // if(searchController.text.isNotEmpty)
+          //   Wrap(
+          //     spacing: 10,
+          //     children: allergyMap.keys
+          //         .where((k) =>
+          //             k.contains(searchController.text) ||
+          //             allergyMap[k].toString().contains(searchController.text))
+          //         .map((k) => ElevatedButton(
+          //               onPressed: () {
+          //                 if (!selectedLikeFood.contains(k)) {
+          //                   setState(() {
+          //                     selectedLikeFood.add(k);
+          //                   });
+          //                 }
+          //               },
+          //               style: ElevatedButton.styleFrom(
+          //                 backgroundColor: selectedLikeFood.contains(k) ? Color(0xff118B50) : Colors.white,
+          //                 foregroundColor: selectedLikeFood.contains(k) ? Colors.white : Colors.black,
+          //               ),
+          //               child: Text("$k", 
+          //               style: TextStyle(
+          //                 fontSize: 15,
+          //                 fontFamily: 'PretendardVariable',
+          //                 fontWeight: FontWeight.bold,
+          //                 )),
+          //             ))
+          //         .toList(),
+          //   ),
+          //   SizedBox(height: 20),
 
 
             Center(
