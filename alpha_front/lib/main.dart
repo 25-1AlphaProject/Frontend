@@ -1,3 +1,4 @@
+import 'package:alpha_front/mypage/mypage_main.dart';
 import 'package:alpha_front/survey/pre_survey.dart';
 import 'package:alpha_front/Login/login.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,8 @@ class CCBS extends StatelessWidget {
         useMaterial3: true,
       ),
       // home: const MyHomePage(title: '척척밥사'),
-      home: Survey(),
+      // home: Survey(),
+      home: MypageMain(),
       // home: loginScreen(),
     );
   }
