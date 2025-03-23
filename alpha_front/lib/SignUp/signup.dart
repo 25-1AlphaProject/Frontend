@@ -21,18 +21,18 @@ class _signupScreenState extends State<signupScreen> {
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(44.5),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Center(
+                const Center(
                   child: Text(
                     '척척밥사',
                     style: TextStyle(
                       fontFamily: 'yg-jalnan',
                       fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.green.shade800,
+                      fontWeight: FontWeight.normal,
+                      color: Color.fromRGBO(17, 139, 80, 100.0),
                     ),
                   ),
                 ), //앱명
@@ -49,7 +49,7 @@ class _signupScreenState extends State<signupScreen> {
                                   : currentStep == 5
                                       ? "비밀번호를 한 번 더"
                                       : currentStep == 6
-                                          ? " 이메일을"
+                                          ? "이메일을"
                                           : currentStep == 7
                                               ? "전화번호를"
                                               : "인증번호를",
@@ -57,6 +57,7 @@ class _signupScreenState extends State<signupScreen> {
                       fontFamily: 'yg-jalnan',
                       fontSize: 30,
                       fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.left,
                 ),
                 const Text(
                   "입력해주세요",
@@ -65,10 +66,18 @@ class _signupScreenState extends State<signupScreen> {
                       fontSize: 30,
                       fontWeight: FontWeight.normal),
                 ),
-                const SizedBox(height: 39),
+                const SizedBox(height: 31),
 
                 TextField(
-                  decoration: const InputDecoration(labelText: "이름을 입력해주세요"),
+                  decoration: const InputDecoration(
+                    hintText: "이름을 입력해주세요",
+                    hintStyle: TextStyle(
+                      fontFamily: "PretenderardVariable",
+                      fontSize: 12,
+                      color: Color.fromRGBO(182, 182, 182, 100.0),
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
                   onSubmitted: (value) {
                     setState(() {
                       username = value;
@@ -76,7 +85,7 @@ class _signupScreenState extends State<signupScreen> {
                     });
                   },
                 ), //이름
-                const SizedBox(height: 15),
+                const SizedBox(height: 21),
 
                 Visibility(
                   visible: currentStep >= 2,
@@ -84,14 +93,21 @@ class _signupScreenState extends State<signupScreen> {
                     children: [
                       TextField(
                         decoration: InputDecoration(
-                            labelText: "$username님을 어떻게 불러드릴까요?"),
+                          labelText: "$username님을 어떻게 불러드릴까요?",
+                          labelStyle: const TextStyle(
+                            fontFamily: "PretenderardVariable",
+                            fontSize: 12,
+                            color: Color.fromRGBO(182, 182, 182, 100.0),
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
                         onSubmitted: (value) {
                           setState(() {
                             currentStep = 3; // 다음 단계로 이동
                           });
                         },
                       ), //이름
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 21),
                     ],
                   ),
                 ),
@@ -103,28 +119,36 @@ class _signupScreenState extends State<signupScreen> {
                       TextField(
                         decoration: InputDecoration(
                           labelText: "아이디를 입력해주세요",
+                          labelStyle: const TextStyle(
+                            fontFamily: "PretenderardVariable",
+                            fontSize: 12,
+                            color: Color.fromRGBO(182, 182, 182, 100.0),
+                            fontWeight: FontWeight.normal,
+                          ),
                           suffixIcon: Padding(
-                            padding: const EdgeInsets.only(right: 8),
+                            padding: const EdgeInsets.only(right: 6, bottom: 4),
                             child: SizedBox(
-                              height: 40,
+                              height: 22,
                               child: ElevatedButton(
                                 onPressed: () {},
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.grey.shade400,
+                                  backgroundColor: const Color.fromRGBO(
+                                      217, 217, 217, 100.0),
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
+                                    borderRadius: BorderRadius.circular(5),
                                   ),
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 12),
-                                  minimumSize: const Size(70, 40),
+                                      horizontal: 10, vertical: 10),
+                                  minimumSize: const Size(60, 22),
                                   elevation: 0,
                                 ),
                                 child: const Text(
                                   "중복확인",
                                   style: TextStyle(
                                     fontFamily: "PretenderardVariable",
-                                    fontSize: 14,
-                                    color: Colors.black87,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 10,
+                                    color: Color.fromRGBO(121, 121, 121, 100.0),
                                   ),
                                 ),
                               ),
@@ -137,7 +161,7 @@ class _signupScreenState extends State<signupScreen> {
                           });
                         },
                       ),
-                      const SizedBox(width: 10),
+                      const SizedBox(height: 21),
                     ],
                   ),
                 ),
@@ -147,8 +171,23 @@ class _signupScreenState extends State<signupScreen> {
                   child: Column(
                     children: [
                       TextField(
-                        decoration:
-                            const InputDecoration(labelText: "비밀번호를 입력해주세요"),
+                        decoration: const InputDecoration(
+                          labelText: "비밀번호를 입력해주세요",
+                          labelStyle: TextStyle(
+                            fontFamily: "PretenderardVariable",
+                            fontSize: 12,
+                            color: Color.fromRGBO(182, 182, 182, 100.0),
+                            fontWeight: FontWeight.normal,
+                          ),
+                          helperText:
+                              "영문 / 숫자 / 기호 중 2가지 이상 조합, 8자리 이상으로 설정해주세요",
+                          helperStyle: TextStyle(
+                            fontFamily: "PretenderardVariable",
+                            fontSize: 8,
+                            color: Color.fromRGBO(182, 182, 182, 100.0),
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
                         obscureText: true,
                         onSubmitted: (value) {
                           setState(() {
@@ -156,18 +195,7 @@ class _signupScreenState extends State<signupScreen> {
                           });
                         },
                       ), //비번
-                      const Align(
-                        alignment: AlignmentDirectional.centerStart,
-                        child: Text(
-                          "영문 / 숫자 / 기호 중 2가지 이상 조합, 8자리 이상으로 설정해주세요",
-                          style: TextStyle(
-                            fontFamily: "PretendardVariable",
-                            fontSize: 8,
-                            color: Colors.black87,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 21),
                     ],
                   ),
                 ),
@@ -178,7 +206,14 @@ class _signupScreenState extends State<signupScreen> {
                     children: [
                       TextField(
                         decoration: const InputDecoration(
-                            labelText: "비밀번호를 한 번 더 입력해주세요"),
+                          labelText: "비밀번호를 한 번 더 입력해주세요",
+                          labelStyle: TextStyle(
+                            fontFamily: "PretenderardVariable",
+                            fontSize: 12,
+                            color: Color.fromRGBO(182, 182, 182, 100.0),
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
                         obscureText: true,
                         onSubmitted: (value) {
                           setState(() {
@@ -186,7 +221,7 @@ class _signupScreenState extends State<signupScreen> {
                           });
                         },
                       ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 21),
                     ],
                   ),
                 ), //비번 재확인
@@ -196,15 +231,22 @@ class _signupScreenState extends State<signupScreen> {
                   child: Column(
                     children: [
                       TextField(
-                        decoration:
-                            const InputDecoration(labelText: "이메일을 입력해주세요"),
+                        decoration: const InputDecoration(
+                          labelText: "이메일을 입력해주세요",
+                          labelStyle: TextStyle(
+                            fontFamily: "PretenderardVariable",
+                            fontSize: 12,
+                            color: Color.fromRGBO(182, 182, 182, 100.0),
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
                         onSubmitted: (value) {
                           setState(() {
                             currentStep = 7; // 다음 단계로 이동
                           });
                         },
                       ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 21),
                     ],
                   ),
                 ), //이메일
@@ -217,28 +259,36 @@ class _signupScreenState extends State<signupScreen> {
                       TextField(
                         decoration: InputDecoration(
                           labelText: "전화번호를 입력해주세요",
+                          labelStyle: const TextStyle(
+                            fontFamily: "PretenderardVariable",
+                            fontSize: 12,
+                            color: Color.fromRGBO(182, 182, 182, 100.0),
+                            fontWeight: FontWeight.normal,
+                          ),
                           suffixIcon: Padding(
-                            padding: const EdgeInsets.only(right: 8),
+                            padding: const EdgeInsets.only(right: 6, bottom: 4),
                             child: SizedBox(
-                              height: 40,
+                              height: 22,
                               child: ElevatedButton(
                                 onPressed: () {},
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.grey.shade400,
+                                  backgroundColor: const Color.fromRGBO(
+                                      217, 217, 217, 100.0),
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
+                                    borderRadius: BorderRadius.circular(5),
                                   ),
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 12),
-                                  minimumSize: const Size(70, 40),
+                                      horizontal: 10, vertical: 10),
+                                  minimumSize: const Size(77, 22),
                                   elevation: 0,
                                 ),
                                 child: const Text(
                                   "인증번호 발송",
                                   style: TextStyle(
                                     fontFamily: "PretenderardVariable",
-                                    fontSize: 14,
-                                    color: Colors.black87,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromRGBO(121, 121, 121, 100.0),
                                   ),
                                 ),
                               ),
@@ -251,7 +301,7 @@ class _signupScreenState extends State<signupScreen> {
                           });
                         },
                       ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 21),
                     ],
                   ),
                 ),
@@ -263,28 +313,36 @@ class _signupScreenState extends State<signupScreen> {
                       TextField(
                         decoration: InputDecoration(
                           labelText: "인증번호를 입력해주세요",
+                          labelStyle: const TextStyle(
+                            fontFamily: "PretenderardVariable",
+                            fontSize: 12,
+                            color: Color.fromRGBO(182, 182, 182, 100.0),
+                            fontWeight: FontWeight.normal,
+                          ),
                           suffixIcon: Padding(
-                            padding: const EdgeInsets.only(right: 8),
+                            padding: const EdgeInsets.only(right: 6, bottom: 4),
                             child: SizedBox(
-                              height: 40,
+                              height: 22,
                               child: ElevatedButton(
                                 onPressed: () {},
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.grey.shade400,
+                                  backgroundColor: const Color.fromRGBO(
+                                      217, 217, 217, 100.0),
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
+                                    borderRadius: BorderRadius.circular(5),
                                   ),
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 12),
-                                  minimumSize: const Size(70, 40),
+                                      horizontal: 10),
+                                  minimumSize: const Size(60, 22),
                                   elevation: 0,
                                 ),
                                 child: const Text(
                                   "인증 확인",
                                   style: TextStyle(
                                     fontFamily: "PretenderardVariable",
-                                    fontSize: 14,
-                                    color: Colors.black87,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromRGBO(121, 121, 121, 100.0),
                                   ),
                                 ),
                               ),
@@ -303,25 +361,26 @@ class _signupScreenState extends State<signupScreen> {
                 ),
 
                 Visibility(
-                  visible: currentStep >= 8,
+                  visible: currentStep >= 9,
                   child: TextButton(
                     onPressed: () {},
                     style: TextButton.styleFrom(
-                      backgroundColor: Colors.grey.shade400,
+                      backgroundColor:
+                          const Color.fromRGBO(226, 226, 226, 100.0),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8), // 둥글게 조정
+                        borderRadius: BorderRadius.circular(5),
                       ),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12), // 좌우 패딩 조정
-                      minimumSize: const Size(double.infinity, 43), // 크기 조정
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      minimumSize: const Size(double.infinity, 43),
                       elevation: 0,
                     ),
                     child: const Text(
                       "회원가입하기",
                       style: TextStyle(
                         fontFamily: "PretenderardVariable",
-                        fontSize: 14,
-                        color: Colors.black87,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromRGBO(136, 136, 136, 100.0),
                       ),
                     ),
                   ),
