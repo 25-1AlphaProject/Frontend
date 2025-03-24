@@ -1,3 +1,4 @@
+import 'package:alpha_front/SignUp/signup.dart';
 import 'package:flutter/material.dart';
 
 class loginScreen extends StatelessWidget {
@@ -99,7 +100,13 @@ class loginScreen extends StatelessWidget {
                   ),
                 ), //아이디/비밀번호 찾기 버튼
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const signupScreen()),
+                    );
+                  },
                   child: Text(
                     '아직 회원이 아니신가요? 회원가입 하기',
                     style: TextStyle(
