@@ -10,7 +10,10 @@ class signupScreen extends StatefulWidget {
 class _signupScreenState extends State<signupScreen> {
   int currentStep = 1;
   String username = '';
+  String password = '';
+  String checkPassword = '';
   bool isPasswordVisible = false;
+  bool isPasswordVisible2 = false;
 
   @override
   Widget build(BuildContext context) {
@@ -172,9 +175,9 @@ class _signupScreenState extends State<signupScreen> {
                   child: Column(
                     children: [
                       TextField(
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           labelText: "비밀번호를 입력해주세요",
-                          labelStyle: TextStyle(
+                          labelStyle: const TextStyle(
                             fontFamily: "PretenderardVariable",
                             fontSize: 12,
                             color: Color.fromRGBO(182, 182, 182, 100.0),
@@ -182,14 +185,28 @@ class _signupScreenState extends State<signupScreen> {
                           ),
                           helperText:
                               "영문 / 숫자 / 기호 중 2가지 이상 조합, 8자리 이상으로 설정해주세요",
-                          helperStyle: TextStyle(
+                          helperStyle: const TextStyle(
                             fontFamily: "PretenderardVariable",
                             fontSize: 8,
                             color: Color.fromRGBO(182, 182, 182, 100.0),
                             fontWeight: FontWeight.normal,
                           ),
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                isPasswordVisible = !isPasswordVisible;
+                              });
+                            },
+                            icon: Icon(
+                              isPasswordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off_rounded,
+                              color: const Color.fromRGBO(121, 121, 121, 100.0),
+                              size: 16,
+                            ),
+                          ),
                         ),
-                        obscureText: true,
+                        obscureText: !isPasswordVisible,
                         onSubmitted: (value) {
                           setState(() {
                             if (currentStep == 4) {
@@ -207,16 +224,30 @@ class _signupScreenState extends State<signupScreen> {
                   child: Column(
                     children: [
                       TextField(
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           labelText: "비밀번호를 한 번 더 입력해주세요",
-                          labelStyle: TextStyle(
+                          labelStyle: const TextStyle(
                             fontFamily: "PretenderardVariable",
                             fontSize: 12,
                             color: Color.fromRGBO(182, 182, 182, 100.0),
                             fontWeight: FontWeight.normal,
                           ),
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                isPasswordVisible2 = !isPasswordVisible2;
+                              });
+                            },
+                            icon: Icon(
+                              isPasswordVisible2
+                                  ? Icons.visibility
+                                  : Icons.visibility_off_rounded,
+                              color: const Color.fromRGBO(121, 121, 121, 100.0),
+                              size: 16,
+                            ),
+                          ),
                         ),
-                        obscureText: true,
+                        obscureText: !isPasswordVisible2,
                         onSubmitted: (value) {
                           setState(() {
                             if (currentStep == 5) {
