@@ -8,8 +8,12 @@ class signupScreen extends StatefulWidget {
 }
 
 class _signupScreenState extends State<signupScreen> {
-  int currentStep = 1; //텍스트필드 순서
+  int currentStep = 1;
   String username = '';
+  String password = '';
+  String checkPassword = '';
+  bool isPasswordVisible = false;
+  bool isPasswordVisible2 = false;
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +36,11 @@ class _signupScreenState extends State<signupScreen> {
                       fontFamily: 'yg-jalnan',
                       fontSize: 30,
                       fontWeight: FontWeight.normal,
-                      color: Color.fromRGBO(17, 139, 80, 100.0),
+                      color: Color.fromRGBO(17, 139, 80, 1.0),
                     ),
                   ),
-                ), //앱명
-                const SizedBox(height: 48),
+                ),
+                const SizedBox(height: 40),
                 Text(
                   currentStep == 1
                       ? "이름을"
@@ -66,8 +70,7 @@ class _signupScreenState extends State<signupScreen> {
                       fontSize: 30,
                       fontWeight: FontWeight.normal),
                 ),
-                const SizedBox(height: 31),
-
+                const SizedBox(height: 30),
                 TextField(
                   decoration: const InputDecoration(
                     hintText: "이름을 입력해주세요",
@@ -81,12 +84,11 @@ class _signupScreenState extends State<signupScreen> {
                   onSubmitted: (value) {
                     setState(() {
                       username = value;
-                      currentStep = 2; // 다음 단계로 이동
+                      currentStep = 2;
                     });
                   },
-                ), //이름
+                ),
                 const SizedBox(height: 21),
-
                 Visibility(
                   visible: currentStep >= 2,
                   child: Column(
@@ -103,15 +105,16 @@ class _signupScreenState extends State<signupScreen> {
                         ),
                         onSubmitted: (value) {
                           setState(() {
-                            currentStep = 3; // 다음 단계로 이동
+                            if (currentStep == 2) {
+                              currentStep = 3;
+                            }
                           });
                         },
-                      ), //이름
+                      ),
                       const SizedBox(height: 21),
                     ],
                   ),
                 ),
-
                 Visibility(
                   visible: currentStep >= 3,
                   child: Column(
@@ -157,7 +160,9 @@ class _signupScreenState extends State<signupScreen> {
                         ),
                         onSubmitted: (value) {
                           setState(() {
-                            currentStep = 4; // 다음 단계로 이동
+                            if (currentStep == 3) {
+                              currentStep = 4;
+                            }
                           });
                         },
                       ),
@@ -165,15 +170,14 @@ class _signupScreenState extends State<signupScreen> {
                     ],
                   ),
                 ),
-
                 Visibility(
                   visible: currentStep >= 4,
                   child: Column(
                     children: [
                       TextField(
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           labelText: "비밀번호를 입력해주세요",
-                          labelStyle: TextStyle(
+                          labelStyle: const TextStyle(
                             fontFamily: "PretenderardVariable",
                             fontSize: 12,
                             color: Color.fromRGBO(182, 182, 182, 100.0),
@@ -181,51 +185,81 @@ class _signupScreenState extends State<signupScreen> {
                           ),
                           helperText:
                               "영문 / 숫자 / 기호 중 2가지 이상 조합, 8자리 이상으로 설정해주세요",
-                          helperStyle: TextStyle(
+                          helperStyle: const TextStyle(
                             fontFamily: "PretenderardVariable",
                             fontSize: 8,
                             color: Color.fromRGBO(182, 182, 182, 100.0),
                             fontWeight: FontWeight.normal,
                           ),
-                        ),
-                        obscureText: true,
-                        onSubmitted: (value) {
-                          setState(() {
-                            currentStep = 5; // 다음 단계로 이동
-                          });
-                        },
-                      ), //비번
-                      const SizedBox(height: 21),
-                    ],
-                  ),
-                ),
-
-                Visibility(
-                  visible: currentStep >= 5,
-                  child: Column(
-                    children: [
-                      TextField(
-                        decoration: const InputDecoration(
-                          labelText: "비밀번호를 한 번 더 입력해주세요",
-                          labelStyle: TextStyle(
-                            fontFamily: "PretenderardVariable",
-                            fontSize: 12,
-                            color: Color.fromRGBO(182, 182, 182, 100.0),
-                            fontWeight: FontWeight.normal,
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                isPasswordVisible = !isPasswordVisible;
+                              });
+                            },
+                            icon: Icon(
+                              isPasswordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off_rounded,
+                              color: const Color.fromRGBO(121, 121, 121, 100.0),
+                              size: 16,
+                            ),
                           ),
                         ),
-                        obscureText: true,
+                        obscureText: !isPasswordVisible,
                         onSubmitted: (value) {
                           setState(() {
-                            currentStep = 6; // 다음 단계로 이동
+                            if (currentStep == 4) {
+                              currentStep = 5;
+                            }
                           });
                         },
                       ),
                       const SizedBox(height: 21),
                     ],
                   ),
-                ), //비번 재확인
-
+                ),
+                Visibility(
+                  visible: currentStep >= 5,
+                  child: Column(
+                    children: [
+                      TextField(
+                        decoration: InputDecoration(
+                          labelText: "비밀번호를 한 번 더 입력해주세요",
+                          labelStyle: const TextStyle(
+                            fontFamily: "PretenderardVariable",
+                            fontSize: 12,
+                            color: Color.fromRGBO(182, 182, 182, 100.0),
+                            fontWeight: FontWeight.normal,
+                          ),
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                isPasswordVisible2 = !isPasswordVisible2;
+                              });
+                            },
+                            icon: Icon(
+                              isPasswordVisible2
+                                  ? Icons.visibility
+                                  : Icons.visibility_off_rounded,
+                              color: const Color.fromRGBO(121, 121, 121, 100.0),
+                              size: 16,
+                            ),
+                          ),
+                        ),
+                        obscureText: !isPasswordVisible2,
+                        onSubmitted: (value) {
+                          setState(() {
+                            if (currentStep == 5) {
+                              currentStep = 6;
+                            }
+                          });
+                        },
+                      ),
+                      const SizedBox(height: 21),
+                    ],
+                  ),
+                ),
                 Visibility(
                   visible: currentStep >= 6,
                   child: Column(
@@ -242,15 +276,16 @@ class _signupScreenState extends State<signupScreen> {
                         ),
                         onSubmitted: (value) {
                           setState(() {
-                            currentStep = 7; // 다음 단계로 이동
+                            if (currentStep == 6) {
+                              currentStep = 7;
+                            }
                           });
                         },
                       ),
                       const SizedBox(height: 21),
                     ],
                   ),
-                ), //이메일
-
+                ),
                 Visibility(
                   visible: currentStep >= 7,
                   child: Column(
@@ -297,7 +332,9 @@ class _signupScreenState extends State<signupScreen> {
                         ),
                         onSubmitted: (value) {
                           setState(() {
-                            currentStep = 8; // 다음 단계로 이동
+                            if (currentStep == 7) {
+                              currentStep = 8;
+                            }
                           });
                         },
                       ),
@@ -305,7 +342,6 @@ class _signupScreenState extends State<signupScreen> {
                     ],
                   ),
                 ),
-
                 Visibility(
                   visible: currentStep >= 8,
                   child: Column(
@@ -351,15 +387,16 @@ class _signupScreenState extends State<signupScreen> {
                         ),
                         onSubmitted: (value) {
                           setState(() {
-                            currentStep = 9; // 다음 단계로 이동
+                            if (currentStep == 8) {
+                              currentStep = 9;
+                            }
                           });
                         },
                       ),
-                      const SizedBox(height: 74),
+                      const SizedBox(height: 70),
                     ],
                   ),
                 ),
-
                 Visibility(
                   visible: currentStep >= 9,
                   child: TextButton(

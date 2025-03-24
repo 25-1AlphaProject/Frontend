@@ -26,8 +26,9 @@ class CCBS extends StatelessWidget {
       // home: const MyHomePage(title: '척척밥사'),
       // home: Survey(),
 
-      // home: const signupScreen(),
-      home: MypageMain(),
+      // home: loginScreen(),
+      home: const signupScreen(),
+
     );
   }
 }
