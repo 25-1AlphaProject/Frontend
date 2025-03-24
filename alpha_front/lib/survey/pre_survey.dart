@@ -41,7 +41,10 @@ class _SurveyState extends State<Survey> {
               child: TextField(
                 keyboardType : TextInputType.number,
                 decoration: InputDecoration(
-                  hintText: '나이',
+                  hintText: '나이를 입력해주세요.',
+                  hintStyle: TextStyle(
+                    fontFamily: 'PretendartVariable',
+                  ),
                   enabledBorder : UnderlineInputBorder(
                     borderSide: BorderSide(color: Color(0xff000000),
                     )
@@ -125,7 +128,10 @@ class _SurveyState extends State<Survey> {
               child: TextField(
                 keyboardType : TextInputType.number,
                 decoration: InputDecoration(
-                  hintText: '체중',
+                  hintText: '체중을 입력해주세요.',
+                  hintStyle: TextStyle(
+                    fontFamily: 'PretendartVariable',
+                  ),
                   enabledBorder : UnderlineInputBorder(
                     borderSide: BorderSide(color: Color(0xff000000),
                     )
