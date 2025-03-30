@@ -14,6 +14,12 @@ class _signupScreenState extends State<signupScreen> {
   bool isPasswordVisible = false;
   bool isPasswordVisible2 = false;
 
+  bool name = false;
+  bool id = false;
+  bool nickname = false;
+  bool password = false;
+  bool email = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,7 +83,10 @@ class _signupScreenState extends State<signupScreen> {
                   onSubmitted: (value) {
                     setState(() {
                       username = value;
-                      currentStep = 2;
+                      if (currentStep == 1) {
+                        currentStep = 2;
+                      }
+                      name = value.isNotEmpty;
                     });
                   },
                 ),
@@ -101,6 +110,7 @@ class _signupScreenState extends State<signupScreen> {
                             if (currentStep == 2) {
                               currentStep = 3;
                             }
+                            nickname = value.isNotEmpty;
                           });
                         },
                       ),
@@ -127,6 +137,7 @@ class _signupScreenState extends State<signupScreen> {
                             if (currentStep == 3) {
                               currentStep = 4;
                             }
+                            id = value.isNotEmpty;
                           });
                         },
                       ),
@@ -184,6 +195,7 @@ class _signupScreenState extends State<signupScreen> {
                             if (currentStep == 4) {
                               currentStep = 5;
                             }
+                            password = value.isNotEmpty;
                           });
                         },
                       ),
@@ -210,6 +222,7 @@ class _signupScreenState extends State<signupScreen> {
                             if (currentStep == 5) {
                               currentStep = 6;
                             }
+                            email = value.isNotEmpty;
                           });
                         },
                       ),
@@ -218,7 +231,12 @@ class _signupScreenState extends State<signupScreen> {
                   ),
                 ),
                 Visibility(
-                  visible: currentStep >= 6,
+                  visible: currentStep >= 6 &&
+                      name &&
+                      nickname &&
+                      id &&
+                      password &&
+                      email,
                   child: TextButton(
                     onPressed: () {},
                     style: TextButton.styleFrom(
