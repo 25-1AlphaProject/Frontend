@@ -4,6 +4,8 @@ import 'package:alpha_front/Login/login.dart';
 import 'package:alpha_front/mypage/mypage_myinfo.dart';
 import 'package:alpha_front/mypage/mypage_mylike.dart';
 import 'package:alpha_front/mypage/mypage_myscrap.dart';
+import 'package:alpha_front/widgets/baseappbar.dart';
+import 'package:alpha_front/widgets/basenavigationbar.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -46,6 +48,7 @@ class _MypageMainState extends State<MypageMain> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: BaseAppbar(title: '마이페이지'),
         body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -202,40 +205,6 @@ class _MypageMainState extends State<MypageMain> {
         ),
     ),
 
-        Container(
-            padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
-            width: double.infinity,
-            child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 15),
-                backgroundColor: Colors.white,
-                shape : RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-                ),
-                side: BorderSide(color: Color(0xff118B50), width: 1),
-                elevation: 3,
-                
-            ),
-            onPressed: () {
-                Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => MypageMyinfo())
-                );
-            }, 
-            child: Text(
-                '내가 쓴 글',
-                style: TextStyle(
-                fontFamily: 'PretendartVariable',
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-                color: Color(0xff118B50),
-            
-                ),
-            ),
-        ),
-    ),
-
     Container(
         padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
         width: double.infinity,
@@ -254,11 +223,11 @@ class _MypageMainState extends State<MypageMain> {
             Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => MypageMyscrap())
+                builder: (context) => MypageMyinfo())
             );
         }, 
         child: Text(
-            '내가 쓴 댓글',
+            '내가 쓴 글',
             style: TextStyle(
             fontFamily: 'PretendartVariable',
             fontSize: 15,
@@ -268,6 +237,40 @@ class _MypageMainState extends State<MypageMain> {
             ),
         ),
     ),
+),
+
+Container(
+    padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
+    width: double.infinity,
+    child: ElevatedButton(
+    style: ElevatedButton.styleFrom(
+        padding: EdgeInsets.symmetric(vertical: 15),
+        backgroundColor: Colors.white,
+        shape : RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+        ),
+        side: BorderSide(color: Color(0xff118B50), width: 1),
+        elevation: 3,
+        
+    ),
+    onPressed: () {
+        Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => MypageMyscrap())
+        );
+    }, 
+    child: Text(
+        '내가 쓴 댓글',
+        style: TextStyle(
+        fontFamily: 'PretendartVariable',
+        fontSize: 15,
+        fontWeight: FontWeight.bold,
+        color: Color(0xff118B50),
+    
+        ),
+    ),
+),
 ),
 
             Container(
@@ -329,7 +332,7 @@ class _MypageMainState extends State<MypageMain> {
                     style: TextStyle(
                     fontFamily: 'yg-jalnan',
                     fontSize: 15,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w500,
                     color: Colors.white,
                 
                     ),
@@ -339,7 +342,7 @@ class _MypageMainState extends State<MypageMain> {
             ],
         ),
     ),
-
+      // bottomNavigationBar: Basenavigationbar(),
     );
     
   }
@@ -368,6 +371,7 @@ class _EditInfoScreenState extends State<_EditInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: BaseAppbar(title: '정보 수정'),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
