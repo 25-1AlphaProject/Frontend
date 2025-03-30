@@ -10,6 +10,7 @@ class signupScreen extends StatefulWidget {
 class _signupScreenState extends State<signupScreen> {
   int currentStep = 1;
   String username = '';
+  bool showSuffixIcon = false;
   bool isPasswordVisible = false;
   bool isPasswordVisible2 = false;
 
@@ -154,22 +155,30 @@ class _signupScreenState extends State<signupScreen> {
                             color: Color.fromRGBO(182, 182, 182, 100.0),
                             fontWeight: FontWeight.normal,
                           ),
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                isPasswordVisible = !isPasswordVisible;
-                              });
-                            },
-                            icon: Icon(
-                              isPasswordVisible
-                                  ? Icons.visibility
-                                  : Icons.visibility_off_rounded,
-                              color: const Color.fromRGBO(121, 121, 121, 100.0),
-                              size: 16,
-                            ),
-                          ),
+                          suffixIcon: showSuffixIcon
+                              ? IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      isPasswordVisible = !isPasswordVisible;
+                                    });
+                                  },
+                                  icon: Icon(
+                                    isPasswordVisible
+                                        ? Icons.visibility
+                                        : Icons.visibility_off_rounded,
+                                    color: const Color.fromRGBO(
+                                        121, 121, 121, 100.0),
+                                    size: 16,
+                                  ),
+                                )
+                              : null,
                         ),
                         obscureText: !isPasswordVisible,
+                        onChanged: (text) {
+                          setState(() {
+                            showSuffixIcon = text.isNotEmpty;
+                          });
+                        },
                         onSubmitted: (value) {
                           setState(() {
                             if (currentStep == 4) {
