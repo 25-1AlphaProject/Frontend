@@ -1,8 +1,16 @@
-import 'package:alpha_front/SignUp/signup.dart';
 import 'package:flutter/material.dart';
+import 'package:alpha_front/SignUp/signup.dart';
 
-class loginScreen extends StatelessWidget {
+class loginScreen extends StatefulWidget {
   const loginScreen({super.key});
+
+  @override
+  _loginScreenState createState() => _loginScreenState();
+}
+
+class _loginScreenState extends State<loginScreen> {
+  bool isPasswordVisible = false;
+  bool showSuffixIcon = false;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +37,6 @@ class loginScreen extends StatelessWidget {
                 ), //앱명
                 const SizedBox(height: 100),
                 TextField(
-                  // obscureText: true,
                   decoration: InputDecoration(
                     hintText: '아이디를 입력해주세요',
                     hintStyle: TextStyle(
@@ -48,15 +55,34 @@ class loginScreen extends StatelessWidget {
                 ), // 아이디
                 const SizedBox(height: 20),
                 TextField(
-                  obscureText: true,
+                  obscureText: !isPasswordVisible,
+                  onChanged: (value) {
+                    setState(() {
+                      showSuffixIcon = value.isNotEmpty;
+                    });
+                  },
                   decoration: InputDecoration(
                     hintText: '비밀번호를 입력해주세요',
                     hintStyle: TextStyle(
                       fontFamily: 'PretendardVariable',
                       color: Colors.grey.shade400,
                     ),
-                    // filled: true,
-                    // fillColor: Colors.white,
+                    suffixIcon: showSuffixIcon
+                        ? IconButton(
+                            onPressed: () {
+                              setState(() {
+                                isPasswordVisible = !isPasswordVisible;
+                              });
+                            },
+                            icon: Icon(
+                              isPasswordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off_rounded,
+                              color: const Color.fromRGBO(121, 121, 121, 100.0),
+                              size: 16,
+                            ),
+                          )
+                        : null,
                     enabledBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.black),
                     ),

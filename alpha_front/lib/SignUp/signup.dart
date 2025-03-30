@@ -10,10 +10,15 @@ class signupScreen extends StatefulWidget {
 class _signupScreenState extends State<signupScreen> {
   int currentStep = 1;
   String username = '';
-  String password = '';
-  String checkPassword = '';
+  bool showSuffixIcon = false;
   bool isPasswordVisible = false;
   bool isPasswordVisible2 = false;
+
+  bool name = false;
+  bool id = false;
+  bool nickname = false;
+  bool password = false;
+  bool email = false;
 
   @override
   Widget build(BuildContext context) {
@@ -50,13 +55,7 @@ class _signupScreenState extends State<signupScreen> {
                               ? "아이디를"
                               : currentStep == 4
                                   ? "비밀번호를"
-                                  : currentStep == 5
-                                      ? "비밀번호를 한 번 더"
-                                      : currentStep == 6
-                                          ? "이메일을"
-                                          : currentStep == 7
-                                              ? "전화번호를"
-                                              : "인증번호를",
+                                  : "이메일을",
                   style: const TextStyle(
                       fontFamily: 'yg-jalnan',
                       fontSize: 30,
@@ -84,7 +83,10 @@ class _signupScreenState extends State<signupScreen> {
                   onSubmitted: (value) {
                     setState(() {
                       username = value;
-                      currentStep = 2;
+                      if (currentStep == 1) {
+                        currentStep = 2;
+                      }
+                      name = value.isNotEmpty;
                     });
                   },
                 ),
@@ -108,6 +110,7 @@ class _signupScreenState extends State<signupScreen> {
                             if (currentStep == 2) {
                               currentStep = 3;
                             }
+                            nickname = value.isNotEmpty;
                           });
                         },
                       ),
@@ -120,42 +123,13 @@ class _signupScreenState extends State<signupScreen> {
                   child: Column(
                     children: [
                       TextField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: "아이디를 입력해주세요",
-                          labelStyle: const TextStyle(
+                          labelStyle: TextStyle(
                             fontFamily: "PretenderardVariable",
                             fontSize: 12,
                             color: Color.fromRGBO(182, 182, 182, 100.0),
                             fontWeight: FontWeight.normal,
-                          ),
-                          suffixIcon: Padding(
-                            padding: const EdgeInsets.only(right: 6, bottom: 4),
-                            child: SizedBox(
-                              height: 22,
-                              child: ElevatedButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color.fromRGBO(
-                                      217, 217, 217, 100.0),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 10),
-                                  minimumSize: const Size(60, 22),
-                                  elevation: 0,
-                                ),
-                                child: const Text(
-                                  "중복확인",
-                                  style: TextStyle(
-                                    fontFamily: "PretenderardVariable",
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 10,
-                                    color: Color.fromRGBO(121, 121, 121, 100.0),
-                                  ),
-                                ),
-                              ),
-                            ),
                           ),
                         ),
                         onSubmitted: (value) {
@@ -163,6 +137,7 @@ class _signupScreenState extends State<signupScreen> {
                             if (currentStep == 3) {
                               currentStep = 4;
                             }
+                            id = value.isNotEmpty;
                           });
                         },
                       ),
@@ -191,27 +166,36 @@ class _signupScreenState extends State<signupScreen> {
                             color: Color.fromRGBO(182, 182, 182, 100.0),
                             fontWeight: FontWeight.normal,
                           ),
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                isPasswordVisible = !isPasswordVisible;
-                              });
-                            },
-                            icon: Icon(
-                              isPasswordVisible
-                                  ? Icons.visibility
-                                  : Icons.visibility_off_rounded,
-                              color: const Color.fromRGBO(121, 121, 121, 100.0),
-                              size: 16,
-                            ),
-                          ),
+                          suffixIcon: showSuffixIcon
+                              ? IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      isPasswordVisible = !isPasswordVisible;
+                                    });
+                                  },
+                                  icon: Icon(
+                                    isPasswordVisible
+                                        ? Icons.visibility
+                                        : Icons.visibility_off_rounded,
+                                    color: const Color.fromRGBO(
+                                        121, 121, 121, 100.0),
+                                    size: 16,
+                                  ),
+                                )
+                              : null,
                         ),
                         obscureText: !isPasswordVisible,
+                        onChanged: (text) {
+                          setState(() {
+                            showSuffixIcon = text.isNotEmpty;
+                          });
+                        },
                         onSubmitted: (value) {
                           setState(() {
                             if (currentStep == 4) {
                               currentStep = 5;
                             }
+                            password = value.isNotEmpty;
                           });
                         },
                       ),
@@ -221,47 +205,6 @@ class _signupScreenState extends State<signupScreen> {
                 ),
                 Visibility(
                   visible: currentStep >= 5,
-                  child: Column(
-                    children: [
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: "비밀번호를 한 번 더 입력해주세요",
-                          labelStyle: const TextStyle(
-                            fontFamily: "PretenderardVariable",
-                            fontSize: 12,
-                            color: Color.fromRGBO(182, 182, 182, 100.0),
-                            fontWeight: FontWeight.normal,
-                          ),
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                isPasswordVisible2 = !isPasswordVisible2;
-                              });
-                            },
-                            icon: Icon(
-                              isPasswordVisible2
-                                  ? Icons.visibility
-                                  : Icons.visibility_off_rounded,
-                              color: const Color.fromRGBO(121, 121, 121, 100.0),
-                              size: 16,
-                            ),
-                          ),
-                        ),
-                        obscureText: !isPasswordVisible2,
-                        onSubmitted: (value) {
-                          setState(() {
-                            if (currentStep == 5) {
-                              currentStep = 6;
-                            }
-                          });
-                        },
-                      ),
-                      const SizedBox(height: 21),
-                    ],
-                  ),
-                ),
-                Visibility(
-                  visible: currentStep >= 6,
                   child: Column(
                     children: [
                       TextField(
@@ -276,9 +219,10 @@ class _signupScreenState extends State<signupScreen> {
                         ),
                         onSubmitted: (value) {
                           setState(() {
-                            if (currentStep == 6) {
-                              currentStep = 7;
+                            if (currentStep == 5) {
+                              currentStep = 6;
                             }
+                            email = value.isNotEmpty;
                           });
                         },
                       ),
@@ -287,118 +231,12 @@ class _signupScreenState extends State<signupScreen> {
                   ),
                 ),
                 Visibility(
-                  visible: currentStep >= 7,
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 10),
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: "전화번호를 입력해주세요",
-                          labelStyle: const TextStyle(
-                            fontFamily: "PretenderardVariable",
-                            fontSize: 12,
-                            color: Color.fromRGBO(182, 182, 182, 100.0),
-                            fontWeight: FontWeight.normal,
-                          ),
-                          suffixIcon: Padding(
-                            padding: const EdgeInsets.only(right: 6, bottom: 4),
-                            child: SizedBox(
-                              height: 22,
-                              child: ElevatedButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color.fromRGBO(
-                                      217, 217, 217, 100.0),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 10),
-                                  minimumSize: const Size(77, 22),
-                                  elevation: 0,
-                                ),
-                                child: const Text(
-                                  "인증번호 발송",
-                                  style: TextStyle(
-                                    fontFamily: "PretenderardVariable",
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromRGBO(121, 121, 121, 100.0),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        onSubmitted: (value) {
-                          setState(() {
-                            if (currentStep == 7) {
-                              currentStep = 8;
-                            }
-                          });
-                        },
-                      ),
-                      const SizedBox(height: 21),
-                    ],
-                  ),
-                ),
-                Visibility(
-                  visible: currentStep >= 8,
-                  child: Column(
-                    children: [
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: "인증번호를 입력해주세요",
-                          labelStyle: const TextStyle(
-                            fontFamily: "PretenderardVariable",
-                            fontSize: 12,
-                            color: Color.fromRGBO(182, 182, 182, 100.0),
-                            fontWeight: FontWeight.normal,
-                          ),
-                          suffixIcon: Padding(
-                            padding: const EdgeInsets.only(right: 6, bottom: 4),
-                            child: SizedBox(
-                              height: 22,
-                              child: ElevatedButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color.fromRGBO(
-                                      217, 217, 217, 100.0),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  minimumSize: const Size(60, 22),
-                                  elevation: 0,
-                                ),
-                                child: const Text(
-                                  "인증 확인",
-                                  style: TextStyle(
-                                    fontFamily: "PretenderardVariable",
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromRGBO(121, 121, 121, 100.0),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        onSubmitted: (value) {
-                          setState(() {
-                            if (currentStep == 8) {
-                              currentStep = 9;
-                            }
-                          });
-                        },
-                      ),
-                      const SizedBox(height: 70),
-                    ],
-                  ),
-                ),
-                Visibility(
-                  visible: currentStep >= 9,
+                  visible: currentStep >= 6 &&
+                      name &&
+                      nickname &&
+                      id &&
+                      password &&
+                      email,
                   child: TextButton(
                     onPressed: () {},
                     style: TextButton.styleFrom(
