@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class KcalWidget extends StatefulWidget {
-  const KcalWidget({super.key});
+  final VoidCallback? onTap;
+
+  const KcalWidget({super.key, this.onTap});
 
   @override
   _KcalWidgetState createState() => _KcalWidgetState();
@@ -15,14 +17,17 @@ class _KcalWidgetState extends State<KcalWidget> {
   Widget build(BuildContext context) {
     double progress = intakeCalories / goalCalories;
 
-    return Center(
-      child: CustomPaint(
-        size: const Size(245, 245),
-        painter: KcalPainter(progress),
-        child: Center(
-          child: Text(
-            "${intakeCalories.toInt()} kcal",
-            style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+    return GestureDetector(
+      onTap: widget.onTap,
+      child: Center(
+        child: CustomPaint(
+          size: const Size(245, 245),
+          painter: KcalPainter(progress),
+          child: Center(
+            child: Text(
+              "${intakeCalories.toInt()} kcal",
+              style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+            ),
           ),
         ),
       ),

@@ -13,21 +13,32 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  void _onKcalWidgetTap() {
+    print("KcalWidget이 클릭됨");
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //       builder: (context) => const 어디로...()),
+    // );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
       bottomNavigationBar: const Basenavigationbar(),
-      body: const Padding(
-        padding: EdgeInsets.all(16.0),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 28),
+            const SizedBox(height: 28),
             // Week(),
-            SizedBox(height: 28),
-            KcalWidget(),
-            SizedBox(height: 20),
+            const SizedBox(height: 28),
+            KcalWidget(
+              onTap: _onKcalWidgetTap,
+            ),
+            const SizedBox(height: 20),
             // Expanded(child: DietManagementWidget()),
           ],
         ),
