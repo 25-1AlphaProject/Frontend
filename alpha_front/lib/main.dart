@@ -1,4 +1,5 @@
 import 'package:alpha_front/mypage/mypage_main.dart';
+import 'package:alpha_front/recipe/recipe_list.dart';
 import 'package:alpha_front/survey/pre_survey.dart';
 import 'package:alpha_front/Login/login.dart';
 import 'package:alpha_front/SignUp/signup.dart';
@@ -20,12 +21,12 @@ class CCBS extends StatelessWidget {
       theme: ThemeData(
         fontFamily: "yg-jalnan",
         // Theme 설정
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff118B50)),
+        // colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff118B50)),
         useMaterial3: true,
       ),
       // home: const MyHomePage(title: '척척밥사'),
       // home: Survey(),
-      home: MypageMain(),
+      home: RecipeList(),
       // home: loginScreen(),
       // home: const signupScreen(),
 
