@@ -13,6 +13,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  void _onEditClicked() {
+    print("수정 아이콘 클릭됨");
+    //page 이동
+  }
+
+  void _onDragUpdate(Offset position) {
+    print("드래그 동작함");
+  }
+
   void _onKcalWidgetTap() {
     print("KcalWidget이 클릭됨");
     // Navigator.push(
@@ -38,8 +47,18 @@ class _HomeScreenState extends State<HomeScreen> {
             KcalWidget(
               onTap: _onKcalWidgetTap,
             ),
-            const SizedBox(height: 20),
-            // Expanded(child: DietManagementWidget()),
+            const SizedBox(height: 200),
+            SizedBox(
+              height: 200,
+              child: Stack(
+                children: [
+                  DietManagementWidget(
+                    onEdit: _onEditClicked,
+                    onDragUpdate: _onDragUpdate,
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
