@@ -6,6 +6,8 @@ import 'package:alpha_front/widgets/baseappbar.dart';
 import 'package:alpha_front/widgets/kcalWidget.dart';
 import 'package:alpha_front/widgets/dietManagement.dart';
 import 'package:alpha_front/widgets/basenavigationbar.dart';
+import 'package:card_swiper/card_swiper.dart';
+import 'package:alpha_front/widgets/weekCal.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,20 +16,23 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
+final List<Widget> dietWidgetList = [
+  DietManagementWidget(cardname: "아침"),
+  DietManagementWidget(cardname: "점심"),
+  DietManagementWidget(cardname: "저녁"),
+];
+
 class _HomeScreenState extends State<HomeScreen> {
   void _onEditClicked() {
     print("수정 아이콘 클릭됨");
     //page 이동
     Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => MealEdit())
-    );
+        context, MaterialPageRoute(builder: (context) => const MealEdit()));
   }
 
-  void _onDragUpdate(Offset position) {
-    print("드래그 동작함");
-  }
+  // void _onDragUpdate(Offset position) {
+  //   print("드래그 동작함");
+  // }
 
   void _onKcalWidgetTap() {
     print("KcalWidget이 클릭됨");
@@ -55,7 +60,9 @@ class _HomeScreenState extends State<HomeScreen> {
         elevation: 0,
         centerTitle: true,
       ),
-      bottomNavigationBar: const Basenavigationbar(currentIndex: 0,),
+      bottomNavigationBar: const Basenavigationbar(
+        currentIndex: 0,
+      ),
       // floatingActionButton: GestureDetector(
       //   onTap: () {},
       //   child: Container(
@@ -86,40 +93,50 @@ class _HomeScreenState extends State<HomeScreen> {
       // ),
       // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.white,
-        child: Icon(Icons.camera_alt,
-        color: Color(0xff118B50),),
-        shape: CircleBorder(),
-        onPressed: () {
-          Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Camera()),
-          );
-        }),
+          backgroundColor: Colors.white,
+          shape: const CircleBorder(),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Camera()),
+            );
+          },
+          child: const Icon(
+            Icons.camera_alt,
+            color: Color(0xff118B50),
+          )),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(height: 28),
-            // Week(),
-            const SizedBox(height: 28),
+            const SizedBox(height: 20),
+            const Weekcal(),
+            const SizedBox(height: 150),
             KcalWidget(
               onTap: _onKcalWidgetTap,
             ),
-            const SizedBox(height: 200),
-            SizedBox(
-              height: 200,
-              child: Stack(
-                children: [
-                  DietManagementWidget(
-                    onEdit: _onEditClicked,
-                    onDragUpdate: _onDragUpdate,
-                  ),
-                ],
-              ),
+            const SizedBox(height: 150),
+            Swiper(
+              layout: SwiperLayout.STACK,
+              viewportFraction: 0.8,
+              scrollDirection: Axis.vertical,
+              itemWidth: 400, // 카드 너비 조정
+              itemHeight: 225, // 카드 높이 조정
+              loop: true,
+              autoplay: false,
+              duration: 1200,
+              itemCount: dietWidgetList.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                    width: 400,
+                    height: 400,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: dietWidgetList[index]);
+              },
             ),
           ],
         ),

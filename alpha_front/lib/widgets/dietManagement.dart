@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 class DietManagementWidget extends StatefulWidget {
   final VoidCallback? onEdit;
-  final Function(Offset)? onDragUpdate;
+  // final Function(Offset)? onDragUpdate;
+  String cardname;
 
-  const DietManagementWidget({super.key, this.onEdit, this.onDragUpdate});
+  DietManagementWidget({super.key, this.onEdit, required this.cardname});
+  // this.onDragUpdate,
 
   @override
   _DietManagementWidgetState createState() => _DietManagementWidgetState();
@@ -23,11 +25,11 @@ class _DietManagementWidgetState extends State<DietManagementWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onPanUpdate: (details) {
-        if (widget.onDragUpdate != null) {
-          widget.onDragUpdate!(details.delta); // 외부에서 위치를 조정하도록 변경
-        }
-      },
+      // onPanUpdate: (details) {
+      //   if (widget.onDragUpdate != null) {
+      //     widget.onDragUpdate!(details.delta); // 외부에서 위치를 조정하도록 변경
+      //   }
+      // },
       child: Container(
         width: 326,
         height: 196,
@@ -44,8 +46,8 @@ class _DietManagementWidgetState extends State<DietManagementWidget> {
           children: [
             Row(
               children: [
-                const Text("저녁",
-                    style: TextStyle(
+                Text(widget.cardname,
+                    style: const TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.bold,
                       fontFamily: "PretenderardVariable",
