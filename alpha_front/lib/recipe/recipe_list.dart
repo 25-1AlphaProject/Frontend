@@ -138,7 +138,7 @@ class _RecipeListState extends State<RecipeList> {
           ],
         ),
       ),
-      bottomNavigationBar: Basenavigationbar(),
+      bottomNavigationBar: Basenavigationbar(currentIndex: 2,),
     );
   }
 }
