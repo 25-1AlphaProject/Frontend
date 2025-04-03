@@ -36,6 +36,35 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(),
       bottomNavigationBar: const Basenavigationbar(),
+      floatingActionButton: GestureDetector(
+        onTap: () {},
+        child: Container(
+          width: 64,
+          height: 64,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(
+                color: const Color.fromRGBO(251, 246, 233, 1.0), width: 7),
+          ),
+          child: const ClipOval(
+            child: Material(
+              color: Colors.white,
+              elevation: 10,
+              child: InkWell(
+                child: SizedBox(
+                  width: 56,
+                  height: 56,
+                  child: Icon(
+                    CupertinoIcons.camera,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
