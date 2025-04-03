@@ -26,7 +26,11 @@ class _KcalWidgetState extends State<KcalWidget> {
           child: Center(
             child: Text(
               "${intakeCalories.toInt()} kcal",
-              style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+                fontFamily: "PretenderardVariable",
+              ),
             ),
           ),
         ),
