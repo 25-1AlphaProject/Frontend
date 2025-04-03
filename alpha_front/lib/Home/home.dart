@@ -4,6 +4,7 @@ import 'package:alpha_front/widgets/baseappbar.dart';
 import 'package:alpha_front/widgets/kcalWidget.dart';
 import 'package:alpha_front/widgets/dietManagement.dart';
 import 'package:alpha_front/widgets/basenavigationbar.dart';
+import 'package:card_swiper/card_swiper.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,15 +13,21 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
+final List<Widget> dietWidgetList = [
+  DietManagementWidget(cardname: "아침"),
+  DietManagementWidget(cardname: "점심"),
+  DietManagementWidget(cardname: "저녁"),
+];
+
 class _HomeScreenState extends State<HomeScreen> {
   void _onEditClicked() {
     print("수정 아이콘 클릭됨");
     //page 이동
   }
 
-  void _onDragUpdate(Offset position) {
-    print("드래그 동작함");
-  }
+  // void _onDragUpdate(Offset position) {
+  //   print("드래그 동작함");
+  // }
 
   void _onKcalWidgetTap() {
     print("KcalWidget이 클릭됨");
@@ -90,16 +97,25 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: _onKcalWidgetTap,
             ),
             const SizedBox(height: 200),
-            SizedBox(
-              height: 200,
-              child: Stack(
-                children: [
-                  DietManagementWidget(
-                    onEdit: _onEditClicked,
-                    onDragUpdate: _onDragUpdate,
-                  ),
-                ],
-              ),
+            Swiper(
+              layout: SwiperLayout.STACK,
+              viewportFraction: 0.8,
+              scrollDirection: Axis.vertical,
+              itemWidth: 400, // 카드 너비 조정
+              itemHeight: 225, // 카드 높이 조정
+              loop: true,
+              autoplay: false,
+              duration: 1200,
+              itemCount: dietWidgetList.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                    width: 400,
+                    height: 400,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: dietWidgetList[index]);
+              },
             ),
           ],
         ),
