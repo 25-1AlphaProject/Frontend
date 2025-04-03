@@ -5,6 +5,7 @@ import 'package:alpha_front/widgets/kcalWidget.dart';
 import 'package:alpha_front/widgets/dietManagement.dart';
 import 'package:alpha_front/widgets/basenavigationbar.dart';
 import 'package:card_swiper/card_swiper.dart';
+import 'package:alpha_front/widgets/weekCal.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -90,13 +91,13 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(height: 28),
-            // Week(),
-            const SizedBox(height: 28),
+            const SizedBox(height: 20),
+            const Weekcal(),
+            const SizedBox(height: 150),
             KcalWidget(
               onTap: _onKcalWidgetTap,
             ),
-            const SizedBox(height: 200),
+            const SizedBox(height: 150),
             Swiper(
               layout: SwiperLayout.STACK,
               viewportFraction: 0.8,
