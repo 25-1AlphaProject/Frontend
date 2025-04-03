@@ -77,7 +77,7 @@ class _signupScreenState extends State<signupScreen> {
                     hintStyle: TextStyle(
                       fontFamily: "PretenderardVariable",
                       fontSize: 12,
-                      color: Color.fromRGBO(182, 182, 182, 100.0),
+                      color: Color.fromRGBO(182, 182, 182, 1.0),
                       fontWeight: FontWeight.normal,
                     ),
                   ),
@@ -99,7 +99,7 @@ class _signupScreenState extends State<signupScreen> {
                           labelStyle: const TextStyle(
                             fontFamily: "PretenderardVariable",
                             fontSize: 12,
-                            color: Color.fromRGBO(182, 182, 182, 100.0),
+                            color: Color.fromRGBO(182, 182, 182, 1.0),
                             fontWeight: FontWeight.normal,
                           ),
                         ),
@@ -125,7 +125,7 @@ class _signupScreenState extends State<signupScreen> {
                           labelStyle: const TextStyle(
                             fontFamily: "PretenderardVariable",
                             fontSize: 12,
-                            color: Color.fromRGBO(182, 182, 182, 100.0),
+                            color: Color.fromRGBO(182, 182, 182, 1.0),
                             fontWeight: FontWeight.normal,
                           ),
                           suffixIcon: Padding(
@@ -135,8 +135,8 @@ class _signupScreenState extends State<signupScreen> {
                               child: ElevatedButton(
                                 onPressed: () {},
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color.fromRGBO(
-                                      217, 217, 217, 100.0),
+                                  backgroundColor:
+                                      const Color.fromRGBO(217, 217, 217, 1.0),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(5),
                                   ),
@@ -151,7 +151,7 @@ class _signupScreenState extends State<signupScreen> {
                                     fontFamily: "PretenderardVariable",
                                     fontWeight: FontWeight.bold,
                                     fontSize: 10,
-                                    color: Color.fromRGBO(121, 121, 121, 100.0),
+                                    color: Color.fromRGBO(121, 121, 121, 1.0),
                                   ),
                                 ),
                               ),
@@ -180,7 +180,7 @@ class _signupScreenState extends State<signupScreen> {
                           labelStyle: const TextStyle(
                             fontFamily: "PretenderardVariable",
                             fontSize: 12,
-                            color: Color.fromRGBO(182, 182, 182, 100.0),
+                            color: Color.fromRGBO(182, 182, 182, 1.0),
                             fontWeight: FontWeight.normal,
                           ),
                           helperText:
@@ -188,7 +188,7 @@ class _signupScreenState extends State<signupScreen> {
                           helperStyle: const TextStyle(
                             fontFamily: "PretenderardVariable",
                             fontSize: 8,
-                            color: Color.fromRGBO(182, 182, 182, 100.0),
+                            color: Color.fromRGBO(182, 182, 182, 1.0),
                             fontWeight: FontWeight.normal,
                           ),
                           suffixIcon: IconButton(
@@ -201,7 +201,7 @@ class _signupScreenState extends State<signupScreen> {
                               isPasswordVisible
                                   ? Icons.visibility
                                   : Icons.visibility_off_rounded,
-                              color: const Color.fromRGBO(121, 121, 121, 100.0),
+                              color: const Color.fromRGBO(121, 121, 121, 1.0),
                               size: 16,
                             ),
                           ),
@@ -229,7 +229,7 @@ class _signupScreenState extends State<signupScreen> {
                           labelStyle: const TextStyle(
                             fontFamily: "PretenderardVariable",
                             fontSize: 12,
-                            color: Color.fromRGBO(182, 182, 182, 100.0),
+                            color: Color.fromRGBO(182, 182, 182, 1.0),
                             fontWeight: FontWeight.normal,
                           ),
                           suffixIcon: IconButton(
@@ -242,7 +242,7 @@ class _signupScreenState extends State<signupScreen> {
                               isPasswordVisible2
                                   ? Icons.visibility
                                   : Icons.visibility_off_rounded,
-                              color: const Color.fromRGBO(121, 121, 121, 100.0),
+                              color: const Color.fromRGBO(121, 121, 121, 1.0),
                               size: 16,
                             ),
                           ),
@@ -270,7 +270,7 @@ class _signupScreenState extends State<signupScreen> {
                           labelStyle: TextStyle(
                             fontFamily: "PretenderardVariable",
                             fontSize: 12,
-                            color: Color.fromRGBO(182, 182, 182, 100.0),
+                            color: Color.fromRGBO(182, 182, 182, 1.0),
                             fontWeight: FontWeight.normal,
                           ),
                         ),
@@ -297,7 +297,7 @@ class _signupScreenState extends State<signupScreen> {
                           labelStyle: const TextStyle(
                             fontFamily: "PretenderardVariable",
                             fontSize: 12,
-                            color: Color.fromRGBO(182, 182, 182, 100.0),
+                            color: Color.fromRGBO(182, 182, 182, 1.0),
                             fontWeight: FontWeight.normal,
                           ),
                           suffixIcon: Padding(
@@ -307,8 +307,8 @@ class _signupScreenState extends State<signupScreen> {
                               child: ElevatedButton(
                                 onPressed: () {},
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color.fromRGBO(
-                                      217, 217, 217, 100.0),
+                                  backgroundColor:
+                                      const Color.fromRGBO(217, 217, 217, 1.0),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(5),
                                   ),
@@ -323,7 +323,7 @@ class _signupScreenState extends State<signupScreen> {
                                     fontFamily: "PretenderardVariable",
                                     fontSize: 10,
                                     fontWeight: FontWeight.bold,
-                                    color: Color.fromRGBO(121, 121, 121, 100.0),
+                                    color: Color.fromRGBO(121, 121, 121, 1.0),
                                   ),
                                 ),
                               ),
@@ -352,7 +352,7 @@ class _signupScreenState extends State<signupScreen> {
                           labelStyle: const TextStyle(
                             fontFamily: "PretenderardVariable",
                             fontSize: 12,
-                            color: Color.fromRGBO(182, 182, 182, 100.0),
+                            color: Color.fromRGBO(182, 182, 182, 1.0),
                             fontWeight: FontWeight.normal,
                           ),
                           suffixIcon: Padding(
@@ -362,8 +362,8 @@ class _signupScreenState extends State<signupScreen> {
                               child: ElevatedButton(
                                 onPressed: () {},
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color.fromRGBO(
-                                      217, 217, 217, 100.0),
+                                  backgroundColor:
+                                      const Color.fromRGBO(217, 217, 217, 1.0),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(5),
                                   ),
@@ -378,7 +378,7 @@ class _signupScreenState extends State<signupScreen> {
                                     fontFamily: "PretenderardVariable",
                                     fontSize: 10,
                                     fontWeight: FontWeight.bold,
-                                    color: Color.fromRGBO(121, 121, 121, 100.0),
+                                    color: Color.fromRGBO(121, 121, 121, 1.0),
                                   ),
                                 ),
                               ),
@@ -402,8 +402,7 @@ class _signupScreenState extends State<signupScreen> {
                   child: TextButton(
                     onPressed: () {},
                     style: TextButton.styleFrom(
-                      backgroundColor:
-                          const Color.fromRGBO(226, 226, 226, 100.0),
+                      backgroundColor: const Color.fromRGBO(226, 226, 226, 1.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5),
                       ),
@@ -417,7 +416,7 @@ class _signupScreenState extends State<signupScreen> {
                         fontFamily: "PretenderardVariable",
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
-                        color: Color.fromRGBO(136, 136, 136, 100.0),
+                        color: Color.fromRGBO(136, 136, 136, 1.0),
                       ),
                     ),
                   ),
