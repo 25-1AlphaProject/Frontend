@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:alpha_front/SignUp/signup.dart';
+import 'package:alpha_front/Home/home.dart';
 
 class loginScreen extends StatefulWidget {
   const loginScreen({super.key});
@@ -93,7 +94,13 @@ class _loginScreenState extends State<loginScreen> {
                 ), // 비번
                 const SizedBox(height: 100),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HomeScreen()),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.grey.shade400,
                     shape: RoundedRectangleBorder(
