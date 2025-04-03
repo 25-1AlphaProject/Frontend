@@ -77,7 +77,7 @@ class _signupScreenState extends State<signupScreen> {
                     hintStyle: TextStyle(
                       fontFamily: "PretenderardVariable",
                       fontSize: 12,
-                      color: Color.fromRGBO(182, 182, 182, 100.0),
+                      color: Color.fromRGBO(182, 182, 182, 1.0),
                       fontWeight: FontWeight.normal,
                     ),
                   ),
@@ -102,7 +102,7 @@ class _signupScreenState extends State<signupScreen> {
                           labelStyle: const TextStyle(
                             fontFamily: "PretenderardVariable",
                             fontSize: 12,
-                            color: Color.fromRGBO(182, 182, 182, 100.0),
+                            color: Color.fromRGBO(182, 182, 182, 1.0),
                             fontWeight: FontWeight.normal,
                           ),
                         ),
@@ -129,7 +129,7 @@ class _signupScreenState extends State<signupScreen> {
                           labelStyle: TextStyle(
                             fontFamily: "PretenderardVariable",
                             fontSize: 12,
-                            color: Color.fromRGBO(182, 182, 182, 100.0),
+                            color: Color.fromRGBO(182, 182, 182, 1.0),
                             fontWeight: FontWeight.normal,
                           ),
                         ),
@@ -156,7 +156,7 @@ class _signupScreenState extends State<signupScreen> {
                           labelStyle: const TextStyle(
                             fontFamily: "PretenderardVariable",
                             fontSize: 12,
-                            color: Color.fromRGBO(182, 182, 182, 100.0),
+                            color: Color.fromRGBO(182, 182, 182, 1.0),
                             fontWeight: FontWeight.normal,
                           ),
                           helperText:
@@ -164,7 +164,7 @@ class _signupScreenState extends State<signupScreen> {
                           helperStyle: const TextStyle(
                             fontFamily: "PretenderardVariable",
                             fontSize: 8,
-                            color: Color.fromRGBO(182, 182, 182, 100.0),
+                            color: Color.fromRGBO(182, 182, 182, 1.0),
                             fontWeight: FontWeight.normal,
                           ),
                           suffixIcon: showSuffixIcon
@@ -179,7 +179,7 @@ class _signupScreenState extends State<signupScreen> {
                                         ? Icons.visibility
                                         : Icons.visibility_off_rounded,
                                     color: const Color.fromRGBO(
-                                        121, 121, 121, 100.0),
+                                        121, 121, 121, 1.0),
                                     size: 16,
                                   ),
                                 )
@@ -214,7 +214,7 @@ class _signupScreenState extends State<signupScreen> {
                           labelStyle: TextStyle(
                             fontFamily: "PretenderardVariable",
                             fontSize: 12,
-                            color: Color.fromRGBO(182, 182, 182, 100.0),
+                            color: Color.fromRGBO(182, 182, 182, 1.0),
                             fontWeight: FontWeight.normal,
                           ),
                         ),
@@ -247,8 +247,7 @@ class _signupScreenState extends State<signupScreen> {
                       );
                     },
                     style: TextButton.styleFrom(
-                      backgroundColor:
-                          const Color.fromRGBO(226, 226, 226, 100.0),
+                      backgroundColor: const Color.fromRGBO(226, 226, 226, 1.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5),
                       ),
@@ -262,7 +261,7 @@ class _signupScreenState extends State<signupScreen> {
                         fontFamily: "PretenderardVariable",
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
-                        color: Color.fromRGBO(136, 136, 136, 100.0),
+                        color: Color.fromRGBO(136, 136, 136, 1.0),
                       ),
                     ),
                   ),
