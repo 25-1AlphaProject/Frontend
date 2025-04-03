@@ -63,9 +63,7 @@ class _PreSurvey3State extends State<PreSurvey3> {
                 border: UnderlineInputBorder(
                 ),
               ),
-              onChanged: (value) {
-                setState(() {}); // 검색어가 변경될 때 UI 업데이트
-              },
+              onSubmitted: _addLikeFood,
             ),
             SizedBox(height: 20),
 

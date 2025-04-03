@@ -1,3 +1,4 @@
+import 'package:alpha_front/survey/pre_survey.dart';
 import 'package:flutter/material.dart';
 import 'package:alpha_front/SignUp/signup.dart';
 import 'package:alpha_front/Home/home.dart';
@@ -98,7 +99,7 @@ class _loginScreenState extends State<loginScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const HomeScreen()),
+                          builder: (context) => Survey()),
                     );
                   },
                   style: ElevatedButton.styleFrom(

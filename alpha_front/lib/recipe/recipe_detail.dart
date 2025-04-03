@@ -15,20 +15,6 @@ class _RecipeDetailState extends State<RecipeDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BaseAppbar(title: '레시피'),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.white,
-        child: Icon(Icons.camera_alt,
-        color: Color(0xff118B50),),
-        shape: CircleBorder(),
-        onPressed: () {
-          Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Camera()),
-          );
-        }),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: Basenavigationbar(),
 
     );
   }
