@@ -34,7 +34,20 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text(
+          '척척밥사',
+          style: TextStyle(
+            fontFamily: 'yg-jalnan',
+            fontSize: 32,
+            fontWeight: FontWeight.bold,
+            color: Colors.green.shade800,
+          ),
+        ),
+        backgroundColor: const Color.fromRGBO(251, 246, 233, 1.0),
+        elevation: 0,
+        centerTitle: true,
+      ),
       bottomNavigationBar: const Basenavigationbar(),
       floatingActionButton: GestureDetector(
         onTap: () {},
