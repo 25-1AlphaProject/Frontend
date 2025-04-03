@@ -1,3 +1,4 @@
+import 'package:alpha_front/Home/home.dart';
 import 'package:alpha_front/mypage/mypage_main.dart';
 import 'package:alpha_front/recipe/recipe_list.dart';
 import 'package:alpha_front/survey/pre_survey.dart';
@@ -28,9 +29,10 @@ class CCBS extends StatelessWidget {
       ),
       // home: const MyHomePage(title: '척척밥사'),
       // home: Survey(),
-      home: const MypageMain(),
+      // home: const MypageMain(),
       // home: loginScreen(),
       // home: const signupScreen(),
+      home:HomeScreen(),
     );
   }
 }

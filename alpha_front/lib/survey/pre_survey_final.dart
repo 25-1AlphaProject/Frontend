@@ -1,4 +1,7 @@
+import 'package:alpha_front/Home/home.dart';
 import 'package:flutter/material.dart';
+import 'dart:async';
+
 
 class PreSurveyFinal extends StatefulWidget {
   const PreSurveyFinal({super.key});
@@ -8,6 +11,18 @@ class PreSurveyFinal extends StatefulWidget {
 }
 
 class _PreSurveyFinalState extends State<PreSurveyFinal> {
+  @override
+  void initState() {
+    super.initState();
+    // 3초 후에 HomeScreen으로 이동
+    Future.delayed(Duration(seconds: 3), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
