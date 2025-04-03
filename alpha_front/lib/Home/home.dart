@@ -27,10 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
     print("수정 아이콘 클릭됨");
     //page 이동
     Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => MealEdit())
-    );
+        context, MaterialPageRoute(builder: (context) => const MealEdit()));
   }
 
   // void _onDragUpdate(Offset position) {
@@ -63,7 +60,9 @@ class _HomeScreenState extends State<HomeScreen> {
         elevation: 0,
         centerTitle: true,
       ),
-      bottomNavigationBar: const Basenavigationbar(currentIndex: 0,),
+      bottomNavigationBar: const Basenavigationbar(
+        currentIndex: 0,
+      ),
       // floatingActionButton: GestureDetector(
       //   onTap: () {},
       //   child: Container(
@@ -94,17 +93,18 @@ class _HomeScreenState extends State<HomeScreen> {
       // ),
       // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.white,
-        child: Icon(Icons.camera_alt,
-        color: Color(0xff118B50),),
-        shape: CircleBorder(),
-        onPressed: () {
-          Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Camera()),
-          );
-        }),
+          backgroundColor: Colors.white,
+          shape: const CircleBorder(),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Camera()),
+            );
+          },
+          child: const Icon(
+            Icons.camera_alt,
+            color: Color(0xff118B50),
+          )),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
