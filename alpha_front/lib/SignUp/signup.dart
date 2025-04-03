@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:alpha_front/SignUp/signup_loading.dart';
 
 class signupScreen extends StatefulWidget {
   const signupScreen({super.key});
@@ -238,7 +239,13 @@ class _signupScreenState extends State<signupScreen> {
                       password &&
                       email,
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const signuploading()),
+                      );
+                    },
                     style: TextButton.styleFrom(
                       backgroundColor:
                           const Color.fromRGBO(226, 226, 226, 100.0),

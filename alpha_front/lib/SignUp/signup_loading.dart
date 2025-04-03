@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 import 'dart:math';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:alpha_front/Login/login.dart';
 
 class signuploading extends StatefulWidget {
   const signuploading({super.key});
@@ -10,6 +12,44 @@ class signuploading extends StatefulWidget {
 }
 
 class _signuploadingState extends State<signuploading> {
+  double percent = 0.0;
+  late Timer _timer; // 타이머 변수
+
+  @override
+  void initState() {
+    super.initState();
+    startLoading();
+  }
+
+  void startLoading() {
+    _timer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
+      if (!mounted) return; // 위젯이 마운트 해제되었으면 실행 방지
+
+      setState(() {
+        if (percent >= 1.0) {
+          _timer.cancel(); // 타이머 중지
+          Future.delayed(const Duration(seconds: 1), () {
+            if (mounted) {
+              // context가 여전히 유효한지 확인
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const loginScreen()),
+              );
+            }
+          });
+        } else {
+          percent += 0.1;
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel(); // 타이머 종료
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     double percentbarWidth = max(233, MediaQuery.of(context).size.width - 160);
