@@ -6,11 +6,15 @@
     "configurations": [
 
         {
-            "type": "chrome",
+            "name": "web",
             "request": "launch",
-            "name": "Launch Chrome against localhost",
-            "url": "http://localhost:8080",
-            "webRoot": "${workspaceFolder}"
+            "type": "dart",
+            "args": ["-d","chrome"]
+        },
+        {
+            "name": "device",
+            "request": "launch",
+            "type": "dart",
         }
     ]
 }
