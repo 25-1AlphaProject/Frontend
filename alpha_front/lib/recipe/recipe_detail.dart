@@ -15,7 +15,6 @@ class _RecipeDetailState extends State<RecipeDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BaseAppbar(title: '레시피'),
-
     );
   }
 }
