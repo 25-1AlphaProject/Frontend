@@ -4,7 +4,6 @@ import 'package:alpha_front/widgets/basenavigationbar.dart';
 import 'package:flutter/material.dart';
 import 'package:string_similarity/string_similarity.dart';
 
-
 class RecipeList extends StatefulWidget {
   const RecipeList({super.key});
 
@@ -13,7 +12,6 @@ class RecipeList extends StatefulWidget {
 }
 
 class _RecipeListState extends State<RecipeList> {
-
   List<Map<String, String>> recipes = [
     {'recipename': '김치볶음밥'},
     {'recipename': '비빔밥'},
@@ -23,7 +21,6 @@ class _RecipeListState extends State<RecipeList> {
 
   String query = '';
   List<Map<String, String>> filteredRecipes = [];
-  
 
   @override
   void initState() {
@@ -55,82 +52,81 @@ class _RecipeListState extends State<RecipeList> {
         child: Column(
           children: [
             TextField(
-              style: TextStyle(
+              style: const TextStyle(
                 fontFamily: 'PretendardVariable',
                 letterSpacing: 0.25,
               ),
               onChanged: searchRecipe,
               decoration: InputDecoration(
-                icon: Icon(Icons.search,
-                color: Color(0xff118B50),
+                icon: const Icon(
+                  Icons.search,
+                  color: Color(0xff118B50),
                 ),
                 hintText: "레시피를 검색하세요",
-                hintStyle: TextStyle(
+                hintStyle: const TextStyle(
                   fontFamily: 'PretendartVariable',
                   letterSpacing: 0.25,
                   fontSize: 15,
                 ),
-                enabledBorder : UnderlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xff118B50).withAlpha(150),
-                  )
-                ),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xff118B50),
+                enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                  color: const Color(0xff118B50).withAlpha(150),
+                )),
+                focusedBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0xff118B50),
                   ),
-              ),
-
+                ),
               ),
             ),
-            SizedBox(height: 50),
-
+            const SizedBox(height: 50),
             Expanded(
               child: ListView.builder(
                 itemCount: filteredRecipes.length,
                 itemBuilder: (context, index) {
                   return InkWell(
-
-              onTap: () {                     
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => RecipeDetail())
-                );
-              },
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: 10.0),
-                      child: Container(
-                        alignment: Alignment.centerLeft,
-                        height: 50,
-                        child: Text(
-                          filteredRecipes[index]['recipename']!, 
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontFamily: 'PretendardBariable',
-                            fontSize: 20,
-                          ),),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 15.0),
-                      child: Container(
-                        alignment: Alignment.centerLeft,
-                        height: 50,
-                        child : Text(
-                          '200 kcal', //// 칼로리 받아오기
-                          style: TextStyle(
-                            fontFamily: 'PretendardBariable',
-                            fontSize: 15,
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const RecipeDetail()));
+                    },
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10.0),
+                          child: Container(
+                            alignment: Alignment.centerLeft,
+                            height: 50,
+                            child: Text(
+                              filteredRecipes[index]['recipename']!,
+                              textAlign: TextAlign.start,
+                              style: const TextStyle(
+                                fontFamily: 'PretendardBariable',
+                                fontSize: 20,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15.0),
+                          child: Container(
+                            alignment: Alignment.centerLeft,
+                            height: 50,
+                            child: const Text(
+                              '200 kcal', //// 칼로리 받아오기
+                              style: TextStyle(
+                                fontFamily: 'PretendardBariable',
+                                fontSize: 15,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Divider(
+                          color: Color(0xff118B50),
+                        ),
+                      ],
                     ),
-                    Divider(
-                      color: Color(0xff118B50),
-                    ),
-                  ],
-                ),
                   );
                 },
               ),
@@ -138,7 +134,9 @@ class _RecipeListState extends State<RecipeList> {
           ],
         ),
       ),
-      bottomNavigationBar: Basenavigationbar(currentIndex: 2,),
+      bottomNavigationBar: const Basenavigationbar(
+        currentIndex: 2,
+      ),
     );
   }
 }

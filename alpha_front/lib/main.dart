@@ -7,6 +7,7 @@ import 'package:alpha_front/SignUp/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:alpha_front/Splash/splash.dart';
 import 'package:alpha_front/SignUp/signup_loading.dart';
+import 'package:alpha_front/recipe/recipe_description.dart';
 
 void main() {
   runApp(const CCBS());
@@ -32,7 +33,8 @@ class CCBS extends StatelessWidget {
       // home: const MypageMain(),
       // home: loginScreen(),
       // home: const signupScreen(),
-      home:HomeScreen(),
+      // home:HomeScreen(),
+      home: const recipeDescriptionScreen(),
     );
   }
 }
