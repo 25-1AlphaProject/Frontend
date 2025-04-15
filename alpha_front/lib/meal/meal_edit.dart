@@ -144,7 +144,11 @@ class _BreakfastEdit extends StatefulWidget {
 
 class _BreakfastEditState extends State<_BreakfastEdit> {
 
-    bool isEditing = false; // 편집 모드
+  String FoodName = '김치찌개';
+  int Kcal = 118;
+  int count = 1;
+
+  bool isEditing = false; // 편집 모드
   TextEditingController _controller = TextEditingController(text: "1"); // 초기값 1
 
   void _toggleEditMode() {
@@ -163,46 +167,54 @@ class _BreakfastEditState extends State<_BreakfastEdit> {
   Widget build(BuildContext context) {
     return Scaffold(
       // body: Text('아침 식단'),
-      body : Center(
-        child: Card(
-          elevation: 5,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          child: Container(
-            width: MediaQuery.of(context).size.height * 0.8,
-            height: MediaQuery.of(context).size.height * 0.15,
-            padding: const EdgeInsets.all(16),
-            child: Stack(
-              children: [
-                // 우측 상단 Edit 아이콘
-                Positioned(
-                  right: 10,
-                  top: 10,
-                  child: IconButton(
-                    icon: Icon(Icons.edit, color: Colors.black),
-                    onPressed: _toggleEditMode,
+      body : SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [
+              Card(
+                elevation: 5,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                child: Container(
+                  width: MediaQuery.of(context).size.height * 0.8,
+                  height: MediaQuery.of(context).size.height * 0.15,
+                  padding: const EdgeInsets.all(16),
+                  child: Stack(
+                    children: [
+                      // 우측 상단 Edit 아이콘
+                      Positioned(
+                        right: 10,
+                        top: 10,
+                        child: IconButton(
+                          icon: Icon(Icons.edit, color: Colors.black),
+                          onPressed: _toggleEditMode,
+                        ),
+                      ),
+                      
+                      // 가운데 숫자 또는 TextField
+                      Center(
+                        child: isEditing
+                            ? TextField(
+                                controller: _controller,
+                                keyboardType: TextInputType.number,
+                                textAlign: TextAlign.start,
+                                style: TextStyle(fontSize: 24,
+                                fontFamily: 'PretendardVariable',
+                                fontWeight: FontWeight.bold),
+                                onSubmitted: (_) => _saveEdit(), // 엔터 입력 시 저장
+                              )
+                            : Text(
+                                textAlign: TextAlign.start,
+                                _controller.text,
+                                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, fontFamily: 'PretendardVariable'),
+                              ),
+                      ),
+                    ],
                   ),
                 ),
+              ),
+              // Card(backgroundColor: Colors.white,)
 
-                // 가운데 숫자 또는 TextField
-                Center(
-                  child: isEditing
-                      ? TextField(
-                          controller: _controller,
-                          keyboardType: TextInputType.number,
-                          textAlign: TextAlign.start,
-                          style: TextStyle(fontSize: 24,
-                          fontFamily: 'PretendardVariable',
-                          fontWeight: FontWeight.bold),
-                          onSubmitted: (_) => _saveEdit(), // 엔터 입력 시 저장
-                        )
-                      : Text(
-                          textAlign: TextAlign.start,
-                          _controller.text,
-                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, fontFamily: 'PretendardVariable'),
-                        ),
-                ),
-              ],
-            ),
+            ],
           ),
         ),
       ),

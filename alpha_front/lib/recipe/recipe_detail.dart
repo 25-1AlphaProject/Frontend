@@ -1,4 +1,3 @@
-import 'package:alpha_front/meal/camera.dart';
 import 'package:alpha_front/widgets/baseappbar.dart';
 import 'package:alpha_front/widgets/basenavigationbar.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +14,30 @@ class _RecipeDetailState extends State<RecipeDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BaseAppbar(title: '레시피'),
+      body: Container(
+        width: double.infinity,
+        height: MediaQuery.of(context).size.height * 0.35,
+        child: Stack(
+          children: [
+            Image(
+              image : AssetImage( // image 변경 - url => network
+                'alpha_front/assets/images/example_recipe.png',
+              ),
+            ),
+            Container(
+              width: double.infinity,
+              height: 200, // 임의 설정
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15),
+                  topRight: Radius.circular(15)
+                )
+              ),
+            )
+          ],
+        )
+      ),
 
     );
   }

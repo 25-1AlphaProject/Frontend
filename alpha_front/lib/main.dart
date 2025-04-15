@@ -31,8 +31,8 @@ class CCBS extends StatelessWidget {
       // home: Survey(),
       // home: const MypageMain(),
       // home: loginScreen(),
-      home: const signupScreen(),
-      // home:HomeScreen(),
+      // home: const signupScreen(),
+      home:HomeScreen(),
     );
   }
 }

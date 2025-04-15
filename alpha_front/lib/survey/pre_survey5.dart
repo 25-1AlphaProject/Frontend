@@ -55,6 +55,43 @@ class _PreSurvey5State extends State<PreSurvey5> {
 
             Center(
               child: Container(
+                padding: EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: Colors.green[50],
+
+                ),
+                child: Column(
+                  children: [
+                    Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: '계산식\n',
+                            style: TextStyle(fontFamily: 'PretendardVariable', fontSize: 15,fontWeight: FontWeight.bold),
+                          ),
+                          TextSpan(
+                            text: '체중(kg) x 24 x 활동계수 = 하루 섭취량\n남자: 66.47 + (13.75 x 체중) + (5 x 키) - (6.76 x 나이)\n여자: 655.1 + (9.56 x 체중) + (1.85 x 키) - (4.68 x 나이)\n',
+                            style: TextStyle(fontFamily: 'PretendardVariable', fontSize: 15,fontWeight: FontWeight.w500),
+                          ),
+                          TextSpan(
+                            text: '활동계수\n',
+                            style: TextStyle(fontFamily: 'PretendardVariable', fontSize: 15,fontWeight: FontWeight.bold),
+                          ),
+                          TextSpan(
+                            text: '좌식 생활자 : 1.2\n회사원 : 1.5\n노동 강도 높은 사람 : 1.7\n을 활동계수에 넣습니다.',
+                            style: TextStyle(fontFamily: 'PretendardVariable', fontSize: 15,fontWeight: FontWeight.w500),
+                          )
+                        ]
+                        )
+                    )
+                  ],
+                )
+              ),
+            ),
+
+            Center(
+              child: Container(
                 padding: EdgeInsets.fromLTRB(10, 50, 10, 10),
                 width: double.infinity,
                 child: ElevatedButton(
