@@ -9,6 +9,25 @@ class PreSurvey4 extends StatefulWidget {
 }
 
 class _PreSurvey4State extends State<PreSurvey4> {
+  TextEditingController searchController = TextEditingController();
+
+  List<String> selectedDisease = [];
+
+  void _addDisease(String term) {
+    if (term.isNotEmpty && !selectedDisease.contains(term)) {
+      setState(() {
+        selectedDisease.add(term);
+      });
+      searchController.clear();
+    }
+  }
+
+  void _removeDisease(String term) {
+    setState(() {
+      selectedDisease.remove(term);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,8 +69,33 @@ class _PreSurvey4State extends State<PreSurvey4> {
                     ),  
                   ),
                 ), 
+                onSubmitted: _addDisease,
               ),
             ),
+            SizedBox(height: 20),
+
+            Wrap(
+              spacing: 8.0,
+              children: selectedDisease.map((term) => ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xff118B50), 
+                  foregroundColor: Colors.white, 
+                ),
+                onPressed: () {},
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(term),
+                    SizedBox(width: 8),
+                    GestureDetector(
+                      onTap: () => _removeDisease(term),
+                      child: Icon(Icons.close, color: Colors.white, size: 16),
+                    ),
+                  ],
+                ),
+              )).toList(),
+            ),
+            SizedBox(height: 20),
 
             Center(
               child: Container(

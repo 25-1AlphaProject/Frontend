@@ -67,8 +67,6 @@ class _PreSurvey3State extends State<PreSurvey3> {
             ),
             SizedBox(height: 20),
 
-
-
             Wrap(
               spacing: 8.0,
               children: selectedLikeFood.map((term) => ElevatedButton(

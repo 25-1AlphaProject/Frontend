@@ -37,7 +37,7 @@ class _CameraState extends State<Camera> {
   Widget build(BuildContext context) {
     
     return Scaffold(
-              backgroundColor: const Color(0xfff4f3f9),
+      backgroundColor: const Color(0xfff4f3f9),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -51,7 +51,10 @@ class _CameraState extends State<Camera> {
               children: <Widget>[
                 // 카메라 촬영 버튼
                 FloatingActionButton(
-                  child: Icon(Icons.add_a_photo),
+                  backgroundColor: Colors.white,
+                  child: Icon(Icons.add_a_photo,
+                    color: Color(0xff118B50),
+                  ),
                   tooltip: 'pick Iamge',
                   onPressed: () {
                     getImage(ImageSource.camera);
@@ -60,7 +63,9 @@ class _CameraState extends State<Camera> {
 
                 // 갤러리에서 이미지를 가져오는 버튼
                 FloatingActionButton(
-                  child: Icon(Icons.wallpaper),
+                  backgroundColor: Colors.white,
+                  child: Icon(Icons.wallpaper,
+                  color: Color(0xff118B50),),
                   tooltip: 'pick Iamge',
                   onPressed: () {
                     getImage(ImageSource.gallery);
@@ -68,8 +73,9 @@ class _CameraState extends State<Camera> {
                 ),
               ],
             ),
-          Center(
+      Center(
         child: Container(
+          margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
           padding: EdgeInsets.fromLTRB(10, 30, 10, 30),
           width: double.infinity,
           child: ElevatedButton(

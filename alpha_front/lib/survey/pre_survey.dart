@@ -12,6 +12,7 @@ class Survey extends StatefulWidget {
 class _SurveyState extends State<Survey> {
   int selectedGender = 0;
   List<int> selectedDish = [];
+  String name = '김유진';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +29,7 @@ class _SurveyState extends State<Survey> {
               child: const Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  '김유진님에 대해 \n알려주세요!',
+                  '$name님에 대해 \n알려주세요!',
                   style: TextStyle(
                     color: Colors.black,
                     fontFamily: 'yg-jalnan',

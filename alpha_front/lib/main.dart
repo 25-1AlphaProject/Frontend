@@ -33,8 +33,7 @@ class CCBS extends StatelessWidget {
       // home: const MypageMain(),
       // home: loginScreen(),
       // home: const signupScreen(),
-      // home:HomeScreen(),
-      home: const recipeDescriptionScreen(),
+      home:HomeScreen(),
     );
   }
 }
