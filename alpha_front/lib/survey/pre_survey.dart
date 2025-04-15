@@ -29,7 +29,7 @@ class _SurveyState extends State<Survey> {
               child: const Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  '$name님에 대해 \n알려주세요!',
+                  '김유진님에 대해 \n알려주세요!',
                   style: TextStyle(
                     color: Colors.black,
                     fontFamily: 'yg-jalnan',
