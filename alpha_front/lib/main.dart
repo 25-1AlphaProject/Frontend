@@ -7,6 +7,7 @@ import 'package:alpha_front/SignUp/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:alpha_front/Splash/splash.dart';
 import 'package:alpha_front/SignUp/signup_loading.dart';
+import 'package:alpha_front/recipe/recipe_description.dart';
 
 void main() {
   runApp(const CCBS());

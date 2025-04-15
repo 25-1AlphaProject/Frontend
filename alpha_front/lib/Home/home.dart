@@ -106,40 +106,48 @@ class _HomeScreenState extends State<HomeScreen> {
             color: Color(0xff118B50),
           )),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 20),
-            const Weekcal(),
-            const SizedBox(height: 150),
-            KcalWidget(
-              onTap: _onKcalWidgetTap,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const SizedBox(height: 20),
+          const Weekcal(),
+          const SizedBox(height: 28),
+          ElevatedButton(
+            onPressed: () {
+              _onKcalWidgetTap();
+            },
+            style: ElevatedButton.styleFrom(
+              shape: const CircleBorder(),
+              padding: const EdgeInsets.all(5),
+              fixedSize: const Size(245, 245),
+              elevation: 6,
+              // backgroundColor: Colors.black,
+              // foregroundColor: Colors.teal,
             ),
-            const SizedBox(height: 150),
-            Swiper(
-              layout: SwiperLayout.STACK,
-              viewportFraction: 0.8,
-              scrollDirection: Axis.vertical,
-              itemWidth: 400, // 카드 너비 조정
-              itemHeight: 225, // 카드 높이 조정
-              loop: true,
-              autoplay: false,
-              duration: 1200,
-              itemCount: dietWidgetList.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Container(
-                    width: 400,
-                    height: 400,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: dietWidgetList[index]);
-              },
-            ),
-          ],
-        ),
+            child: const KcalWidget(),
+          ),
+          const SizedBox(height: 21),
+          Swiper(
+            layout: SwiperLayout.STACK,
+            viewportFraction: 0.8,
+            scrollDirection: Axis.vertical,
+            itemWidth: 400, // 카드 너비 조정
+            itemHeight: 225, // 카드 높이 조정
+            loop: true,
+            autoplay: false,
+            duration: 1200,
+            itemCount: dietWidgetList.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Container(
+                  width: 400,
+                  height: 400,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: dietWidgetList[index]);
+            },
+          ),
+        ],
       ),
     );
   }
