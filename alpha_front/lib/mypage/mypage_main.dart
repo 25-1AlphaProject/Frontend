@@ -1,7 +1,7 @@
 import 'dart:io';
+import 'package:alpha_front/mypage/mypage_mywrite.dart';
 import 'package:flutter/services.dart'; 
 import 'package:alpha_front/Login/login.dart';
-import 'package:alpha_front/mypage/mypage_myinfo.dart';
 import 'package:alpha_front/mypage/mypage_mylike.dart';
 import 'package:alpha_front/mypage/mypage_myscrap.dart';
 import 'package:alpha_front/widgets/baseappbar.dart';
@@ -35,7 +35,7 @@ class _MypageMainState extends State<MypageMain> {
   String _password = "1234";
   String _email = "abc@kookmin.ac.kr";
   String _phone_num = "010-1234-1234";
-  
+
   int _age = 19;
 
 Future<void> _editInfo() async {
@@ -243,7 +243,7 @@ Future<void> _editMyinfo() async {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const MypageMyinfo()));
+                          builder: (context) => const MypageMywrite()));
                 },
                 child: const Text(
                   '내가 쓴 글',
