@@ -149,7 +149,9 @@ class _BreakfastEditState extends State<_BreakfastEdit> {
   int count = 1;
 
   bool isEditing = false; // 편집 모드
-  TextEditingController _controller = TextEditingController(text: "1"); // 초기값 1
+  TextEditingController FoodNamecontroller = TextEditingController(text: "김치찌개"); // 초기값
+  TextEditingController FoodAmountcontroller = TextEditingController(text: "1인분"); // 초기값
+
 
   void _toggleEditMode() {
     setState(() {
@@ -191,23 +193,48 @@ class _BreakfastEditState extends State<_BreakfastEdit> {
                       ),
                       
                       // 가운데 숫자 또는 TextField
-                      Center(
+                      Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: isEditing
+                                ? TextField(
+                                    controller: FoodNamecontroller,
+                                    keyboardType: TextInputType.text,
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(fontSize: 24,
+                                    fontFamily: 'PretendardVariable',
+                                    fontWeight: FontWeight.bold),
+                                    onSubmitted: (_) => _saveEdit(), // 엔터 입력 시 저장
+                                  )
+                                : Text(
+                                    textAlign: TextAlign.start,
+                                    FoodNamecontroller.text,
+                                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, fontFamily: 'PretendardVariable'),
+                                  ),
+                          ),
+                          // SizedBox(height: ,),
+                        Align(
+                        alignment: Alignment.topLeft,
                         child: isEditing
                             ? TextField(
-                                controller: _controller,
+                                controller: FoodAmountcontroller,
                                 keyboardType: TextInputType.number,
                                 textAlign: TextAlign.start,
-                                style: TextStyle(fontSize: 24,
+                                style: TextStyle(fontSize: 15,
                                 fontFamily: 'PretendardVariable',
-                                fontWeight: FontWeight.bold),
+                                fontWeight: FontWeight.w400),
                                 onSubmitted: (_) => _saveEdit(), // 엔터 입력 시 저장
                               )
                             : Text(
                                 textAlign: TextAlign.start,
-                                _controller.text,
-                                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, fontFamily: 'PretendardVariable'),
+                                FoodAmountcontroller.text,
+                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal, fontFamily: 'PretendardVariable'),
                               ),
                       ),
+                        ],
+                      ),
+
                     ],
                   ),
                 ),
