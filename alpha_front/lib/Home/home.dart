@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
             color: Colors.green.shade800,
           ),
         ),
-        backgroundColor: const Color.fromRGBO(251, 246, 233, 1.0),
+        backgroundColor: Colors.white.withAlpha(0),
         elevation: 0,
         centerTitle: true,
       ),
