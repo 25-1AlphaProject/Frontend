@@ -94,10 +94,11 @@ class _MealEditState extends State<MealEdit> {
               child: _getSelectedWidget(),
             ),
             Expanded(
-              flex: 1,
+              flex: 2,
               child: Center(
                 child: Container(
-                  padding: EdgeInsets.fromLTRB(10, 30, 10, 30),
+                  margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                  // padding: EdgeInsets.fromLTRB(10, 60, 10, 30),
                   width: double.infinity,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -177,62 +178,73 @@ class _BreakfastEditState extends State<_BreakfastEdit> {
                 elevation: 5,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                 child: Container(
-                  width: MediaQuery.of(context).size.height * 0.8,
+                  width: MediaQuery.of(context).size.width * 0.8,
                   height: MediaQuery.of(context).size.height * 0.15,
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(20),
                   child: Stack(
                     children: [
                       // 우측 상단 Edit 아이콘
                       Positioned(
-                        right: 10,
-                        top: 10,
+                        right: 0,
+                        top: 0,
                         child: IconButton(
                           icon: Icon(Icons.edit, color: Colors.black),
                           onPressed: _toggleEditMode,
                         ),
                       ),
                       
-                      // 가운데 숫자 또는 TextField
-                      Column(
-                        children: [
+                      SizedBox(
+                        width: 200,
+                        child: Column(
+                          children: [
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: isEditing
+                                  ? TextField(
+                                      controller: FoodNamecontroller,
+                                      keyboardType: TextInputType.text,
+                                      decoration: InputDecoration(
+                                        isDense: true,
+                                        contentPadding: EdgeInsets.only(bottom:5),
+                                      ),
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                        fontSize: 24,
+                                        fontFamily: 'PretendardVariable',
+                                        fontWeight: FontWeight.bold),
+                                        onSubmitted: (_) => _saveEdit(), // 엔터 입력 시 저장
+                                    )
+                                  : Text(
+                                      textAlign: TextAlign.start,
+                                      FoodNamecontroller.text,
+                                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, fontFamily: 'PretendardVariable'),
+                                    ),
+                            ),
+                            SizedBox(height: 20,),
                           Align(
-                            alignment: Alignment.topLeft,
-                            child: isEditing
-                                ? TextField(
-                                    controller: FoodNamecontroller,
-                                    keyboardType: TextInputType.text,
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(fontSize: 24,
-                                    fontFamily: 'PretendardVariable',
-                                    fontWeight: FontWeight.bold),
-                                    onSubmitted: (_) => _saveEdit(), // 엔터 입력 시 저장
-                                  )
-                                : Text(
-                                    textAlign: TextAlign.start,
-                                    FoodNamecontroller.text,
-                                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, fontFamily: 'PretendardVariable'),
-                                  ),
-                          ),
-                          // SizedBox(height: ,),
-                        Align(
-                        alignment: Alignment.topLeft,
-                        child: isEditing
-                            ? TextField(
-                                controller: FoodAmountcontroller,
-                                keyboardType: TextInputType.number,
-                                textAlign: TextAlign.start,
-                                style: TextStyle(fontSize: 15,
-                                fontFamily: 'PretendardVariable',
-                                fontWeight: FontWeight.w400),
-                                onSubmitted: (_) => _saveEdit(), // 엔터 입력 시 저장
-                              )
-                            : Text(
-                                textAlign: TextAlign.start,
-                                FoodAmountcontroller.text,
-                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal, fontFamily: 'PretendardVariable'),
-                              ),
-                      ),
-                        ],
+                          alignment: Alignment.topLeft,
+                          child: isEditing
+                              ? TextField(
+                                  controller: FoodAmountcontroller,
+                                  keyboardType: TextInputType.number,
+                                  decoration: InputDecoration(
+                                    isDense: true,
+                                    contentPadding: EdgeInsets.only(bottom:5),
+                                  ),                                
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(fontSize: 15,
+                                  fontFamily: 'PretendardVariable',
+                                  fontWeight: FontWeight.w400),
+                                  onSubmitted: (_) => _saveEdit(), // 엔터 입력 시 저장
+                                )
+                              : Text(
+                                  textAlign: TextAlign.start,
+                                  FoodAmountcontroller.text,
+                                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal, fontFamily: 'PretendardVariable'),
+                                ),
+                        ),
+                          ],
+                        ),
                       ),
 
                     ],

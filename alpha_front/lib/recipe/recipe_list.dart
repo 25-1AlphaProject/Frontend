@@ -1,3 +1,4 @@
+import 'package:alpha_front/recipe/recipe_description.dart';
 import 'package:alpha_front/recipe/recipe_detail.dart';
 import 'package:alpha_front/widgets/baseappbar.dart';
 import 'package:alpha_front/widgets/basenavigationbar.dart';
@@ -89,7 +90,7 @@ class _RecipeListState extends State<RecipeList> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const RecipeDetail()));
+                              builder: (context) => const recipeDescriptionScreen()));
                     },
                     child: Column(
                       children: [
