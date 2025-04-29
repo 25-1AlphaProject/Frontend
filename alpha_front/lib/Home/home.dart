@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // Navigator.push(
     //   context,
     //   MaterialPageRoute(
-    //       builder: (context) => const 어디로...()),
+    //       builder: (context) => const 어디로...전체 리포트 페이지로...()),
     // );
   }
 
