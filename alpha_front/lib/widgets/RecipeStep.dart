@@ -19,9 +19,14 @@ class _RecipeStepState extends State<RecipeStep> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
+          Container(
             height: 26,
             width: 69,
+            decoration: BoxDecoration(
+              color: const Color.fromRGBO(60, 177, 150, 1.0),
+              borderRadius: BorderRadius.circular(7),
+            ),
+            alignment: Alignment.center,
             child: Text(
               widget.stepCOUNT < 10
                   ? "STEP ${widget.stepCOUNT.toString().padLeft(2, '0')}"
@@ -29,7 +34,6 @@ class _RecipeStepState extends State<RecipeStep> {
               style: const TextStyle(
                 fontFamily: "PretenderardVariable",
                 fontWeight: FontWeight.bold,
-                backgroundColor: Color.fromRGBO(60, 177, 150, 1.0),
                 color: Color.fromRGBO(255, 255, 255, 1.0),
                 fontSize: 15,
               ),
