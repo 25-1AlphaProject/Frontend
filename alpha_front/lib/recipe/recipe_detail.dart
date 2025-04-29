@@ -12,7 +12,7 @@ class RecipeDetail extends StatefulWidget {
 class _RecipeDetailState extends State<RecipeDetail> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       appBar: BaseAppbar(title: '레시피'),
 //       body: Container(
 //         width: double.infinity,
@@ -38,7 +38,6 @@ class _RecipeDetailState extends State<RecipeDetail> {
 //           ],
 //         )
 //       ),
-
     );
   }
 }
