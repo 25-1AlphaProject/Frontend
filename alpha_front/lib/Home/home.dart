@@ -129,25 +129,28 @@ class _HomeScreenState extends State<HomeScreen> {
               child: const KcalWidget(),
             ),
             const SizedBox(height: 21),
-            Swiper(
-              layout: SwiperLayout.STACK,
-              viewportFraction: 0.8,
-              scrollDirection: Axis.vertical,
-              itemWidth: 400, // 카드 너비 조정
-              itemHeight: 225, // 카드 높이 조정
-              loop: true,
-              autoplay: false,
-              duration: 1200,
-              itemCount: dietWidgetList.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Container(
-                    width: 400,
-                    height: 400,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: dietWidgetList[index]);
-              },
+            SizedBox(
+              height: 500,
+              child: Swiper(
+                layout: SwiperLayout.STACK,
+                viewportFraction: 0.8,
+                scrollDirection: Axis.vertical,
+                itemWidth: 400, // 카드 너비 조정
+                itemHeight: 225, // 카드 높이 조정
+                loop: true,
+                autoplay: false,
+                duration: 1200,
+                itemCount: dietWidgetList.length, //간식이 있으면 간식까지도
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                      width: 400,
+                      height: 400,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: dietWidgetList[index]);
+                },
+              ),
             ),
           ],
         ),
