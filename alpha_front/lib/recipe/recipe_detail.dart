@@ -12,8 +12,75 @@ class RecipeDetail extends StatefulWidget {
 class _RecipeDetailState extends State<RecipeDetail> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: BaseAppbar(title: '레시피'),
+    return Scaffold(
+      appBar: const BaseAppbar(title: '레시피'),
+      body: Stack(
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.4,
+            width: double.infinity,
+            child: const Image(
+              image: AssetImage(
+                // image 변경 - url => network
+                'alpha_front/assets/images/example_recipe.png',
+              ),
+            ),
+          ),
+          DraggableScrollableSheet(
+            initialChildSize: 0.6,
+            minChildSize: 0.5,
+            maxChildSize: 1.0,
+            builder: (context, ScrollController) {
+              return Container(
+                padding: const EdgeInsets.all(16),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                ),
+                child: SingleChildScrollView(
+                  controller: ScrollController,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: Container(
+                          width: 40,
+                          height: 4,
+                          margin: const EdgeInsets.only(bottom: 16),
+                          decoration: BoxDecoration(
+                            color: Colors.grey[400],
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        ),
+                      ),
+                      const Text(
+                        '닭가슴살 야채볶음밥',
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      const Row(
+                        children: [
+                          Icon(Icons.access_time, size: 16),
+                          SizedBox(width: 4),
+                          Text('15분 이내'),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      const Text(
+                        '재료',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 8),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
 //       body: Container(
 //         width: double.infinity,
 //         height: MediaQuery.of(context).size.height * 0.35,
