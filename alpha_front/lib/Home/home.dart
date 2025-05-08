@@ -1,5 +1,6 @@
 import 'package:alpha_front/meal/camera.dart';
 import 'package:alpha_front/meal/meal_edit.dart';
+import 'package:alpha_front/report/report_main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:alpha_front/widgets/baseappbar.dart';
@@ -27,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
     print("수정 아이콘 클릭됨");
     //page 이동
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const MealEdit()));
+        context, MaterialPageRoute(builder: (context) => MealEdit()));
   }
 
   // void _onDragUpdate(Offset position) {
@@ -36,11 +37,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _onKcalWidgetTap() {
     print("KcalWidget이 클릭됨");
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //       builder: (context) => const 어디로...전체 리포트 페이지로...()),
-    // );
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => ReportMain()),
+    );
   }
 
   @override

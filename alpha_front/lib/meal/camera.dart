@@ -98,9 +98,8 @@ class _CameraState extends State<Camera> {
               child: Text(
               '기록 수정',
                 style: TextStyle(
-                fontFamily: 'PretendartVariable',
+                fontFamily: 'Pretendard-bold',
                 fontSize: 15,
-                fontWeight: FontWeight.bold,
                 color: Colors.white,
           
               ),

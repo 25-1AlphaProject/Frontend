@@ -26,7 +26,7 @@ class CCBS extends StatelessWidget {
       theme: ThemeData(
         fontFamily: "yg-jalnan",
         textTheme: const TextTheme(
-          bodyMedium:TextStyle(fontFamily:'PretendardVariable', fontSize:18, letterSpacing: 0.5, fontWeight: FontWeight.bold,)
+          bodyMedium:TextStyle(fontFamily:'Pretendard-medium', fontSize:18, letterSpacing: 0.5, fontWeight: FontWeight.bold,)
         ),
         // Theme 설정
         // colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff118B50)),
@@ -35,9 +35,10 @@ class CCBS extends StatelessWidget {
       // home: const MyHomePage(title: '척척밥사'),
       // home: Survey(),
       // home: const MypageMain(),
-      // home: loginScreen(),
+      home: loginScreen(),
       // home: const signupScreen(),
-      home:HomeScreen(),
+      // home:HomeScreen(),
+      // home: ReportMain(),
     );
   }
 }
