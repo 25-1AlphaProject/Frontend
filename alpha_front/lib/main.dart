@@ -1,6 +1,7 @@
 import 'package:alpha_front/Home/home.dart';
 import 'package:alpha_front/mypage/mypage_main.dart';
 import 'package:alpha_front/recipe/recipe_list.dart';
+import 'package:alpha_front/report/report_main.dart';
 import 'package:alpha_front/survey/pre_survey.dart';
 import 'package:alpha_front/Login/login.dart';
 import 'package:alpha_front/SignUp/signup.dart';
