@@ -42,7 +42,7 @@ class _loginScreenState extends State<loginScreen> {
                   decoration: InputDecoration(
                     hintText: '아이디를 입력해주세요',
                     hintStyle: TextStyle(
-                      fontFamily: 'PretendardVariable',
+                      fontFamily: 'Pretendard-light',
                       color: Colors.grey.shade400,
                     ),
                     // filled: true,
@@ -66,7 +66,7 @@ class _loginScreenState extends State<loginScreen> {
                   decoration: InputDecoration(
                     hintText: '비밀번호를 입력해주세요',
                     hintStyle: TextStyle(
-                      fontFamily: 'PretendardVariable',
+                      fontFamily: 'Pretendard-light',
                       color: Colors.grey.shade400,
                     ),
                     suffixIcon: showSuffixIcon
@@ -114,7 +114,7 @@ class _loginScreenState extends State<loginScreen> {
                   child: const Text(
                     "로그인하기",
                     style: TextStyle(
-                      fontFamily: "PretendardVariable",
+                      fontFamily: 'Pretendard-light',
                       fontSize: 18,
                       color: Colors.black87,
                     ),
@@ -126,7 +126,7 @@ class _loginScreenState extends State<loginScreen> {
                   child: Text(
                     '아이디 / 비밀번호 찾기',
                     style: TextStyle(
-                      fontFamily: 'PretendardVariable',
+                      fontFamily: 'Pretendard-light',
                       color: Colors.green.shade700,
                       decorationColor: Colors.green.shade700,
                       decoration: TextDecoration.underline,
@@ -144,7 +144,7 @@ class _loginScreenState extends State<loginScreen> {
                   child: Text(
                     '아직 회원이 아니신가요? 회원가입 하기',
                     style: TextStyle(
-                      fontFamily: 'PretendardVariable',
+                      fontFamily: 'Pretendard-light',
                       color: Colors.green.shade700,
                       decorationColor: Colors.green.shade700,
                       decoration: TextDecoration.underline,

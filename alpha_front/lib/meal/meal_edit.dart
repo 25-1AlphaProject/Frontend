@@ -120,9 +120,9 @@ class _MealEditState extends State<MealEdit> {
                       child: Text(
                       '작성 완료',
                         style: TextStyle(
-                        fontFamily: 'PretendartVariable',
+                        fontFamily: 'Pretendart-bold',
                         fontSize: 15,
-                        fontWeight: FontWeight.bold,
+                        // fontWeight: FontWeight.bold,
                         color: Colors.white,
                   
                       ),
@@ -210,14 +210,15 @@ class _BreakfastEditState extends State<_BreakfastEdit> {
                                       textAlign: TextAlign.start,
                                       style: TextStyle(
                                         fontSize: 24,
-                                        fontFamily: 'PretendardVariable',
-                                        fontWeight: FontWeight.bold),
+                                        fontFamily: 'Pretendard-bold',
+                                        fontWeight: FontWeight.bold
+                                        ),
                                         onSubmitted: (_) => _saveEdit(), // 엔터 입력 시 저장
                                     )
                                   : Text(
                                       textAlign: TextAlign.start,
                                       FoodNamecontroller.text,
-                                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, fontFamily: 'PretendardVariable'),
+                                      style: TextStyle(fontSize: 24, fontFamily: 'Pretendard-bold'),
                                     ),
                             ),
                             SizedBox(height: 20,),
@@ -233,14 +234,14 @@ class _BreakfastEditState extends State<_BreakfastEdit> {
                                   ),                                
                                   textAlign: TextAlign.start,
                                   style: TextStyle(fontSize: 15,
-                                  fontFamily: 'PretendardVariable',
-                                  fontWeight: FontWeight.w400),
+                                  fontFamily: 'Pretendard-regular',
+                                  ),
                                   onSubmitted: (_) => _saveEdit(), // 엔터 입력 시 저장
                                 )
                               : Text(
                                   textAlign: TextAlign.start,
                                   FoodAmountcontroller.text,
-                                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.normal, fontFamily: 'PretendardVariable'),
+                                  style: TextStyle(fontSize: 15, fontFamily: 'Pretendard-regular'),
                                 ),
                         ),
                           ],
