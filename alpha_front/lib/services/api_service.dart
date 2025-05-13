@@ -1,12 +1,12 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:http/http.dart' as http;
-import 'package:alpha_front/Home/home.dart';
 
 class ApiService {
   static Future<bool> login(String id, String pw) async {
     try {
       final response = await http.post(
-        Uri.parse('https://8080/api/users/login'),
+        Uri.parse('http://43.203.32.75:8080/api/users/login'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'username': id,
@@ -15,13 +15,14 @@ class ApiService {
       );
 
       if (response.statusCode == 200) {
-        // 토큰 저장
+        log("로그인 성공: ${response.statusCode} ${response.body}");
         return true;
       } else {
+        log("로그인 실패: ${response.statusCode} ${response.body}");
         return false;
       }
     } catch (e) {
-      print("로그인 에러: $e");
+      log("로그인 에러: $e");
       return false;
     }
   }
