@@ -1,5 +1,6 @@
 import 'package:alpha_front/widgets/baseappbar.dart';
 import 'package:alpha_front/widgets/basenavigationbar.dart';
+import 'package:alpha_front/widgets/foodIngredient.dart';
 import 'package:flutter/material.dart';
 
 class RecipeDetail extends StatefulWidget {
@@ -53,26 +54,91 @@ class _RecipeDetailState extends State<RecipeDetail> {
                           ),
                         ),
                       ),
-                      const Text(
-                        '닭가슴살 야채볶음밥',
+                      const Center(
+                        child: Text(
+                          '닭가슴살 야채볶음밥',
+                          style: TextStyle(
+                            fontFamily: "PretendardVariable",
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromRGBO(0, 0, 0, 1.0),
+                            fontSize: 20,
+                          ),
+                        ),
                       ),
                       const SizedBox(
                         height: 8,
                       ),
                       const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(Icons.access_time, size: 16),
                           SizedBox(width: 4),
-                          Text('15분 이내'),
+                          Text(
+                            '15분 이내', // 값 받아오기
+                            style: TextStyle(
+                              fontFamily: "PretendardVariable",
+                              fontWeight: FontWeight.normal,
+                              color: Color.fromRGBO(154, 154, 154, 1.0),
+                              fontSize: 15,
+                            ),
+                          ),
                         ],
                       ),
-                      const SizedBox(height: 16),
-                      const Text(
-                        '재료',
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                      const SizedBox(height: 27),
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '재료',
+                            style: TextStyle(
+                              fontFamily: "PretendardVariable",
+                              color: Color.fromRGBO(0, 0, 0, 1.0),
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            '1인 기준',
+                            style: TextStyle(
+                              fontFamily: "PretendardVariable",
+                              color: Color.fromRGBO(60, 177, 150, 1.0),
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            '318 kcal', //값 받아오기
+                            style: TextStyle(
+                              fontFamily: "PretendardVariable",
+                              color: Color.fromRGBO(60, 177, 150, 1.0),
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 8),
+                      const Divider(
+                        height: 110,
+                        color: Color.fromRGBO(174, 174, 174, 1.0),
+                        thickness: 2,
+                      ),
+                      const Column(
+                        children: [
+                          FoodIngredient(
+                            foodName: '밥',
+                            foodUnit: '1인분',
+                          ),
+                          FoodIngredient(
+                            foodName: '닭가슴살',
+                            foodUnit: '150g',
+                          ),
+                          FoodIngredient(
+                            foodName: '당근',
+                            foodUnit: '1/4개',
+                          )
+                        ],
+                      ),
                     ],
                   ),
                 ),
