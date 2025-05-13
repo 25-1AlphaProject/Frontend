@@ -1,6 +1,7 @@
 import 'package:alpha_front/widgets/baseappbar.dart';
 import 'package:alpha_front/widgets/basenavigationbar.dart';
 import 'package:alpha_front/widgets/foodIngredient.dart';
+import 'package:alpha_front/widgets/RecipeStep.dart';
 import 'package:flutter/material.dart';
 
 class RecipeDetail extends StatefulWidget {
@@ -11,6 +12,19 @@ class RecipeDetail extends StatefulWidget {
 }
 
 class _RecipeDetailState extends State<RecipeDetail> {
+  List<String> steps = [
+    "닭가슴살은 소금을 조금 넣고 익혀주세요.",
+    "당근과 피망, 양파 닭가슴살은 적당히 잘게 잘라서 준비하세요.",
+    "익은 닭가슴살은 먹기 좋게 잘라둡니다.",
+    "팬에 양파를 먼저 볶아줍니다.",
+    "당근과 피망을 넣어 볶아주세요.",
+    "익힌 닭가슴살도 넣고 볶아줍니다.",
+    "밥을 넣고 고슬고슬하게 볶아주면 완성!     간은 소금으로 맞춰주세요."
+  ]; // 한 번에 받아와서 리스트에 저장
+
+  String recipeName = '닭가슴살 야채 볶음밥'; //받아오기
+  int currentStep = 0; //터치하거나 시간 지날 때마다 카운팅
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +70,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                       ),
                       const Center(
                         child: Text(
-                          '닭가슴살 야채볶음밥',
+                          '닭가슴살 야채 볶음밥',
                           style: TextStyle(
                             fontFamily: "PretendardVariable",
                             fontWeight: FontWeight.bold,
@@ -139,6 +153,14 @@ class _RecipeDetailState extends State<RecipeDetail> {
                           )
                         ],
                       ),
+                      RecipeStep(stepCOUNT: 1, text: steps[0]),
+                      const SizedBox(height: 60),
+                      RecipeStep(stepCOUNT: 2, text: steps[1]),
+                      const SizedBox(height: 60),
+                      RecipeStep(stepCOUNT: 3, text: steps[2]),
+                      const SizedBox(height: 60),
+                      RecipeStep(stepCOUNT: 10, text: steps[3]),
+                      const SizedBox(height: 60),
                     ],
                   ),
                 ),
