@@ -187,7 +187,7 @@ class _loginScreenState extends State<loginScreen> {
                 ), //아이디/비밀번호 찾기 버튼
                 TextButton(
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                           builder: (context) => const signupScreen()),

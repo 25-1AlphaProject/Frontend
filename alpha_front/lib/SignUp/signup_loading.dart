@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:math';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:alpha_front/Login/login.dart';
+import 'package:alpha_front/survey/pre_survey.dart';
 
 class signuploading extends StatefulWidget {
   const signuploading({super.key});
@@ -33,7 +33,7 @@ class _signuploadingState extends State<signuploading> {
               // context가 여전히 유효한지 확인
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => const loginScreen()),
+                MaterialPageRoute(builder: (context) => const Survey()),
               );
             }
           });

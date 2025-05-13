@@ -240,7 +240,7 @@ class _signupScreenState extends State<signupScreen> {
                       email,
                   child: TextButton(
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (context) => const signuploading()),
