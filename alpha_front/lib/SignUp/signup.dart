@@ -1,3 +1,6 @@
+// hinttext랑 button은 통일했고, 작성 text 조절(활성화 되었을 때 색상 0xff3CB196로 / 작성한 text 크기 조절)만 하면 될 것 같아용!
+
+import 'package:alpha_front/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:alpha_front/SignUp/signup_loading.dart';
 
@@ -24,6 +27,8 @@ class _signupScreenState extends State<signupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: BaseAppbar(),
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
@@ -35,17 +40,17 @@ class _signupScreenState extends State<signupScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Center(
-                  child: Text(
-                    '척척밥사',
-                    style: TextStyle(
-                      fontFamily: 'yg-jalnan',
-                      fontSize: 30,
-                      fontWeight: FontWeight.normal,
-                      color: Color.fromRGBO(17, 139, 80, 1.0),
-                    ),
-                  ),
-                ),
+                // const Center(
+                //   child: Text(
+                //     '척척밥사',
+                //     style: TextStyle(
+                //       fontFamily: 'yg-jalnan',
+                //       fontSize: 30,
+                //       fontWeight: FontWeight.normal,
+                //       color: Color.fromRGBO(17, 139, 80, 1.0),
+                //     ),
+                //   ),
+                // ),
                 const SizedBox(height: 40),
                 Text(
                   currentStep == 1
@@ -57,29 +62,21 @@ class _signupScreenState extends State<signupScreen> {
                               : currentStep == 4
                                   ? "비밀번호를"
                                   : "이메일을",
-                  style: const TextStyle(
-                      fontFamily: 'yg-jalnan',
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontFamily: 'Pretendard-bold'),
+
                   textAlign: TextAlign.left,
                 ),
-                const Text(
+                Text(
                   "입력해주세요",
-                  style: TextStyle(
-                      fontFamily: 'yg-jalnan',
-                      fontSize: 30,
-                      fontWeight: FontWeight.normal),
+                  style: Theme.of(context).textTheme.bodyLarge,
+
                 ),
                 const SizedBox(height: 30),
                 TextField(
-                  decoration: const InputDecoration(
-                    hintText: "이름을 입력해주세요",
-                    hintStyle: TextStyle(
-                      fontFamily: "PretenderardVariable",
-                      fontSize: 12,
-                      color: Color.fromRGBO(182, 182, 182, 1.0),
-                      fontWeight: FontWeight.normal,
-                    ),
+                  decoration: InputDecoration(
+                    hintText: "이름",
+                    hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Color(0xffb6b6b6)),
+
                   ),
                   onSubmitted: (value) {
                     setState(() {
@@ -98,13 +95,9 @@ class _signupScreenState extends State<signupScreen> {
                     children: [
                       TextField(
                         decoration: InputDecoration(
-                          labelText: "$username님을 어떻게 불러드릴까요?",
-                          labelStyle: const TextStyle(
-                            fontFamily: "PretenderardVariable",
-                            fontSize: 12,
-                            color: Color.fromRGBO(182, 182, 182, 1.0),
-                            fontWeight: FontWeight.normal,
-                          ),
+                          hintText: "닉네임",
+                          hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Color(0xffb6b6b6)),
+
                         ),
                         onSubmitted: (value) {
                           setState(() {
@@ -124,14 +117,10 @@ class _signupScreenState extends State<signupScreen> {
                   child: Column(
                     children: [
                       TextField(
-                        decoration: const InputDecoration(
-                          labelText: "아이디를 입력해주세요",
-                          labelStyle: TextStyle(
-                            fontFamily: "PretenderardVariable",
-                            fontSize: 12,
-                            color: Color.fromRGBO(182, 182, 182, 1.0),
-                            fontWeight: FontWeight.normal,
-                          ),
+                        decoration: InputDecoration(
+                          hintText: "아이디",
+                          hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Color(0xffb6b6b6)),
+
                         ),
                         onSubmitted: (value) {
                           setState(() {
@@ -152,18 +141,14 @@ class _signupScreenState extends State<signupScreen> {
                     children: [
                       TextField(
                         decoration: InputDecoration(
-                          labelText: "비밀번호를 입력해주세요",
-                          labelStyle: const TextStyle(
-                            fontFamily: "PretenderardVariable",
-                            fontSize: 12,
-                            color: Color.fromRGBO(182, 182, 182, 1.0),
-                            fontWeight: FontWeight.normal,
-                          ),
+                          hintText: "비밀번호",
+                          hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Color(0xffb6b6b6)),
+
                           helperText:
                               "영문 / 숫자 / 기호 중 2가지 이상 조합, 8자리 이상으로 설정해주세요",
                           helperStyle: const TextStyle(
                             fontFamily: "PretenderardVariable",
-                            fontSize: 8,
+                            fontSize: 12,
                             color: Color.fromRGBO(182, 182, 182, 1.0),
                             fontWeight: FontWeight.normal,
                           ),
@@ -209,14 +194,10 @@ class _signupScreenState extends State<signupScreen> {
                   child: Column(
                     children: [
                       TextField(
-                        decoration: const InputDecoration(
-                          labelText: "이메일을 입력해주세요",
-                          labelStyle: TextStyle(
-                            fontFamily: "PretenderardVariable",
-                            fontSize: 12,
-                            color: Color.fromRGBO(182, 182, 182, 1.0),
-                            fontWeight: FontWeight.normal,
-                          ),
+                        decoration: InputDecoration(
+                          hintText: "이메일",
+                          hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Color(0xffb6b6b6)),
+
                         ),
                         onSubmitted: (value) {
                           setState(() {
@@ -238,7 +219,7 @@ class _signupScreenState extends State<signupScreen> {
                       id &&
                       password &&
                       email,
-                  child: TextButton(
+                  child: ElevatedButton(
                     onPressed: () {
                       Navigator.pushReplacement(
                         context,
@@ -246,23 +227,19 @@ class _signupScreenState extends State<signupScreen> {
                             builder: (context) => const signuploading()),
                       );
                     },
-                    style: TextButton.styleFrom(
-                      backgroundColor: const Color.fromRGBO(226, 226, 226, 1.0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      minimumSize: const Size(double.infinity, 43),
-                      elevation: 0,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xff3CB196),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
                     ),
-                    child: const Text(
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    minimumSize: const Size(double.infinity, 50),
+                    elevation: 0,
+                    ),
+                    child: Text(
                       "회원가입하기",
-                      style: TextStyle(
-                        fontFamily: "PretenderardVariable",
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromRGBO(136, 136, 136, 1.0),
-                      ),
+                        style: Theme.of(context).textTheme.labelMedium,
+
                     ),
                   ),
                 ),
