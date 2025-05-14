@@ -42,7 +42,7 @@ class _PreSurveyFinalState extends State<PreSurveyFinal> {
                   '김유진님, \n일주일치 식단 추천이 \n완료되었습니다!',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Color(0xff118B50),
+                    color: Color(0xff3CB196),
                     fontFamily: 'yg-jalnan',
                     fontSize: 30,
                   ),
@@ -52,7 +52,7 @@ class _PreSurveyFinalState extends State<PreSurveyFinal> {
             const SizedBox(
               child: Icon(
                 Icons.check_circle_rounded,
-                color: Color(0xff118B50),
+                color: Color(0xff3CB196),
                 size: 70,
               ),
             ),

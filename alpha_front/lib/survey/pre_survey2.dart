@@ -69,7 +69,7 @@ class _PreSurvey2State extends State<PreSurvey2> {
               spacing: 8.0,
               children: selectedAllergy.map((term) => ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xff118B50), 
+                  backgroundColor: Color(0xff3CB196), 
                   foregroundColor: Colors.white, 
                 ),
                 onPressed: () {},
@@ -97,7 +97,7 @@ class _PreSurvey2State extends State<PreSurvey2> {
             // Container(
             //   padding: EdgeInsets.all(10),
             //   decoration: BoxDecoration(
-            //     border: Border.all(color: Color(0xff118B50)),
+            //     border: Border.all(color: Color(0xff3CB196)),
             //     borderRadius: BorderRadius.circular(10),
             //   ),
             //   child: Wrap(
@@ -110,7 +110,7 @@ class _PreSurvey2State extends State<PreSurvey2> {
             //                 fontFamily: 'PretendardVariable',
             //                 fontWeight: FontWeight.bold,
             //                 )),
-            //               backgroundColor: Color(0xff118B50),
+            //               backgroundColor: Color(0xff3CB196),
             //               deleteIcon: Icon(Icons.close, color: Colors.white),
             //               onDeleted: () {
             //                 setState(() {
@@ -132,7 +132,7 @@ class _PreSurvey2State extends State<PreSurvey2> {
                     shape : RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    side: BorderSide(color: Color(0xff118B50), width: 1),
+                    side: BorderSide(color: Color(0xff3CB196), width: 1),
                     elevation: 3,
                     
                   ),
@@ -149,7 +149,7 @@ class _PreSurvey2State extends State<PreSurvey2> {
                       fontFamily: 'PretendartVariable',
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xff118B50),
+                      color: Color(0xff3CB196),
                 
                     ),
                   ),
@@ -163,11 +163,11 @@ class _PreSurvey2State extends State<PreSurvey2> {
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff118B50),
+                    backgroundColor: Color(0xff3CB196),
                     shape : RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    side: BorderSide(color: Color(0xff118B50), width: 1),
+                    side: BorderSide(color: Color(0xff3CB196), width: 1),
                     elevation: 3,
                     
                   ),

@@ -60,7 +60,7 @@ class _RecipeListState extends State<RecipeList> {
               decoration: InputDecoration(
                 icon: const Icon(
                   Icons.search,
-                  color: Color(0xff118B50),
+                  color: Color(0xff3CB196),
                 ),
                 hintText: "레시피를 검색하세요",
                 hintStyle: const TextStyle(
@@ -70,11 +70,11 @@ class _RecipeListState extends State<RecipeList> {
                 ),
                 enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
-                  color: const Color(0xff118B50).withAlpha(150),
+                  color: const Color(0xff3CB196).withAlpha(150),
                 )),
                 focusedBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(
-                    color: Color(0xff118B50),
+                    color: Color(0xff3CB196),
                   ),
                 ),
               ),
@@ -123,7 +123,7 @@ class _RecipeListState extends State<RecipeList> {
                           ),
                         ),
                         const Divider(
-                          color: Color(0xff118B50),
+                          color: Color(0xff3CB196),
                         ),
                       ],
                     ),

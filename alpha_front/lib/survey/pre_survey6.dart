@@ -40,11 +40,11 @@ class _PreSurvey6State extends State<PreSurvey6> {
                 children: [
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: selectedGoal == 1 ? Color(0xff118B50) : Colors.white,
+                      backgroundColor: selectedGoal == 1 ? Color(0xff3CB196) : Colors.white,
                       shape : RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
-                      side: BorderSide(color: Color(0xff118B50), width: 1),
+                      side: BorderSide(color: Color(0xff3CB196), width: 1),
                       elevation: 3,
                     ),
                     onPressed: () {
@@ -58,18 +58,18 @@ class _PreSurvey6State extends State<PreSurvey6> {
                         fontFamily: 'PretendartVariable',
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
-                        color: selectedGoal == 1 ? Colors.white : Color(0xff118B50),
+                        color: selectedGoal == 1 ? Colors.white : Color(0xff3CB196),
               
                       ),
                     ),
                   ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: selectedGoal == 2? Color(0xff118B50) : Colors.white,                    
+                      backgroundColor: selectedGoal == 2? Color(0xff3CB196) : Colors.white,                    
                       shape : RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
-                      side: BorderSide(color: Color(0xff118B50), width: 1),
+                      side: BorderSide(color: Color(0xff3CB196), width: 1),
                       elevation: 3,
                     ),
                     onPressed: () {
@@ -83,7 +83,7 @@ class _PreSurvey6State extends State<PreSurvey6> {
                         fontFamily: 'PretendartVariable',
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
-                        color: selectedGoal == 2 ? Colors.white : Color(0xff118B50),
+                        color: selectedGoal == 2 ? Colors.white : Color(0xff3CB196),
               
                       ),
                     ),
@@ -97,11 +97,11 @@ class _PreSurvey6State extends State<PreSurvey6> {
                   
                     ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: selectedGoal == 3 ? Color(0xff118B50) : Colors.white,
+                            backgroundColor: selectedGoal == 3 ? Color(0xff3CB196) : Colors.white,
                             shape : RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
-                            side: BorderSide(color: Color(0xff118B50), width: 1),
+                            side: BorderSide(color: Color(0xff3CB196), width: 1),
                             elevation: 3,
                           ),
                           onPressed: () {
@@ -115,7 +115,7 @@ class _PreSurvey6State extends State<PreSurvey6> {
                               fontFamily: 'PretendartVariable',
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
-                              color: selectedGoal == 3 ? Colors.white : Color(0xff118B50),
+                              color: selectedGoal == 3 ? Colors.white : Color(0xff3CB196),
                     
                             ),
                           ),
@@ -123,11 +123,11 @@ class _PreSurvey6State extends State<PreSurvey6> {
                   
                     ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: selectedGoal == 4 ? Color(0xff118B50) : Colors.white,
+                            backgroundColor: selectedGoal == 4 ? Color(0xff3CB196) : Colors.white,
                             shape : RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
-                            side: BorderSide(color: Color(0xff118B50), width: 1),
+                            side: BorderSide(color: Color(0xff3CB196), width: 1),
                             elevation: 3,
                           ),
                           onPressed: () {
@@ -141,7 +141,7 @@ class _PreSurvey6State extends State<PreSurvey6> {
                               fontFamily: 'PretendartVariable',
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
-                              color: selectedGoal == 4 ? Colors.white : Color(0xff118B50),
+                              color: selectedGoal == 4 ? Colors.white : Color(0xff3CB196),
                     
                             ),
                           ),
@@ -155,11 +155,11 @@ class _PreSurvey6State extends State<PreSurvey6> {
           width: double.infinity,
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Color(0xff118B50),
+              backgroundColor: Color(0xff3CB196),
               shape : RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15),
               ),
-              side: BorderSide(color: Color(0xff118B50), width: 1),
+              side: BorderSide(color: Color(0xff3CB196), width: 1),
               elevation: 3,
               
             ),

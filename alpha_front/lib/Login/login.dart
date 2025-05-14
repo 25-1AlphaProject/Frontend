@@ -1,3 +1,5 @@
+// text 위에 로고 삽입하기
+
 import 'package:alpha_front/survey/pre_survey.dart';
 import 'package:flutter/material.dart';
 import 'package:alpha_front/SignUp/signup.dart';
@@ -32,7 +34,7 @@ class _loginScreenState extends State<loginScreen> {
         backgroundColor: Colors.white,
         body: Center(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30.0),
+            padding: const EdgeInsets.symmetric(horizontal: 33.0, vertical: 33.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -41,7 +43,7 @@ class _loginScreenState extends State<loginScreen> {
                   style: TextStyle(
                     fontFamily: 'yg-jalnan',
                     fontSize: 40,
-                    fontWeight: FontWeight.bold,
+                    // fontWeight: FontWeight.bold,
                     color: Color(0xff3CB196),
                   ),
                 ), //앱명
@@ -49,8 +51,8 @@ class _loginScreenState extends State<loginScreen> {
                 TextField(
                   controller: _idController,
                   decoration: InputDecoration(
-                    hintText: '아이디를 입력해주세요',
-                    hintStyle: Theme.of(context).textTheme.bodyMedium,
+                    hintText: '아이디',
+                    hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Color(0xffb6b6b6)),
                     //   color: Colors.grey.shade400,
                     // ),
                     // filled: true,
@@ -73,11 +75,8 @@ class _loginScreenState extends State<loginScreen> {
                   },
                   controller: _pwController,
                   decoration: InputDecoration(
-                    hintText: '비밀번호를 입력해주세요',
-                    hintStyle: TextStyle(
-                      fontFamily: 'Pretendard-light',
-                      color: Colors.grey.shade400,
-                    ),
+                    hintText: '비밀번호',
+                    hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Color(0xffb6b6b6)),
                     suffixIcon: showSuffixIcon
                         ? IconButton(
                             onPressed: () {
@@ -102,7 +101,7 @@ class _loginScreenState extends State<loginScreen> {
                     ),
                   ),
                 ), // 비번
-                const SizedBox(height: 100),
+                const SizedBox(height: 50),
                 ElevatedButton(
                   onPressed: () async {
                     final id = _idController.text.trim();
@@ -154,30 +153,28 @@ class _loginScreenState extends State<loginScreen> {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey.shade400,
+                    backgroundColor: Color(0xff3CB196),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(15),
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 15),
                     minimumSize: const Size(double.infinity, 50),
                     elevation: 0,
                   ),
-                  child: const Text(
+                  child: Text(
                     "로그인하기",
-                    style: TextStyle(
-                      fontFamily: 'Pretendard-light',
-                      fontSize: 18,
-                      color: Colors.black87,
-                    ),
+                    style: Theme.of(context).textTheme.labelMedium,
+
                   ),
                 ), //로그인 버튼
-                const SizedBox(height: 70),
+                const SizedBox(height: 20),
                 TextButton(
                   onPressed: () {},
                   child: Text(
                     '아이디 / 비밀번호 찾기',
                     style: TextStyle(
                       fontFamily: 'Pretendard-light',
+                      fontSize: 15,
                       color: Colors.green.shade700,
                       decorationColor: Colors.green.shade700,
                       decoration: TextDecoration.underline,
@@ -196,6 +193,7 @@ class _loginScreenState extends State<loginScreen> {
                     '아직 회원이 아니신가요? 회원가입 하기',
                     style: TextStyle(
                       fontFamily: 'Pretendard-light',
+                      fontSize: 15,
                       color: Colors.green.shade700,
                       decorationColor: Colors.green.shade700,
                       decoration: TextDecoration.underline,

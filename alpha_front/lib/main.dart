@@ -27,12 +27,13 @@ class CCBS extends StatelessWidget {
       theme: ThemeData(
         
         textTheme: const TextTheme(
+          
           bodyMedium:TextStyle( // 본문 (사전설문 글) / 본문
             fontFamily:'Pretendard-regular', 
             fontSize:17,
           ),
           
-          titleLarge: TextStyle( // 척척밥사
+          titleLarge: TextStyle( // 앱바 척척밥사
             fontFamily: 'yg-jalnan',
             fontSize: 30,
             color: Color(0xff3cb196),
@@ -44,6 +45,12 @@ class CCBS extends StatelessWidget {
             color: Colors.black,
           ),
 
+          labelMedium: TextStyle(
+            fontFamily: 'Pretendard-bold',
+            fontSize: 20,
+            color: Colors.white,
+          )
+
 
         ),
         // Theme 설정
@@ -51,12 +58,12 @@ class CCBS extends StatelessWidget {
         useMaterial3: true,
       ),
       // home: const MyHomePage(title: '척척밥사'),
-      // home: Survey(),
+      home: signupScreen(),
       // home: const MypageMain(),
       // home: loginScreen(),
       // home: const signupScreen(),
       // home:HomeScreen(),
-      home: Layout(),
+      // home: Layout(),
     );
   }
 }
