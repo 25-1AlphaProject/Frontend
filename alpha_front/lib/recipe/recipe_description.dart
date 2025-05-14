@@ -4,15 +4,14 @@ import 'package:linear_progress_bar/linear_progress_bar.dart';
 import 'package:alpha_front/widgets/RecipeStep.dart';
 import 'package:alpha_front/recipe/recipe_detail.dart';
 
-class recipeDescriptionScreen extends StatefulWidget {
-  const recipeDescriptionScreen({super.key});
+class RecipeDescription extends StatefulWidget {
+  const RecipeDescription({super.key});
 
   @override
-  _recipeDescriptionScreenState createState() =>
-      _recipeDescriptionScreenState();
+  _RecipeDescriptionState createState() => _RecipeDescriptionState();
 }
 
-class _recipeDescriptionScreenState extends State<recipeDescriptionScreen> {
+class _RecipeDescriptionState extends State<RecipeDescription> {
   List<String> steps = [
     "닭가슴살은 소금을 조금 넣고 익혀주세요.",
     "당근과 피망, 양파 닭가슴살은 적당히 잘게 잘라서 준비하세요.",

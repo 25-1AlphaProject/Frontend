@@ -1,7 +1,7 @@
 import 'package:alpha_front/Home/home.dart';
 import 'package:flutter/material.dart';
+import 'package:alpha_front/Login/login.dart';
 import 'dart:async';
-
 
 class PreSurveyFinal extends StatefulWidget {
   const PreSurveyFinal({super.key});
@@ -15,10 +15,10 @@ class _PreSurveyFinalState extends State<PreSurveyFinal> {
   void initState() {
     super.initState();
     // 3초 후에 HomeScreen으로 이동
-    Future.delayed(Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
+        MaterialPageRoute(builder: (context) => const loginScreen()),
       );
     });
   }
@@ -27,17 +27,17 @@ class _PreSurveyFinalState extends State<PreSurveyFinal> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.fromLTRB(31, 78, 31, 31),
+        padding: const EdgeInsets.fromLTRB(31, 78, 31, 31),
         width: double.infinity,
         height: double.infinity,
-        decoration: BoxDecoration(color: Colors.white),
+        decoration: const BoxDecoration(color: Colors.white),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.2,
-              child: Center(
+              child: const Center(
                 child: Text(
                   '김유진님, \n일주일치 식단 추천이 \n완료되었습니다!',
                   textAlign: TextAlign.center,
@@ -49,15 +49,14 @@ class _PreSurveyFinalState extends State<PreSurveyFinal> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               child: Icon(
                 Icons.check_circle_rounded,
-              color: Color(0xff118B50),
-              size: 70,
+                color: Color(0xff118B50),
+                size: 70,
               ),
             ),
           ],
-
         ),
       ),
     );

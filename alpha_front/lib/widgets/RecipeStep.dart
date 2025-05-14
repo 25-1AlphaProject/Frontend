@@ -44,6 +44,8 @@ class _RecipeStepState extends State<RecipeStep> {
           ),
           Text(
             widget.text,
+            softWrap: true,
+            textAlign: TextAlign.left,
             style: const TextStyle(
               fontFamily: "PretenderardVariable",
               fontSize: 20,

@@ -47,7 +47,6 @@ class _RecipeListState extends State<RecipeList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: BaseAppbar(title: '레시피'),
       body: Padding(
         padding: const EdgeInsets.all(30.0),
         child: Column(
@@ -90,7 +89,7 @@ class _RecipeListState extends State<RecipeList> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const recipeDescriptionScreen()));
+                              builder: (context) => const RecipeDetail()));
                     },
                     child: Column(
                       children: [
