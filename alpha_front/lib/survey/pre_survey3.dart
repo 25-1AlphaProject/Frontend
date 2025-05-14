@@ -71,7 +71,7 @@ class _PreSurvey3State extends State<PreSurvey3> {
               spacing: 8.0,
               children: selectedLikeFood.map((term) => ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xff118B50), 
+                  backgroundColor: Color(0xff3CB196), 
                   foregroundColor: Colors.white, 
                 ),
                 onPressed: () {},
@@ -107,7 +107,7 @@ class _PreSurvey3State extends State<PreSurvey3> {
           //                 }
           //               },
           //               style: ElevatedButton.styleFrom(
-          //                 backgroundColor: selectedLikeFood.contains(k) ? Color(0xff118B50) : Colors.white,
+          //                 backgroundColor: selectedLikeFood.contains(k) ? Color(0xff3CB196) : Colors.white,
           //                 foregroundColor: selectedLikeFood.contains(k) ? Colors.white : Colors.black,
           //               ),
           //               child: Text("$k", 
@@ -132,7 +132,7 @@ class _PreSurvey3State extends State<PreSurvey3> {
                     shape : RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    side: BorderSide(color: Color(0xff118B50), width: 1),
+                    side: BorderSide(color: Color(0xff3CB196), width: 1),
                     elevation: 3,
                     
                   ),
@@ -149,7 +149,7 @@ class _PreSurvey3State extends State<PreSurvey3> {
                       fontFamily: 'PretendartVariable',
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xff118B50),
+                      color: Color(0xff3CB196),
                 
                     ),
                   ),
@@ -163,11 +163,11 @@ class _PreSurvey3State extends State<PreSurvey3> {
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff118B50),
+                    backgroundColor: Color(0xff3CB196),
                     shape : RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    side: BorderSide(color: Color(0xff118B50), width: 1),
+                    side: BorderSide(color: Color(0xff3CB196), width: 1),
                     elevation: 3,
                     
                   ),

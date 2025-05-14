@@ -46,7 +46,7 @@ class _PreSurvey5State extends State<PreSurvey5> {
                     )
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xff118B50),
+                    borderSide: BorderSide(color: Color(0xff3CB196),
                     ),  
                   ),
                 ), 
@@ -100,7 +100,7 @@ class _PreSurvey5State extends State<PreSurvey5> {
                     shape : RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    side: BorderSide(color: Color(0xff118B50), width: 1),
+                    side: BorderSide(color: Color(0xff3CB196), width: 1),
                     elevation: 3,
                     
                   ),
@@ -117,7 +117,7 @@ class _PreSurvey5State extends State<PreSurvey5> {
                       fontFamily: 'PretendartVariable',
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xff118B50),
+                      color: Color(0xff3CB196),
                 
                     ),
                   ),
@@ -131,11 +131,11 @@ class _PreSurvey5State extends State<PreSurvey5> {
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff118B50),
+                    backgroundColor: Color(0xff3CB196),
                     shape : RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    side: BorderSide(color: Color(0xff118B50), width: 1),
+                    side: BorderSide(color: Color(0xff3CB196), width: 1),
                     elevation: 3,
                     
                   ),

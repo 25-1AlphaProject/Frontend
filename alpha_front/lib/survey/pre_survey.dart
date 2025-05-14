@@ -53,7 +53,7 @@ class _SurveyState extends State<Survey> {
                   )),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
-                      color: Color(0xff118B50),
+                      color: Color(0xff3CB196),
                     ),
                   ),
                 ),
@@ -77,12 +77,12 @@ class _SurveyState extends State<Survey> {
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: selectedGender == 1
-                        ? const Color(0xff118B50)
+                        ? const Color(0xff3CB196)
                         : Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    side: const BorderSide(color: Color(0xff118B50), width: 1),
+                    side: const BorderSide(color: Color(0xff3CB196), width: 1),
                     elevation: 3,
                   ),
                   onPressed: () {
@@ -98,19 +98,19 @@ class _SurveyState extends State<Survey> {
                       fontWeight: FontWeight.bold,
                       color: selectedGender == 1
                           ? Colors.white
-                          : const Color(0xff118B50),
+                          : const Color(0xff3CB196),
                     ),
                   ),
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: selectedGender == 2
-                        ? const Color(0xff118B50)
+                        ? const Color(0xff3CB196)
                         : Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    side: const BorderSide(color: Color(0xff118B50), width: 1),
+                    side: const BorderSide(color: Color(0xff3CB196), width: 1),
                     elevation: 3,
                   ),
                   onPressed: () {
@@ -126,7 +126,7 @@ class _SurveyState extends State<Survey> {
                       fontWeight: FontWeight.bold,
                       color: selectedGender == 2
                           ? Colors.white
-                          : const Color(0xff118B50),
+                          : const Color(0xff3CB196),
                     ),
                   ),
                 ),
@@ -142,7 +142,7 @@ class _SurveyState extends State<Survey> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    side: const BorderSide(color: Color(0xff118B50), width: 1),
+                    side: const BorderSide(color: Color(0xff3CB196), width: 1),
                     elevation: 3,
                   ),
                   onPressed: () {
@@ -157,7 +157,7 @@ class _SurveyState extends State<Survey> {
                       fontFamily: 'PretendartVariable',
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xff118B50),
+                      color: Color(0xff3CB196),
                     ),
                   ),
                 ),

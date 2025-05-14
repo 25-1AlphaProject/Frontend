@@ -50,7 +50,7 @@ class _PreSurvey1State extends State<PreSurvey1> {
                     )
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xff118B50),
+                    borderSide: BorderSide(color: Color(0xff3CB196),
                     ),  
                   ),
                 ), 
@@ -73,11 +73,11 @@ class _PreSurvey1State extends State<PreSurvey1> {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: selectedDish.contains(1) ? Color(0xff118B50) : Colors.white,
+                    backgroundColor: selectedDish.contains(1) ? Color(0xff3CB196) : Colors.white,
                     shape : RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    side: BorderSide(color: Color(0xff118B50), width: 1),
+                    side: BorderSide(color: Color(0xff3CB196), width: 1),
                     elevation: 3,
                   ),
                   onPressed: () {
@@ -97,18 +97,18 @@ class _PreSurvey1State extends State<PreSurvey1> {
                       fontFamily: 'PretendartVariable',
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
-                      color: selectedDish.contains(1) ? Colors.white : Color(0xff118B50),
+                      color: selectedDish.contains(1) ? Colors.white : Color(0xff3CB196),
 
                     ),
                   ),
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: selectedDish.contains(2)? Color(0xff118B50) : Colors.white,                    
+                    backgroundColor: selectedDish.contains(2)? Color(0xff3CB196) : Colors.white,                    
                     shape : RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    side: BorderSide(color: Color(0xff118B50), width: 1),
+                    side: BorderSide(color: Color(0xff3CB196), width: 1),
                     elevation: 3,
                   ),
                   onPressed: () {
@@ -128,18 +128,18 @@ class _PreSurvey1State extends State<PreSurvey1> {
                       fontFamily: 'PretendartVariable',
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
-                      color: selectedDish.contains(2) ? Colors.white : Color(0xff118B50),
+                      color: selectedDish.contains(2) ? Colors.white : Color(0xff3CB196),
 
                     ),
                   ),
                 ),
                 ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: selectedDish.contains(3) ? Color(0xff118B50) : Colors.white,
+                        backgroundColor: selectedDish.contains(3) ? Color(0xff3CB196) : Colors.white,
                         shape : RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
                         ),
-                        side: BorderSide(color: Color(0xff118B50), width: 1),
+                        side: BorderSide(color: Color(0xff3CB196), width: 1),
                         elevation: 3,
                       ),
                       onPressed: () {
@@ -159,7 +159,7 @@ class _PreSurvey1State extends State<PreSurvey1> {
                           fontFamily: 'PretendartVariable',
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
-                          color: selectedDish.contains(3) ? Colors.white : Color(0xff118B50),
+                          color: selectedDish.contains(3) ? Colors.white : Color(0xff3CB196),
 
                         ),
                       ),
@@ -176,7 +176,7 @@ class _PreSurvey1State extends State<PreSurvey1> {
                     shape : RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    side: BorderSide(color: Color(0xff118B50), width: 1),
+                    side: BorderSide(color: Color(0xff3CB196), width: 1),
                     elevation: 3,
                     
                   ),
@@ -193,7 +193,7 @@ class _PreSurvey1State extends State<PreSurvey1> {
                       fontFamily: 'PretendartVariable',
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xff118B50),
+                      color: Color(0xff3CB196),
                 
                     ),
                   ),
@@ -207,11 +207,11 @@ class _PreSurvey1State extends State<PreSurvey1> {
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff118B50),
+                    backgroundColor: Color(0xff3CB196),
                     shape : RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    side: BorderSide(color: Color(0xff118B50), width: 1),
+                    side: BorderSide(color: Color(0xff3CB196), width: 1),
                     elevation: 3,
                     
                   ),

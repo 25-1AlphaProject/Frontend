@@ -105,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
           },
           child: const Icon(
             Icons.camera_alt,
-            color: Color(0xff118B50),
+            color: Color(0xff3CB196),
           )),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: SingleChildScrollView(

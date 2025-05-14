@@ -65,7 +65,7 @@ class _PreSurvey4State extends State<PreSurvey4> {
                     )
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xff118B50),
+                    borderSide: BorderSide(color: Color(0xff3CB196),
                     ),  
                   ),
                 ), 
@@ -78,7 +78,7 @@ class _PreSurvey4State extends State<PreSurvey4> {
               spacing: 8.0,
               children: selectedDisease.map((term) => ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xff118B50), 
+                  backgroundColor: Color(0xff3CB196), 
                   foregroundColor: Colors.white, 
                 ),
                 onPressed: () {},
@@ -107,7 +107,7 @@ class _PreSurvey4State extends State<PreSurvey4> {
                     shape : RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    side: BorderSide(color: Color(0xff118B50), width: 1),
+                    side: BorderSide(color: Color(0xff3CB196), width: 1),
                     elevation: 3,
                     
                   ),
@@ -124,7 +124,7 @@ class _PreSurvey4State extends State<PreSurvey4> {
                       fontFamily: 'PretendartVariable',
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xff118B50),
+                      color: Color(0xff3CB196),
                 
                     ),
                   ),
@@ -138,11 +138,11 @@ class _PreSurvey4State extends State<PreSurvey4> {
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff118B50),
+                    backgroundColor: Color(0xff3CB196),
                     shape : RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    side: BorderSide(color: Color(0xff118B50), width: 1),
+                    side: BorderSide(color: Color(0xff3CB196), width: 1),
                     elevation: 3,
                     
                   ),

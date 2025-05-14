@@ -49,40 +49,40 @@ class _MealEditState extends State<MealEdit> {
                 children: [
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: selectedIndex == 1 ? Color(0xFF118B50) : Colors.white,
+                      backgroundColor: selectedIndex == 1 ? Color(0xff3CB196) : Colors.white,
                     ),
                     onPressed: () => _onButtonPressed(1),
                   child: Text(
                       '아침',
                       style: TextStyle(
-                        color: selectedIndex == 1 ? Colors.white : Color(0xff118B50),
+                        color: selectedIndex == 1 ? Colors.white : Color(0xff3CB196),
                       ),
                     ),
                   ),
                   SizedBox(width: 10,),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: selectedIndex == 2 ? Color(0xFF118B50) : Colors.white,
+                      backgroundColor: selectedIndex == 2 ? Color(0xff3CB196) : Colors.white,
                     ),
                     onPressed: () => _onButtonPressed(2), 
                   child: Text(
                       '점심',
                       style: TextStyle(
-                        color: selectedIndex == 2 ? Colors.white : Color(0xff118B50),
+                        color: selectedIndex == 2 ? Colors.white : Color(0xff3CB196),
                       ),
                     ),
                   ),
                   SizedBox(width: 10,),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: selectedIndex == 3 ? Color(0xFF118B50) : Colors.white,
+                      backgroundColor: selectedIndex == 3 ? Color(0xff3CB196) : Colors.white,
                     ),
                     onPressed: () => _onButtonPressed(3),
               
                     child: Text(
                       '저녁',
                       style: TextStyle(
-                        color: selectedIndex == 3 ? Colors.white : Color(0xff118B50),
+                        color: selectedIndex == 3 ? Colors.white : Color(0xff3CB196),
                       ),
                     ),
                   ),
@@ -102,11 +102,11 @@ class _MealEditState extends State<MealEdit> {
                   width: double.infinity,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xff118B50),
+                      backgroundColor: Color(0xff3CB196),
                       shape : RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
-                      side: BorderSide(color: Color(0xff118B50), width: 1),
+                      side: BorderSide(color: Color(0xff3CB196), width: 1),
                       elevation: 3,
                       
                     ),
