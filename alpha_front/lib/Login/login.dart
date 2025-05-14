@@ -32,19 +32,18 @@ class _loginScreenState extends State<loginScreen> {
                   '척척밥사',
                   style: TextStyle(
                     fontFamily: 'yg-jalnan',
-                    fontSize: 32,
+                    fontSize: 40,
                     fontWeight: FontWeight.bold,
-                    color: Colors.green.shade800,
+                    color: Color(0xff3CB196),
                   ),
                 ), //앱명
                 const SizedBox(height: 100),
                 TextField(
                   decoration: InputDecoration(
                     hintText: '아이디를 입력해주세요',
-                    hintStyle: TextStyle(
-                      fontFamily: 'Pretendard-light',
-                      color: Colors.grey.shade400,
-                    ),
+                    hintStyle: Theme.of(context).textTheme.bodyMedium,
+                    //   color: Colors.grey.shade400,
+                    // ),
                     // filled: true,
                     // fillColor: Colors.white,
                     enabledBorder: const UnderlineInputBorder(

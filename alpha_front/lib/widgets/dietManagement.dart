@@ -53,15 +53,15 @@ class _DietManagementWidgetState extends State<DietManagementWidget> {
                       fontFamily: "PretenderardVariable",
                     )),
                 const SizedBox(width: 4),
-                const Text(
-                  "평소에 비해 탄수화물이 부족합니다!",
-                  style: TextStyle(
-                    fontSize: 9,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromRGBO(178, 178, 178, 1.0),
-                    fontFamily: "PretenderardVariable",
-                  ),
-                ),
+                // const Text(
+                //   "평소에 비해 탄수화물이 부족합니다!",
+                //   style: TextStyle(
+                //     fontSize: 9,
+                //     fontWeight: FontWeight.bold,
+                //     color: Color.fromRGBO(178, 178, 178, 1.0),
+                //     fontFamily: "PretenderardVariable",
+                //   ),
+                // ),
                 const SizedBox(width: 10),
                 IconButton(onPressed: () {}, icon: const Icon(Icons.edit)),
               ],

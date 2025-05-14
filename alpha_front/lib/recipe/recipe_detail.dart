@@ -1,5 +1,5 @@
-import 'package:alpha_front/widgets/baseappbar.dart';
-import 'package:alpha_front/widgets/basenavigationbar.dart';
+import 'package:alpha_front/widgets/base_app_bar.dart';
+import 'package:alpha_front/widgets/bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 
 class RecipeDetail extends StatefulWidget {
@@ -13,7 +13,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      appBar: BaseAppbar(title: '레시피'),
+      // appBar: BaseAppbar(title: '레시피'),
 //       body: Container(
 //         width: double.infinity,
 //         height: MediaQuery.of(context).size.height * 0.35,

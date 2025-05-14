@@ -1,4 +1,4 @@
-import 'package:alpha_front/widgets/baseappbar.dart';
+import 'package:alpha_front/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:linear_progress_bar/linear_progress_bar.dart';
 import 'package:alpha_front/widgets/RecipeStep.dart';
@@ -29,16 +29,17 @@ class _recipeDescriptionScreenState extends State<recipeDescriptionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const BaseAppbar(
-        title: '김치볶음밥',
-        titleAlign: TextAlign.left,
-        titleStyle: TextStyle(
-          fontFamily: "PretendardVariable",
-          fontWeight: FontWeight.normal,
-          color: Color.fromRGBO(123, 123, 123, 1.0),
-          fontSize: 15,
-        ),
-      ),
+      ////// 앱바 수정 필요
+      // appBar: const BaseAppbar(
+      //   title: '김치볶음밥',
+      //   titleAlign: TextAlign.left,
+      //   titleStyle: TextStyle(
+      //     fontFamily: "PretendardVariable",
+      //     fontWeight: FontWeight.normal,
+      //     color: Color.fromRGBO(123, 123, 123, 1.0),
+      //     fontSize: 15,
+      //   ),
+      // ),
       // appBar: AppBar(
       //   leading: IconButton(
       //       onPressed: () {
