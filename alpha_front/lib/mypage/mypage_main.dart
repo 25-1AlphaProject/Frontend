@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:alpha_front/Login/login.dart';
 import 'package:alpha_front/mypage/mypage_mylike.dart';
 import 'package:alpha_front/mypage/mypage_myscrap.dart';
-import 'package:alpha_front/widgets/baseappbar.dart';
-import 'package:alpha_front/widgets/basenavigationbar.dart';
+import 'package:alpha_front/widgets/base_app_bar.dart';
+import 'package:alpha_front/widgets/bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -85,7 +85,7 @@ Future<void> _editMyinfo() async {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: BaseAppbar(title: '마이페이지'),
+      // appBar: BaseAppbar(title: '마이페이지'),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -155,14 +155,16 @@ Future<void> _editMyinfo() async {
                   elevation: 3,
                 ),
                 onPressed: _editMyinfo,
-                child: const Text(
+                child: Text(
                   '내정보',
-                  style: TextStyle(
-                    fontFamily: 'PretendartVariable',
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xff118B50),
-                  ),
+                  // style: TextStyle(
+                  //   fontFamily: 'PretendardVariable',
+                  //   fontSize: 15,
+                  //   fontWeight: FontWeight.bold,
+                  //   color: Color(0xff118B50),
+                  // ),
+                  style: Theme.of(context).textTheme.bodyMedium,
+
                 ),
               ),
             ),
@@ -185,14 +187,15 @@ Future<void> _editMyinfo() async {
                       MaterialPageRoute(
                           builder: (context) => const MypageMyscrap()));
                 },
-                child: const Text(
+                child: Text(
                   '내가 스크랩한 글',
-                  style: TextStyle(
-                    fontFamily: 'PretendartVariable',
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xff118B50),
-                  ),
+                  // style: TextStyle(
+                  //   fontFamily: 'PretendartVariable',
+                  //   fontSize: 15,
+                  //   fontWeight: FontWeight.bold,
+                  //   color: Color(0xff118B50),
+                  // ),
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ),
             ),
@@ -215,14 +218,15 @@ Future<void> _editMyinfo() async {
                       MaterialPageRoute(
                           builder: (context) => const MypageMylike()));
                 },
-                child: const Text(
+                child: Text(
                   '내가 좋아요한 글',
-                  style: TextStyle(
-                    fontFamily: 'PretendartVariable',
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xff118B50),
-                  ),
+                  // style: TextStyle(
+                  //   fontFamily: 'PretendartVariable',
+                  //   fontSize: 15,
+                  //   fontWeight: FontWeight.bold,
+                  //   color: Color(0xff118B50),
+                  // ),
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ),
             ),
@@ -245,14 +249,15 @@ Future<void> _editMyinfo() async {
                       MaterialPageRoute(
                           builder: (context) => const MypageMywrite()));
                 },
-                child: const Text(
+                child: Text(
                   '내가 쓴 글',
-                  style: TextStyle(
-                    fontFamily: 'PretendartVariable',
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xff118B50),
-                  ),
+                  // style: TextStyle(
+                  //   fontFamily: 'PretendartVariable',
+                  //   fontSize: 15,
+                  //   fontWeight: FontWeight.bold,
+                  //   color: Color(0xff118B50),
+                  // ),
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ),
             ),
@@ -275,14 +280,15 @@ Future<void> _editMyinfo() async {
                       MaterialPageRoute(
                           builder: (context) => const MypageMyscrap()));
                 },
-                child: const Text(
+                child: Text(
                   '내가 쓴 댓글',
-                  style: TextStyle(
-                    fontFamily: 'PretendartVariable',
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xff118B50),
-                  ),
+                  // style: TextStyle(
+                  //   fontFamily: 'PretendartVariable',
+                  //   fontSize: 15,
+                  //   fontWeight: FontWeight.bold,
+                  //   color: Color(0xff118B50),
+                  // ),
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ),
             ),
@@ -305,14 +311,15 @@ Future<void> _editMyinfo() async {
                       MaterialPageRoute(
                           builder: (context) => const MypageMylike()));
                 },
-                child: const Text(
+                child: Text(
                   '내가 저장한 레시피',
-                  style: TextStyle(
-                    fontFamily: 'PretendartVariable',
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xff118B50),
-                  ),
+                  // style: TextStyle(
+                  //   fontFamily: 'PretendartVariable',
+                  //   fontSize: 15,
+                  //   fontWeight: FontWeight.bold,
+                  //   color: Color(0xff118B50),
+                  // ),
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ),
             ),
@@ -339,7 +346,7 @@ Future<void> _editMyinfo() async {
                 },
                 child: const Text(
                   '로그아웃',
-                  style: TextStyle(
+                  style: TextStyle( // 수정
                     fontFamily: 'yg-jalnan',
                     fontSize: 15,
                     fontWeight: FontWeight.w500,

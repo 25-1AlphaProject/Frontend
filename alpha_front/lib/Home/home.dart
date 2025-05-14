@@ -3,10 +3,10 @@ import 'package:alpha_front/meal/meal_edit.dart';
 import 'package:alpha_front/report/report_main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:alpha_front/widgets/baseappbar.dart';
+import 'package:alpha_front/widgets/base_app_bar.dart';
 import 'package:alpha_front/widgets/kcalWidget.dart';
 import 'package:alpha_front/widgets/dietManagement.dart';
-import 'package:alpha_front/widgets/basenavigationbar.dart';
+import 'package:alpha_front/widgets/bottom_nav_bar.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:alpha_front/widgets/weekCal.dart';
 
@@ -47,23 +47,24 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '척척밥사',
-          style: TextStyle(
-            fontFamily: 'yg-jalnan',
-            fontSize: 32,
-            fontWeight: FontWeight.bold,
-            color: Colors.green.shade800,
-          ),
-        ),
-        backgroundColor: Colors.white.withAlpha(0),
-        elevation: 0,
-        centerTitle: true,
-      ),
-      bottomNavigationBar: const Basenavigationbar(
-        currentIndex: 0,
-      ),
+      backgroundColor: Colors.white,
+      // appBar: AppBar(
+      //   title: Text(
+      //     '척척밥사',
+      //     style: TextStyle(
+      //       fontFamily: 'yg-jalnan',
+      //       fontSize: 32,
+      //       fontWeight: FontWeight.bold,
+      //       color: Colors.green.shade800,
+      //     ),
+      //   ),
+      //   backgroundColor: Colors.white.withAlpha(0),
+      //   elevation: 0,
+      //   centerTitle: true,
+      // ),
+      // bottomNavigationBar: const Basenavigationbar(
+      //   currentIndex: 0,
+      // ),
       // floatingActionButton: GestureDetector(
       //   onTap: () {},
       //   child: Container(
@@ -112,8 +113,8 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(height: 20),
-            const Weekcal(),
+            // const SizedBox(height: 20),
+            // const Weekcal(),
             const SizedBox(height: 28),
             ElevatedButton(
               onPressed: () {
