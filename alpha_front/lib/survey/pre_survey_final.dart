@@ -43,19 +43,17 @@ class _PreSurveyFinalState extends State<PreSurveyFinal> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Color(0xff3CB196),
-                    fontFamily: 'yg-jalnan',
+                    fontFamily: 'Pretendard-bold',
                     fontSize: 30,
                   ),
                 ),
               ),
             ),
-            const SizedBox(
-              child: Icon(
-                Icons.check_circle_rounded,
-                color: Color(0xff3CB196),
-                size: 70,
-              ),
-            ),
+            // Image(
+            //   image: AssetImage(
+            //     'alpha_front/assets/images/character.png'
+            //     )
+            //   )
           ],
         ),
       ),

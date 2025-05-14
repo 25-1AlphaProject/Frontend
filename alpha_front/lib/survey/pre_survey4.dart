@@ -1,4 +1,5 @@
 import 'package:alpha_front/survey/pre_survey5.dart';
+import 'package:alpha_front/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class PreSurvey4 extends StatefulWidget {
@@ -31,11 +32,11 @@ class _PreSurvey4State extends State<PreSurvey4> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: BaseAppbar(),
       body: Container(
-        padding: EdgeInsets.fromLTRB(31, 78, 31, 31),
+        padding: EdgeInsets.fromLTRB(33, 78, 33, 31),
         width: double.infinity,
         height: double.infinity,
-        decoration: BoxDecoration(color: Colors.white),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -43,14 +44,18 @@ class _PreSurvey4State extends State<PreSurvey4> {
               height: MediaQuery.of(context).size.height * 0.2,
               child: Align(
                 alignment: Alignment.topLeft,
-                child: Text(
-                  '식이요법 관리가 필요한 \n질환이 있나요?',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: 'yg-jalnan',
-                    fontSize: 30,
-                  ),
-                ),
+                 child: Text.rich(
+                    TextSpan(
+                      text: '식단 관리',
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontFamily: 'Pretendard-bold'),
+                      children: [
+                        TextSpan(
+                          text: '가 필요한 \n질환이 있나요?',
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                      ],
+                    ),
+                  )
               ),
             ),
 
@@ -60,6 +65,7 @@ class _PreSurvey4State extends State<PreSurvey4> {
                 keyboardType : TextInputType.number,
                 decoration: InputDecoration(
                   hintText: '질환명',
+                    hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Color(0xffb6b6b6)),
                   enabledBorder : UnderlineInputBorder(
                     borderSide: BorderSide(color: Color(0xff000000),
                     )
@@ -95,77 +101,73 @@ class _PreSurvey4State extends State<PreSurvey4> {
                 ),
               )).toList(),
             ),
-            SizedBox(height: 20),
 
-            Center(
-              child: Container(
-                padding: EdgeInsets.fromLTRB(10, 50, 10, 10),
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    shape : RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    side: BorderSide(color: Color(0xff3CB196), width: 1),
-                    elevation: 3,
+              SizedBox(height: 150,),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                        // margin: const EdgeInsets.fromLTRB(10, 50, 10, 20),
+                        width: double.infinity,
+                        child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xffd9d9d9),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 18),
+                          minimumSize: const Size(double.infinity, 50),
+                          elevation: 3,
+                          ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PreSurvey5())
+                          );
+                        }, 
+                          child: Text(
+                          '생략할게요',
+                              style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Color(0xff4d4d4d)),
                     
+                        ),
+                        ),
+                    )
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => PreSurvey5())
-                    );
-                  }, 
-                    child: Text(
-                    '다음',
-                      style: TextStyle(
-                      fontFamily: 'PretendartVariable',
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xff3CB196),
-                
-                    ),
-                  ),
-                  ),
-              ),
-            ),
-
-            Center(
-              child: Container(
-                padding: EdgeInsets.fromLTRB(10, 10, 10, 30),
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff3CB196),
-                    shape : RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    side: BorderSide(color: Color(0xff3CB196), width: 1),
-                    elevation: 3,
+                  SizedBox(width: 14,),
+                  Expanded(
+                    flex: 2,
+                      child: Container(
+                        // margin: const EdgeInsets.fromLTRB(10, 50, 10, 20),
+                        width: double.infinity,
+                        child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xff3CB196),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 18),
+                          minimumSize: const Size(double.infinity, 50),
+                          elevation: 3,
+                          ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PreSurvey5())
+                          );
+                        }, 
+                          child: Text(
+                          '다음',
+                              style: Theme.of(context).textTheme.labelMedium,
                     
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => PreSurvey5())
-                    );
-                  }, 
-                    child: Text(
-                    '생략할게요',
-                      style: TextStyle(
-                      fontFamily: 'PretendartVariable',
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                
+                        ),
+                        ),
                     ),
                   ),
-                  ),
+                ],
               ),
-            ),
           ]
           
         )
@@ -173,3 +175,73 @@ class _PreSurvey4State extends State<PreSurvey4> {
     );
   }
 }
+
+
+// Row(
+//   children: [
+//     // 생략 버튼 (빈 리스트 전송)
+//     Expanded(
+//       flex: 1,
+//       child: ElevatedButton(
+//         style: ElevatedButton.styleFrom(
+//           backgroundColor: Color(0xffd9d9d9),
+//           shape: RoundedRectangleBorder(
+//             borderRadius: BorderRadius.circular(15),
+//           ),
+//           padding: const EdgeInsets.symmetric(vertical: 18),
+//           elevation: 3,
+//         ),
+//         onPressed: () async {
+//           final success = await ApiService.sendDiseases([]);
+//           if (success) {
+//             print("성공: 질환 없음");
+//             if (!mounted) return;
+//             Navigator.push(
+//               context,
+//               MaterialPageRoute(builder: (context) => PreSurvey5()),
+//             );
+//           }
+//         },
+//         child: Text(
+//           '생략할게요',
+//           style: Theme.of(context)
+//               .textTheme
+//               .labelMedium!
+//               .copyWith(color: Color(0xff4d4d4d)),
+//         ),
+//       ),
+//     ),
+//     const SizedBox(width: 14),
+    
+//     // 다음 버튼 (selectedDisease 전송)
+//     Expanded(
+//       flex: 2,
+//       child: ElevatedButton(
+//         style: ElevatedButton.styleFrom(
+//           backgroundColor: Color(0xff3CB196),
+//           shape: RoundedRectangleBorder(
+//             borderRadius: BorderRadius.circular(15),
+//           ),
+//           padding: const EdgeInsets.symmetric(vertical: 18),
+//           elevation: 3,
+//         ),
+//         onPressed: () async {
+//           final success = await ApiService.sendDiseases(selectedDisease);
+//           if (success) {
+//             print("성공: ${selectedDisease.toString()}");
+//             if (!mounted) return;
+//             Navigator.push(
+//               context,
+//               MaterialPageRoute(builder: (context) => PreSurvey5()),
+//             );
+//           }
+//         },
+//         child: Text(
+//           '다음',
+//           style: Theme.of(context).textTheme.labelMedium,
+//         ),
+//       ),
+//     ),
+//   ],
+// )
+

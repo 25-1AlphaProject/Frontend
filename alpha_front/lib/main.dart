@@ -6,6 +6,7 @@ import 'package:alpha_front/report/report_main.dart';
 import 'package:alpha_front/survey/pre_survey.dart';
 import 'package:alpha_front/Login/login.dart';
 import 'package:alpha_front/SignUp/signup.dart';
+import 'package:alpha_front/survey/pre_survey1.dart';
 import 'package:flutter/material.dart';
 import 'package:alpha_front/Splash/splash.dart';
 import 'package:alpha_front/SignUp/signup_loading.dart';
@@ -58,7 +59,7 @@ class CCBS extends StatelessWidget {
         useMaterial3: true,
       ),
       // home: const MyHomePage(title: '척척밥사'),
-      home: signupScreen(),
+      home: Survey(),
       // home: const MypageMain(),
       // home: loginScreen(),
       // home: const signupScreen(),
