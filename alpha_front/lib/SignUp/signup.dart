@@ -232,7 +232,7 @@ class _signupScreenState extends State<signupScreen> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    padding: const EdgeInsets.symmetric(vertical: 18),
                     minimumSize: const Size(double.infinity, 50),
                     elevation: 0,
                     ),
