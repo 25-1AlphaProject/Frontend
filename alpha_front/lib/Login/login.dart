@@ -1,4 +1,3 @@
-import 'package:alpha_front/survey/pre_survey.dart';
 import 'package:flutter/material.dart';
 import 'package:alpha_front/SignUp/signup.dart';
 import 'package:alpha_front/Home/home.dart';
@@ -36,35 +35,46 @@ class _loginScreenState extends State<loginScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.4,
+                  width: double.infinity,
+                  child: const Image(
+                    image: AssetImage(
+                      // image 변경 - url => network
+                      'alpha_front/assets/images/login_logo.png',
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 11),
+                const Text(
                   '척척밥사',
                   style: TextStyle(
                     fontFamily: 'yg-jalnan',
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
-                    color: Colors.green.shade800,
+                    color: Color.fromRGBO(60, 177, 150, 1.0),
                   ),
                 ), //앱명
-                const SizedBox(height: 100),
+                const SizedBox(height: 99),
                 TextField(
                   controller: _idController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: '아이디를 입력해주세요',
                     hintStyle: TextStyle(
                       fontFamily: 'Pretendard-light',
-                      color: Colors.grey.shade400,
+                      color: Color.fromRGBO(182, 182, 182, 1.0),
                     ),
                     // filled: true,
                     // fillColor: Colors.white,
-                    enabledBorder: const UnderlineInputBorder(
+                    enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.black),
                     ),
-                    focusedBorder: const UnderlineInputBorder(
+                    focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.black),
                     ),
                   ),
                 ), // 아이디
-                const SizedBox(height: 20),
+                const SizedBox(height: 35),
                 TextField(
                   obscureText: !isPasswordVisible,
                   onChanged: (value) {
@@ -75,9 +85,9 @@ class _loginScreenState extends State<loginScreen> {
                   controller: _pwController,
                   decoration: InputDecoration(
                     hintText: '비밀번호를 입력해주세요',
-                    hintStyle: TextStyle(
+                    hintStyle: const TextStyle(
                       fontFamily: 'Pretendard-light',
-                      color: Colors.grey.shade400,
+                      color: Color.fromRGBO(182, 182, 182, 1.0),
                     ),
                     suffixIcon: showSuffixIcon
                         ? IconButton(
@@ -90,7 +100,7 @@ class _loginScreenState extends State<loginScreen> {
                               isPasswordVisible
                                   ? Icons.visibility
                                   : Icons.visibility_off_rounded,
-                              color: const Color.fromRGBO(121, 121, 121, 1.0),
+                              color: const Color.fromRGBO(182, 182, 182, 1.0),
                               size: 16,
                             ),
                           )
@@ -103,7 +113,7 @@ class _loginScreenState extends State<loginScreen> {
                     ),
                   ),
                 ), // 비번
-                const SizedBox(height: 100),
+                const SizedBox(height: 51),
                 ElevatedButton(
                   onPressed: () async {
                     final id = _idController.text.trim();
@@ -155,9 +165,9 @@ class _loginScreenState extends State<loginScreen> {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey.shade400,
+                    backgroundColor: const Color.fromRGBO(60, 177, 150, 1.0),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(15),
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 15),
                     minimumSize: const Size(double.infinity, 50),
@@ -167,24 +177,26 @@ class _loginScreenState extends State<loginScreen> {
                     "로그인하기",
                     style: TextStyle(
                       fontFamily: 'Pretendard-light',
-                      fontSize: 18,
+                      fontSize: 20,
                       color: Colors.black87,
                     ),
                   ),
                 ), //로그인 버튼
-                const SizedBox(height: 70),
+                const SizedBox(height: 23),
                 TextButton(
                   onPressed: () {},
-                  child: Text(
+                  child: const Text(
                     '아이디 / 비밀번호 찾기',
                     style: TextStyle(
                       fontFamily: 'Pretendard-light',
-                      color: Colors.green.shade700,
-                      decorationColor: Colors.green.shade700,
+                      fontSize: 15,
+                      color: Color.fromRGBO(60, 177, 150, 1.0),
+                      decorationColor: Color.fromRGBO(60, 177, 150, 1.0),
                       decoration: TextDecoration.underline,
                     ),
                   ),
                 ), //아이디/비밀번호 찾기 버튼
+                const SizedBox(height: 11),
                 TextButton(
                   onPressed: () {
                     Navigator.pushReplacement(
@@ -193,12 +205,13 @@ class _loginScreenState extends State<loginScreen> {
                           builder: (context) => const signupScreen()),
                     );
                   },
-                  child: Text(
+                  child: const Text(
                     '아직 회원이 아니신가요? 회원가입 하기',
                     style: TextStyle(
                       fontFamily: 'Pretendard-light',
-                      color: Colors.green.shade700,
-                      decorationColor: Colors.green.shade700,
+                      fontSize: 15,
+                      color: Color.fromRGBO(60, 177, 150, 1.0),
+                      decorationColor: Color.fromRGBO(60, 177, 150, 1.0),
                       decoration: TextDecoration.underline,
                     ),
                   ),
