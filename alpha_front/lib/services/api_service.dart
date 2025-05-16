@@ -44,7 +44,7 @@ class ApiService {
           'password': pw,
           'name': name,
           'nickname': nickname,
-          'phoneNumber': email,
+          'email': email,
         }),
       );
 
