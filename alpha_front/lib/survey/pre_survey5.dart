@@ -1,3 +1,4 @@
+import 'package:alpha_front/survey/diet_info.dart';
 import 'package:alpha_front/survey/pre_survey6.dart';
 import 'package:alpha_front/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -10,15 +11,36 @@ class PreSurvey5 extends StatefulWidget {
 }
 
 class _PreSurvey5State extends State<PreSurvey5> {
+
+  final TextEditingController targetCaloriesController = TextEditingController();
+
+  void _goToNext() {
+    int target_calories = int.tryParse(targetCaloriesController.text.trim()) ?? 0;
+      
+    DietInfo.targetCalories = target_calories;
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => PreSurvey6()),
+    );
+  }
+
+  void _skip() {
+    DietInfo.targetCalories = 0;
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => PreSurvey6()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: false,
       appBar: BaseAppbar(),
-      body: Container(
+      body: Padding(
         padding: EdgeInsets.fromLTRB(33, 78, 33, 31),
-        width: double.infinity,
-        height: double.infinity,
-        decoration: BoxDecoration(color: Colors.white),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -44,6 +66,8 @@ class _PreSurvey5State extends State<PreSurvey5> {
             Container(
               margin: EdgeInsets.fromLTRB(10, 20, 10, 20),
               child: TextField(
+                controller: targetCaloriesController,
+                style: Theme.of(context).textTheme.bodyMedium,
                 keyboardType : TextInputType.number,
                 decoration: InputDecoration(
                   hintText: '칼로리',
@@ -69,30 +93,39 @@ class _PreSurvey5State extends State<PreSurvey5> {
                   color: Colors.green[50],
 
                 ),
-                child: Column(
+                child: Row(
                   children: [
-                    Text.rich(
-                      TextSpan(
-                        children: [
-                          TextSpan(
-                            text: '계산식\n',
-                            style: TextStyle(fontFamily: 'PretendardVariable', fontSize: 15,fontWeight: FontWeight.bold),
-                          ),
-                          TextSpan(
-                            text: '체중(kg) x 24 x 활동계수 = 하루 섭취량\n남자: 66.47 + (13.75 x 체중) + (5 x 키) - (6.76 x 나이)\n여자: 655.1 + (9.56 x 체중) + (1.85 x 키) - (4.68 x 나이)\n',
-                            style: TextStyle(fontFamily: 'PretendardVariable', fontSize: 15,fontWeight: FontWeight.w500),
-                          ),
-                          TextSpan(
-                            text: '활동계수\n',
-                            style: TextStyle(fontFamily: 'PretendardVariable', fontSize: 15,fontWeight: FontWeight.bold),
-                          ),
-                          TextSpan(
-                            text: '좌식 생활자 : 1.2\n회사원 : 1.5\n노동 강도 높은 사람 : 1.7\n을 활동계수에 넣습니다.',
-                            style: TextStyle(fontFamily: 'PretendardVariable', fontSize: 15,fontWeight: FontWeight.w500),
-                          )
-                        ]
+                    Image(
+                      image: AssetImage(
+                        '../assets/images/character.png'
                         )
-                    )
+                      ),
+                    Column(
+                      children: [
+                        Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text: '계산식\n',
+                                style: TextStyle(fontFamily: 'PretendardVariable', fontSize: 11,fontWeight: FontWeight.bold),
+                              ),
+                              TextSpan(
+                                text: '체중(kg) x 24 x 활동계수 = 하루 섭취량\n남자: 66.47 + (13.75 x 체중) + (5 x 키) - (6.76 x 나이)\n여자: 655.1 + (9.56 x 체중) + (1.85 x 키) - (4.68 x 나이)\n',
+                                style: TextStyle(fontFamily: 'PretendardVariable', fontSize: 11,fontWeight: FontWeight.w500),
+                              ),
+                              TextSpan(
+                                text: '활동계수\n',
+                                style: TextStyle(fontFamily: 'PretendardVariable', fontSize: 11,fontWeight: FontWeight.bold),
+                              ),
+                              TextSpan(
+                                text: '좌식 생활자 : 1.2\n회사원 : 1.5\n노동 강도 높은 사람 : 1.7\n을 활동계수에 넣습니다.',
+                                style: TextStyle(fontFamily: 'PretendardVariable', fontSize: 11,fontWeight: FontWeight.w500),
+                              )
+                            ]
+                            )
+                        )
+                      ],
+                    ),
                   ],
                 )
               ),
@@ -147,13 +180,7 @@ class _PreSurvey5State extends State<PreSurvey5> {
                           minimumSize: const Size(double.infinity, 50),
                           elevation: 3,
                           ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => PreSurvey6())
-                          );
-                        }, 
+                        onPressed: _goToNext,
                           child: Text(
                           '다음',
                               style: Theme.of(context).textTheme.labelMedium,

@@ -1,5 +1,6 @@
 // 질문 글씨 굵기 다르게 / 작성된 글씨 색상 조절
 
+import 'package:alpha_front/survey/diet_info.dart';
 import 'package:alpha_front/survey/pre_survey1.dart';
 import 'package:alpha_front/survey/pre_survey2.dart';
 import 'package:alpha_front/widgets/base_app_bar.dart';
@@ -13,9 +14,19 @@ class Survey extends StatefulWidget {
 }
 
 class _SurveyState extends State<Survey> {
-  int selectedGender = 0;
-  List<int> selectedDish = [];
-  String name = '김유진';
+  String selectedGender = '';
+  final TextEditingController ageController = TextEditingController();
+
+  void _goToNext() {
+    DietInfo.gender = selectedGender;
+    DietInfo.age = int.tryParse(ageController.text) ?? 0;
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => PreSurvey1()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +48,7 @@ class _SurveyState extends State<Survey> {
                   alignment: Alignment.topLeft,
                   child: Text.rich(
                     TextSpan(
-                      text: '김유진님',
+                      text: '회원님',
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontFamily: 'Pretendard-bold'),
                       children: [
                         TextSpan(
@@ -52,6 +63,8 @@ class _SurveyState extends State<Survey> {
               Container(
                 margin: const EdgeInsets.fromLTRB(10, 20, 10, 20),
                 child: TextField(
+                  controller: ageController,
+                  style: Theme.of(context).textTheme.bodyMedium,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     hintText: '나이',
@@ -82,25 +95,25 @@ class _SurveyState extends State<Survey> {
                 children: [
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: selectedGender == 1
+                      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 60),
+                      backgroundColor: selectedGender == 'F'
                           ? const Color(0xff3CB196)
-                          : Colors.white,
+                          : Color(0xffECF8F5),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
-                      side: const BorderSide(color: Color(0xff3CB196), width: 1),
                       elevation: 3,
                     ),
                     onPressed: () {
                       setState(() {
-                        selectedGender = 1;
+                        selectedGender = 'F';
                       });
                     },
                     child: Text(
                       '여자',
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontFamily: 'Pretendard-bold',
-                        color: selectedGender == 1
+                        color: selectedGender == 'F'
                             ? Colors.white
                             : const Color(0xff3CB196),
                       ),
@@ -108,25 +121,25 @@ class _SurveyState extends State<Survey> {
                   ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: selectedGender == 2
+                      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 60),
+                      backgroundColor: selectedGender == 'M'
                           ? const Color(0xff3CB196)
-                          : Colors.white,
+                          : Color(0xffECF8F5),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
-                      side: const BorderSide(color: Color(0xff3CB196), width: 1),
                       elevation: 3,
                     ),
                     onPressed: () {
                       setState(() {
-                        selectedGender = 2;
+                        selectedGender = 'M';
                       });
                     },
                     child: Text(
                       '남자',
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontFamily: 'Pretendard-bold',
-                        color: selectedGender == 1
+                        color: selectedGender == 'M'
                             ? Colors.white
                             : const Color(0xff3CB196),
                       ),
@@ -149,12 +162,13 @@ class _SurveyState extends State<Survey> {
                     minimumSize: const Size(double.infinity, 50),
                     elevation: 3,
                     ),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const PreSurvey1()));
-                    },
+                    onPressed: _goToNext,
+                    // () {
+                    //   Navigator.push(
+                    //       context,
+                    //       MaterialPageRoute(
+                    //           builder: (context) => const PreSurvey1()));
+                    // },
                     child: Text(
                       '다음',
                         style: Theme.of(context).textTheme.labelMedium,

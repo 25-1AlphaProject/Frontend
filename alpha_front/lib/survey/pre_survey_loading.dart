@@ -49,11 +49,15 @@ class _PreSurveyFinalState extends State<PreSurveyFinal> {
                 ),
               ),
             ),
-            // Image(
-            //   image: AssetImage(
-            //     'alpha_front/assets/images/character.png'
-            //     )
-            //   )
+            SizedBox(
+              height: 30,
+              width: 30,
+              child: Image(
+                image: AssetImage(
+                  '../assets/images/character.png'
+                  )
+                ),
+            ),
           ],
         ),
       ),

@@ -60,4 +60,49 @@ class ApiService {
       return false;
     }
   }
+
+    static Future<bool> dietinfo(
+    String selectedGender, // m, f
+    int age,
+    double height,
+    double weight,
+    List<String> mealCount,
+    int targetCalories,
+    List<String> allergies, 
+    List<String> diseases, 
+    List<String> preferredFoods,
+    List<String> hatedFoods, 
+    String healthGoal,   
+  ) async {
+    try {
+      final response = await http.post(
+        Uri.parse('http://43.203.32.75:8080/api/users/diet-info'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'gender': selectedGender,
+          'age': age,
+          'height': height,
+          'weight': weight,
+          'mealCounts': mealCount,
+          'targetCalories' : targetCalories,
+          'allergies' : allergies,
+          'diseases' : diseases,
+          'preferredMenus' : preferredFoods,
+          'avoidIngredients':hatedFoods,
+          'healthGoal' : healthGoal,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        log("저장 완료: ${response.statusCode} ${response.body}");
+        return true;
+      } else {
+        log("저장 실패: ${response.statusCode} ${response.body}");
+        return false;
+      }
+    } catch (e) {
+      log("저장 에러: $e");
+      return false;
+    }
+  }
 }

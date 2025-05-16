@@ -1,3 +1,4 @@
+import 'package:alpha_front/survey/diet_info.dart';
 import 'package:alpha_front/survey/pre_survey5.dart';
 import 'package:alpha_front/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -14,14 +15,25 @@ class _PreSurvey4State extends State<PreSurvey4> {
 
   List<String> selectedDisease = [];
 
-  void _addDisease(String term) {
-    if (term.isNotEmpty && !selectedDisease.contains(term)) {
-      setState(() {
+  void _addDisease(String input) {
+  if (input.isEmpty) return;
+
+  List<String> terms = input
+      .split(',')
+      .map((e) => e.trim())
+      .where((e) => e.isNotEmpty)
+      .toList();
+
+  setState(() {
+    for (var term in terms) {
+      if (!selectedDisease.contains(term)) {
         selectedDisease.add(term);
-      });
-      searchController.clear();
+      }
     }
-  }
+  });
+
+  searchController.clear();
+}
 
   void _removeDisease(String term) {
     setState(() {
@@ -29,14 +41,32 @@ class _PreSurvey4State extends State<PreSurvey4> {
     });
   }
 
+    void _goToNext() {
+    DietInfo.diseases = selectedDisease;
+    
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => PreSurvey5()),
+    );
+  }
+
+  void _skip() {
+    DietInfo.diseases = [];
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => PreSurvey5()),
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: false,
       appBar: BaseAppbar(),
-      body: Container(
+      body: Padding(
         padding: EdgeInsets.fromLTRB(33, 78, 33, 31),
-        width: double.infinity,
-        height: double.infinity,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -62,6 +92,7 @@ class _PreSurvey4State extends State<PreSurvey4> {
             Container(
               margin: EdgeInsets.fromLTRB(10, 20, 10, 20),
               child: TextField(
+                style: Theme.of(context).textTheme.bodyMedium,
                 keyboardType : TextInputType.number,
                 decoration: InputDecoration(
                   hintText: '질환명',
@@ -84,6 +115,7 @@ class _PreSurvey4State extends State<PreSurvey4> {
               spacing: 8.0,
               children: selectedDisease.map((term) => ElevatedButton(
                 style: ElevatedButton.styleFrom(
+                  textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color:Colors.white),
                   backgroundColor: Color(0xff3CB196), 
                   foregroundColor: Colors.white, 
                 ),
@@ -120,13 +152,7 @@ class _PreSurvey4State extends State<PreSurvey4> {
                           minimumSize: const Size(double.infinity, 50),
                           elevation: 3,
                           ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => PreSurvey5())
-                          );
-                        }, 
+                        onPressed: _skip,
                           child: Text(
                           '생략할게요',
                               style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Color(0xff4d4d4d)),
@@ -151,13 +177,7 @@ class _PreSurvey4State extends State<PreSurvey4> {
                           minimumSize: const Size(double.infinity, 50),
                           elevation: 3,
                           ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => PreSurvey5())
-                          );
-                        }, 
+                        onPressed: _goToNext,
                           child: Text(
                           '다음',
                               style: Theme.of(context).textTheme.labelMedium,
