@@ -1,5 +1,3 @@
-// hinttext랑 button은 통일했고, 작성 text 조절(활성화 되었을 때 색상 0xff3CB196로 / 작성한 text 크기 조절)만 하면 될 것 같아용!
-
 import 'package:alpha_front/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:alpha_front/SignUp/signup_loading.dart';
@@ -28,7 +26,7 @@ class _signupScreenState extends State<signupScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: BaseAppbar(),
+      appBar: const BaseAppbar(),
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
@@ -62,72 +60,35 @@ class _signupScreenState extends State<signupScreen> {
                               : currentStep == 4
                                   ? "비밀번호를"
                                   : "이메일을",
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontFamily: 'Pretendard-bold'),
-
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .copyWith(fontFamily: 'Pretendard-bold'),
                   textAlign: TextAlign.left,
                 ),
                 Text(
                   "입력해주세요",
                   style: Theme.of(context).textTheme.bodyLarge,
-
                 ),
                 const SizedBox(height: 30),
-                TextField(
-                  decoration: InputDecoration(
-                    hintText: "이름",
-                    hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Color(0xffb6b6b6)),
-
-                  ),
-                  onSubmitted: (value) {
-                    setState(() {
-                      username = value;
-                      if (currentStep == 1) {
-                        currentStep = 2;
-                      }
-                      name = value.isNotEmpty;
-                    });
-                  },
-                ),
-                const SizedBox(height: 21),
                 Visibility(
-                  visible: currentStep >= 2,
+                  visible: currentStep >= 5,
                   child: Column(
                     children: [
                       TextField(
                         decoration: InputDecoration(
-                          hintText: "닉네임",
-                          hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Color(0xffb6b6b6)),
-
+                          hintText: "이메일",
+                          hintStyle: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(color: const Color(0xffb6b6b6)),
                         ),
                         onSubmitted: (value) {
                           setState(() {
-                            if (currentStep == 2) {
-                              currentStep = 3;
+                            if (currentStep == 5) {
+                              currentStep = 6;
                             }
-                            nickname = value.isNotEmpty;
-                          });
-                        },
-                      ),
-                      const SizedBox(height: 21),
-                    ],
-                  ),
-                ),
-                Visibility(
-                  visible: currentStep >= 3,
-                  child: Column(
-                    children: [
-                      TextField(
-                        decoration: InputDecoration(
-                          hintText: "아이디",
-                          hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Color(0xffb6b6b6)),
-
-                        ),
-                        onSubmitted: (value) {
-                          setState(() {
-                            if (currentStep == 3) {
-                              currentStep = 4;
-                            }
-                            id = value.isNotEmpty;
+                            email = value.isNotEmpty;
                           });
                         },
                       ),
@@ -142,8 +103,10 @@ class _signupScreenState extends State<signupScreen> {
                       TextField(
                         decoration: InputDecoration(
                           hintText: "비밀번호",
-                          hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Color(0xffb6b6b6)),
-
+                          hintStyle: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(color: const Color(0xffb6b6b6)),
                           helperText:
                               "영문 / 숫자 / 기호 중 2가지 이상 조합, 8자리 이상으로 설정해주세요",
                           helperStyle: const TextStyle(
@@ -190,21 +153,23 @@ class _signupScreenState extends State<signupScreen> {
                   ),
                 ),
                 Visibility(
-                  visible: currentStep >= 5,
+                  visible: currentStep >= 3,
                   child: Column(
                     children: [
                       TextField(
                         decoration: InputDecoration(
-                          hintText: "이메일",
-                          hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Color(0xffb6b6b6)),
-
+                          hintText: "아이디",
+                          hintStyle: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(color: const Color(0xffb6b6b6)),
                         ),
                         onSubmitted: (value) {
                           setState(() {
-                            if (currentStep == 5) {
-                              currentStep = 6;
+                            if (currentStep == 3) {
+                              currentStep = 4;
                             }
-                            email = value.isNotEmpty;
+                            id = value.isNotEmpty;
                           });
                         },
                       ),
@@ -212,6 +177,50 @@ class _signupScreenState extends State<signupScreen> {
                     ],
                   ),
                 ),
+                Visibility(
+                  visible: currentStep >= 2,
+                  child: Column(
+                    children: [
+                      TextField(
+                        decoration: InputDecoration(
+                          hintText: "닉네임",
+                          hintStyle: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(color: const Color(0xffb6b6b6)),
+                        ),
+                        onSubmitted: (value) {
+                          setState(() {
+                            if (currentStep == 2) {
+                              currentStep = 3;
+                            }
+                            nickname = value.isNotEmpty;
+                          });
+                        },
+                      ),
+                      const SizedBox(height: 21),
+                    ],
+                  ),
+                ),
+                TextField(
+                  decoration: InputDecoration(
+                    hintText: "이름",
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: const Color(0xffb6b6b6)),
+                  ),
+                  onSubmitted: (value) {
+                    setState(() {
+                      username = value;
+                      if (currentStep == 1) {
+                        currentStep = 2;
+                      }
+                      name = value.isNotEmpty;
+                    });
+                  },
+                ),
+                const SizedBox(height: 21),
                 Visibility(
                   visible: currentStep >= 6 &&
                       name &&
@@ -227,19 +236,18 @@ class _signupScreenState extends State<signupScreen> {
                             builder: (context) => const signuploading()),
                       );
                     },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff3CB196),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 18),
-                    minimumSize: const Size(double.infinity, 50),
-                    elevation: 0,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xff3CB196),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 18),
+                      minimumSize: const Size(double.infinity, 50),
+                      elevation: 0,
                     ),
                     child: Text(
                       "회원가입하기",
-                        style: Theme.of(context).textTheme.labelMedium,
-
+                      style: Theme.of(context).textTheme.labelMedium,
                     ),
                   ),
                 ),
