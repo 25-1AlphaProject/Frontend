@@ -51,6 +51,9 @@ class ApiService {
       if (response.statusCode == 200) {
         log("회원가입 완료: ${response.statusCode} ${response.body}");
         return true;
+      } else if (response.statusCode == 409) {
+        log("중복된 아이디: ${response.statusCode} ${response.body}");
+        return false;
       } else {
         log("회원가입 실패: ${response.statusCode} ${response.body}");
         return false;
