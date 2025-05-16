@@ -1,4 +1,5 @@
-import 'package:alpha_front/survey/pre_survey_final.dart';
+import 'package:alpha_front/survey/diet_info.dart';
+import 'package:alpha_front/survey/pre_survey_loading.dart';
 import 'package:alpha_front/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -10,16 +11,36 @@ class PreSurvey6 extends StatefulWidget {
 }
 
 class _PreSurvey6State extends State<PreSurvey6> {
-  int selectedGoal = 0;
+  String selectedGoal = '';
+
+  void _submitSurvey() async {
+    // 유저 응답 저장
+    DietInfo.healthGoal = selectedGoal;
+
+    // POST 요청 실행
+    bool result = await DietInfo.submitToBackend();
+    if (result) {
+      print("POST 성공: 설문 정보가 서버에 저장되었습니다.");
+    } else {
+      print("POST 실패: 서버 통신에 실패했습니다.");
+    }
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => PreSurveyFinal()),
+    );
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: false,
       appBar: BaseAppbar(),
-      body: Container(
+      body: Padding(
         padding: EdgeInsets.fromLTRB(33, 78, 33, 31),
-        width: double.infinity,
-        height: double.infinity,
-        decoration: BoxDecoration(color: Colors.white),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -29,18 +50,11 @@ class _PreSurvey6State extends State<PreSurvey6> {
                 alignment: Alignment.topLeft,
                  child: Text.rich(
                     TextSpan(
-                      text: '김유진',
+                      text: '건강목표',
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontFamily: 'Pretendard-bold'),
                       children: [
                         TextSpan(
-                          text: '님의\n',
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                        TextSpan(
-                          text: '건강목표',
-                        ),
-                       TextSpan(
-                          text: '를 알려주세요!',
+                          text: '를\n알려주세요!',
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
                       ],
@@ -53,7 +67,7 @@ class _PreSurvey6State extends State<PreSurvey6> {
                 children: [
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: selectedGoal == 1 ? Color(0xff3CB196) : Colors.white,
+                      backgroundColor: selectedGoal == '다이어트' ? Color(0xff3CB196) : Colors.white,
                       shape : RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
@@ -62,7 +76,7 @@ class _PreSurvey6State extends State<PreSurvey6> {
                     ),
                     onPressed: () {
                       setState(() {
-                        selectedGoal = 1;
+                        selectedGoal = '다이어트';
                       }); 
                     }, 
                     child: Text(
@@ -71,14 +85,14 @@ class _PreSurvey6State extends State<PreSurvey6> {
                         fontFamily: 'PretendartVariable',
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
-                        color: selectedGoal == 1 ? Colors.white : Color(0xff3CB196),
+                        color: selectedGoal == '다이어트' ? Colors.white : Color(0xff3CB196),
               
                       ),
                     ),
                   ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: selectedGoal == 2? Color(0xff3CB196) : Colors.white,                    
+                      backgroundColor: selectedGoal == '질환관리'? Color(0xff3CB196) : Colors.white,                    
                       shape : RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
@@ -87,7 +101,7 @@ class _PreSurvey6State extends State<PreSurvey6> {
                     ),
                     onPressed: () {
                       setState(() {
-                        selectedGoal = 2;
+                        selectedGoal = '질환관리';
                       });
                     }, 
                     child: Text(
@@ -96,7 +110,7 @@ class _PreSurvey6State extends State<PreSurvey6> {
                         fontFamily: 'PretendartVariable',
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
-                        color: selectedGoal == 2 ? Colors.white : Color(0xff3CB196),
+                        color: selectedGoal == '질환관리' ? Colors.white : Color(0xff3CB196),
               
                       ),
                     ),
@@ -110,7 +124,7 @@ class _PreSurvey6State extends State<PreSurvey6> {
                   
                     ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: selectedGoal == 3 ? Color(0xff3CB196) : Colors.white,
+                            backgroundColor: selectedGoal == '잘 모르겠음' ? Color(0xff3CB196) : Colors.white,
                             shape : RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
@@ -119,7 +133,7 @@ class _PreSurvey6State extends State<PreSurvey6> {
                           ),
                           onPressed: () {
                             setState(() {
-                              selectedGoal = 3;
+                              selectedGoal = '잘 모르겠음';
                             });
                           }, 
                           child: Text(
@@ -128,7 +142,7 @@ class _PreSurvey6State extends State<PreSurvey6> {
                               fontFamily: 'PretendartVariable',
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
-                              color: selectedGoal == 3 ? Colors.white : Color(0xff3CB196),
+                              color: selectedGoal == '잘 모르겠음' ? Colors.white : Color(0xff3CB196),
                     
                             ),
                           ),
@@ -136,7 +150,7 @@ class _PreSurvey6State extends State<PreSurvey6> {
                   
                     ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: selectedGoal == 4 ? Color(0xff3CB196) : Colors.white,
+                            backgroundColor: selectedGoal == '식습관 개선' ? Color(0xff3CB196) : Colors.white,
                             shape : RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
@@ -145,7 +159,7 @@ class _PreSurvey6State extends State<PreSurvey6> {
                           ),
                           onPressed: () {
                             setState(() {
-                              selectedGoal = 4;
+                              selectedGoal = '식습관 개선';
                             });
                           }, 
                           child: Text(
@@ -154,7 +168,7 @@ class _PreSurvey6State extends State<PreSurvey6> {
                               fontFamily: 'PretendartVariable',
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
-                              color: selectedGoal == 4 ? Colors.white : Color(0xff3CB196),
+                              color: selectedGoal == '식습관 개선' ? Colors.white : Color(0xff3CB196),
                     
                             ),
                           ),
@@ -177,13 +191,7 @@ class _PreSurvey6State extends State<PreSurvey6> {
                     minimumSize: const Size(double.infinity, 50),
                     elevation: 3,
                     ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PreSurveyFinal())
-              );
-            }, 
+            onPressed: _submitSurvey,
               child: Text(
               '작성 완료',
               style: Theme.of(context).textTheme.labelMedium,
