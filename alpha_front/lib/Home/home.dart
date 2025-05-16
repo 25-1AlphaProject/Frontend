@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
     print("수정 아이콘 클릭됨");
     //page 이동
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => MealEdit()));
+        context, MaterialPageRoute(builder: (context) => const MealEdit()));
   }
 
   // void _onDragUpdate(Offset position) {
@@ -39,8 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
     print("KcalWidget이 클릭됨");
     Navigator.push(
       context,
-      MaterialPageRoute(
-          builder: (context) => ReportMain()),
+      MaterialPageRoute(builder: (context) => const ReportMain()),
     );
   }
 

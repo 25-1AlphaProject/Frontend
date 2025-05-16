@@ -1,6 +1,7 @@
 import 'package:alpha_front/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:alpha_front/SignUp/signup_loading.dart';
+import 'package:alpha_front/services/api_service.dart';
 
 class signupScreen extends StatefulWidget {
   const signupScreen({super.key});
@@ -21,6 +22,12 @@ class _signupScreenState extends State<signupScreen> {
   bool nickname = false;
   bool password = false;
   bool email = false;
+
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _nicknameController = TextEditingController();
+  final TextEditingController _idController = TextEditingController();
+  final TextEditingController _pwController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -76,6 +83,7 @@ class _signupScreenState extends State<signupScreen> {
                   child: Column(
                     children: [
                       TextField(
+                        controller: _emailController,
                         decoration: InputDecoration(
                           hintText: "이메일",
                           hintStyle: Theme.of(context)
@@ -101,6 +109,7 @@ class _signupScreenState extends State<signupScreen> {
                   child: Column(
                     children: [
                       TextField(
+                        controller: _pwController,
                         decoration: InputDecoration(
                           hintText: "비밀번호",
                           hintStyle: Theme.of(context)
@@ -157,6 +166,7 @@ class _signupScreenState extends State<signupScreen> {
                   child: Column(
                     children: [
                       TextField(
+                        controller: _idController,
                         decoration: InputDecoration(
                           hintText: "아이디",
                           hintStyle: Theme.of(context)
@@ -182,6 +192,7 @@ class _signupScreenState extends State<signupScreen> {
                   child: Column(
                     children: [
                       TextField(
+                        controller: _nicknameController,
                         decoration: InputDecoration(
                           hintText: "닉네임",
                           hintStyle: Theme.of(context)
@@ -203,6 +214,7 @@ class _signupScreenState extends State<signupScreen> {
                   ),
                 ),
                 TextField(
+                  controller: _nameController,
                   decoration: InputDecoration(
                     hintText: "이름",
                     hintStyle: Theme.of(context)
@@ -229,12 +241,51 @@ class _signupScreenState extends State<signupScreen> {
                       password &&
                       email,
                   child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const signuploading()),
+                    onPressed: () async {
+                      // Navigator.pushReplacement(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //       builder: (context) => const signuploading()),
+                      // );
+                      final id = _idController.text.trim();
+                      final pw = _pwController.text.trim();
+                      final name = _nameController.text.trim();
+                      final nickname = _nicknameController.text.trim();
+                      final email = _emailController.text.trim();
+
+                      final success = await ApiService.signup(
+                        id,
+                        pw,
+                        name,
+                        nickname,
+                        email,
                       );
+
+                      if (!mounted) return;
+
+                      if (success) {
+                        // 회원가입 성공 시 설문조사로 이동
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const signuploading()),
+                        );
+                      } else {
+                        // 회원가입 실패 시 경고창
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text("회원가입 실패"),
+                            content: const Text("회원가입에 실패했습니다. 입력 정보를 확인해주세요."),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: const Text("확인"),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xff3CB196),
