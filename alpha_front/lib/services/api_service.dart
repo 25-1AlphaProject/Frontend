@@ -44,7 +44,7 @@ class ApiService {
           'password': pw,
           'name': name,
           'nickname': nickname,
-          'email': email,
+          'phoneNumber': email,
         }),
       );
 
@@ -52,7 +52,7 @@ class ApiService {
         log("회원가입 완료: ${response.statusCode} ${response.body}");
         return true;
       } else {
-        log("중복된 아이디: ${response.statusCode} ${response.body}");
+        log("회원가입 실패: ${response.statusCode} ${response.body}");
         return false;
       }
     } catch (e) {

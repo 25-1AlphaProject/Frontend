@@ -205,7 +205,7 @@ class _loginScreenState extends State<loginScreen> {
                 const SizedBox(height: 11),
                 TextButton(
                   onPressed: () {
-                    Navigator.pushReplacement(
+                    Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => const signupScreen()),
