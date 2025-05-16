@@ -53,7 +53,7 @@ class _CameraState extends State<Camera> {
                 FloatingActionButton(
                   backgroundColor: Colors.white,
                   child: Icon(Icons.add_a_photo,
-                    color: Color(0xff118B50),
+                    color: Color(0xff3CB196),
                   ),
                   tooltip: 'pick Iamge',
                   onPressed: () {
@@ -65,7 +65,7 @@ class _CameraState extends State<Camera> {
                 FloatingActionButton(
                   backgroundColor: Colors.white,
                   child: Icon(Icons.wallpaper,
-                  color: Color(0xff118B50),),
+                  color: Color(0xff3CB196),),
                   tooltip: 'pick Iamge',
                   onPressed: () {
                     getImage(ImageSource.gallery);
@@ -80,11 +80,11 @@ class _CameraState extends State<Camera> {
           width: double.infinity,
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Color(0xff118B50),
+              backgroundColor: Color(0xff3CB196),
               shape : RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15),
               ),
-              side: BorderSide(color: Color(0xff118B50), width: 1),
+              side: BorderSide(color: Color(0xff3CB196), width: 1),
               elevation: 3,
               
             ),

@@ -1,4 +1,5 @@
 import 'package:alpha_front/survey/pre_survey3.dart';
+import 'package:alpha_front/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class PreSurvey2 extends StatefulWidget {
@@ -31,11 +32,11 @@ class _PreSurvey2State extends State<PreSurvey2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: BaseAppbar(),
       body: Container(
-        padding: EdgeInsets.fromLTRB(31, 78, 31, 31),
+        padding: EdgeInsets.fromLTRB(33, 78, 33, 31),
         width: double.infinity,
         height: double.infinity,
-        decoration: BoxDecoration(color: Colors.white),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -43,21 +44,29 @@ class _PreSurvey2State extends State<PreSurvey2> {
               height: MediaQuery.of(context).size.height * 0.2,
               child: Align(
                 alignment: Alignment.topLeft,
-                child: Text(
-                  '앓고 계신 식품 관련 \n알레르기 질환이 있나요?',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: 'yg-jalnan',
-                    fontSize: 30,
-                  ),
-                ),
+                child: Text.rich(
+                    TextSpan(
+                      text: '앓고 계신 ',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                      children: [
+                        TextSpan(
+                          text: '식품 관련 \n알레르기 ',
+                          style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontFamily: 'Pretendard-bold'),
+                        ),
+                        TextSpan(
+                          text: '질환이 있나요?',
+                        ),
+                      ],
+                    ),
+                  )
               ),
             ),
 
            TextField(
               controller: searchController,
               decoration: InputDecoration(
-                labelText: "알러지 검색",
+                hintText: "알러지 검색",
+                hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Color(0xffb6b6b6)),
                 border: UnderlineInputBorder(
                 ),
               ),
@@ -69,7 +78,7 @@ class _PreSurvey2State extends State<PreSurvey2> {
               spacing: 8.0,
               children: selectedAllergy.map((term) => ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xff118B50), 
+                  backgroundColor: Color(0xff3CB196), 
                   foregroundColor: Colors.white, 
                 ),
                 onPressed: () {},
@@ -97,7 +106,7 @@ class _PreSurvey2State extends State<PreSurvey2> {
             // Container(
             //   padding: EdgeInsets.all(10),
             //   decoration: BoxDecoration(
-            //     border: Border.all(color: Color(0xff118B50)),
+            //     border: Border.all(color: Color(0xff3CB196)),
             //     borderRadius: BorderRadius.circular(10),
             //   ),
             //   child: Wrap(
@@ -110,7 +119,7 @@ class _PreSurvey2State extends State<PreSurvey2> {
             //                 fontFamily: 'PretendardVariable',
             //                 fontWeight: FontWeight.bold,
             //                 )),
-            //               backgroundColor: Color(0xff118B50),
+            //               backgroundColor: Color(0xff3CB196),
             //               deleteIcon: Icon(Icons.close, color: Colors.white),
             //               onDeleted: () {
             //                 setState(() {
@@ -122,76 +131,72 @@ class _PreSurvey2State extends State<PreSurvey2> {
             //   ),
             // ),
 
-            Center(
-              child: Container(
-                padding: EdgeInsets.fromLTRB(10, 50, 10, 10),
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    shape : RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    side: BorderSide(color: Color(0xff118B50), width: 1),
-                    elevation: 3,
+              SizedBox(height: 150,),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                        // margin: const EdgeInsets.fromLTRB(10, 50, 10, 20),
+                        width: double.infinity,
+                        child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xffd9d9d9),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 18),
+                          minimumSize: const Size(double.infinity, 50),
+                          elevation: 3,
+                          ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PreSurvey3())
+                          );
+                        }, 
+                          child: Text(
+                          '생략할게요',
+                              style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Color(0xff4d4d4d)),
                     
+                        ),
+                        ),
+                    )
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => PreSurvey3())
-                    );
-                  }, 
-                    child: Text(
-                    '다음',
-                      style: TextStyle(
-                      fontFamily: 'PretendartVariable',
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xff118B50),
-                
-                    ),
-                  ),
-                  ),
-              ),
-            ),
-
-            Center(
-              child: Container(
-                padding: EdgeInsets.fromLTRB(10, 10, 10, 30),
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff118B50),
-                    shape : RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    side: BorderSide(color: Color(0xff118B50), width: 1),
-                    elevation: 3,
+                  SizedBox(width: 14,),
+                  Expanded(
+                    flex: 2,
+                      child: Container(
+                        // margin: const EdgeInsets.fromLTRB(10, 50, 10, 20),
+                        width: double.infinity,
+                        child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xff3CB196),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 18),
+                          minimumSize: const Size(double.infinity, 50),
+                          elevation: 3,
+                          ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PreSurvey3())
+                          );
+                        }, 
+                          child: Text(
+                          '다음',
+                              style: Theme.of(context).textTheme.labelMedium,
                     
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => PreSurvey3())
-                    );
-                  }, 
-                    child: Text(
-                    '생략할게요',
-                      style: TextStyle(
-                      fontFamily: 'PretendartVariable',
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                
+                        ),
+                        ),
                     ),
                   ),
-                  ),
+                ],
               ),
-            ),
-            
           ]
           
         )

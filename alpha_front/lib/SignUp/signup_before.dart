@@ -1,3 +1,4 @@
+import 'package:alpha_front/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class signupScreen extends StatefulWidget {
@@ -18,6 +19,7 @@ class _signupScreenState extends State<signupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: BaseAppbar(),
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
@@ -29,17 +31,17 @@ class _signupScreenState extends State<signupScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Center(
-                  child: Text(
-                    '척척밥사',
-                    style: TextStyle(
-                      fontFamily: 'yg-jalnan',
-                      fontSize: 30,
-                      fontWeight: FontWeight.normal,
-                      color: Color.fromRGBO(17, 139, 80, 1.0),
-                    ),
-                  ),
-                ),
+                // const Center(
+                //   child: Text(
+                //     '척척밥사',
+                //     style: TextStyle(
+                //       fontFamily: 'yg-jalnan',
+                //       fontSize: 30,
+                //       fontWeight: FontWeight.normal,
+                //       color: Color.fromRGBO(17, 139, 80, 1.0),
+                //     ),
+                //   ),
+                // ),
                 const SizedBox(height: 40),
                 Text(
                   currentStep == 1

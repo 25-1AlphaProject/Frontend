@@ -1,10 +1,12 @@
 import 'package:alpha_front/Home/home.dart';
+import 'package:alpha_front/layout.dart';
 import 'package:alpha_front/mypage/mypage_main.dart';
 import 'package:alpha_front/recipe/recipe_list.dart';
 import 'package:alpha_front/report/report_main.dart';
 import 'package:alpha_front/survey/pre_survey.dart';
 import 'package:alpha_front/Login/login.dart';
 import 'package:alpha_front/SignUp/signup.dart';
+import 'package:alpha_front/survey/pre_survey1.dart';
 import 'package:flutter/material.dart';
 import 'package:alpha_front/Splash/splash.dart';
 import 'package:alpha_front/SignUp/signup_loading.dart';
@@ -24,10 +26,29 @@ class CCBS extends StatelessWidget {
       title: '척척밥사',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        fontFamily: "yg-jalnan",
         textTheme: const TextTheme(
-          bodyMedium:TextStyle(fontFamily:'Pretendard-medium', fontSize:18, letterSpacing: 0.5, fontWeight: FontWeight.bold,)
-        ),
+            bodyMedium: TextStyle(
+              // 본문 (사전설문 글) / 본문
+              fontFamily: 'Pretendard-regular',
+              fontSize: 17,
+            ),
+            titleLarge: TextStyle(
+              // 앱바 척척밥사
+              fontFamily: 'yg-jalnan',
+              fontSize: 30,
+              color: Color(0xff3cb196),
+            ),
+            bodyLarge: TextStyle(
+              // 화면 내 대제목
+              fontFamily: 'Pretendard-regular',
+              fontSize: 36,
+              color: Colors.black,
+            ),
+            labelMedium: TextStyle(
+              fontFamily: 'Pretendard-bold',
+              fontSize: 20,
+              color: Colors.white,
+            )),
         // Theme 설정
         // colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff118B50)),
         useMaterial3: true,
@@ -35,10 +56,10 @@ class CCBS extends StatelessWidget {
       // home: const MyHomePage(title: '척척밥사'),
       // home: Survey(),
       // home: const MypageMain(),
-      home: loginScreen(),
+      home: const loginScreen(),
       // home: const signupScreen(),
       // home:HomeScreen(),
-      // home: ReportMain(),
+      // home: Layout(),
     );
   }
 }

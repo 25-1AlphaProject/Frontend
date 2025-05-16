@@ -18,8 +18,6 @@ class _loginScreenState extends State<loginScreen> {
 
   final TextEditingController _idController = TextEditingController();
   final TextEditingController _pwController = TextEditingController();
-  // final success = await ApiService.login(id, pw);
-  // bool isLogin = isID && isPW; // 로그인 조건
 
   @override
   Widget build(BuildContext context) {
@@ -31,18 +29,15 @@ class _loginScreenState extends State<loginScreen> {
         backgroundColor: Colors.white,
         body: Center(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 33.0, vertical: 33.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.4,
-                  width: double.infinity,
-                  child: const Image(
-                    image: AssetImage(
-                      // image 변경 - url => network
-                      'alpha_front/assets/images/login_logo.png',
-                    ),
+                const Image(
+                  image: AssetImage(
+                    // image 변경 - url => network
+                    'alpha_front/assets/images/character.png',
                   ),
                 ),
                 const SizedBox(height: 11),
@@ -58,18 +53,23 @@ class _loginScreenState extends State<loginScreen> {
                 const SizedBox(height: 99),
                 TextField(
                   controller: _idController,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     hintText: '아이디를 입력해주세요',
-                    hintStyle: TextStyle(
-                      fontFamily: 'Pretendard-light',
-                      color: Color.fromRGBO(182, 182, 182, 1.0),
-                    ),
+                    // hintStyle: TextStyle(
+                    //   fontFamily: 'Pretendard-light',
+                    //   fontSize: 15,
+                    //   color: Color.fromRGBO(182, 182, 182, 1),
+                    // ),
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: const Color(0xffb6b6b6)),
                     // filled: true,
                     // fillColor: Colors.white,
-                    enabledBorder: UnderlineInputBorder(
+                    enabledBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.black),
                     ),
-                    focusedBorder: UnderlineInputBorder(
+                    focusedBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.black),
                     ),
                   ),
@@ -85,10 +85,15 @@ class _loginScreenState extends State<loginScreen> {
                   controller: _pwController,
                   decoration: InputDecoration(
                     hintText: '비밀번호를 입력해주세요',
-                    hintStyle: const TextStyle(
-                      fontFamily: 'Pretendard-light',
-                      color: Color.fromRGBO(182, 182, 182, 1.0),
-                    ),
+                    // hintStyle: const TextStyle(
+                    //   fontFamily: 'Pretendard-light',
+                    //   fontSize: 15,
+                    //   color: Color.fromRGBO(182, 182, 182, 1.0),
+                    // ),
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: const Color(0xffb6b6b6)),
                     suffixIcon: showSuffixIcon
                         ? IconButton(
                             onPressed: () {
@@ -169,17 +174,18 @@ class _loginScreenState extends State<loginScreen> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    padding: const EdgeInsets.symmetric(vertical: 18),
                     minimumSize: const Size(double.infinity, 50),
                     elevation: 0,
                   ),
-                  child: const Text(
+                  child: Text(
                     "로그인하기",
-                    style: TextStyle(
-                      fontFamily: 'Pretendard-light',
-                      fontSize: 20,
-                      color: Colors.black87,
-                    ),
+                    // style: TextStyle(
+                    //   fontFamily: 'Pretendard-light',
+                    //   fontSize: 20,
+                    //   color: Colors.black87,
+                    // ),
+                    style: Theme.of(context).textTheme.labelMedium,
                   ),
                 ), //로그인 버튼
                 const SizedBox(height: 23),

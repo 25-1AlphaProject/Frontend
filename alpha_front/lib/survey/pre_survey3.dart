@@ -1,4 +1,5 @@
 import 'package:alpha_front/survey/pre_survey4.dart';
+import 'package:alpha_front/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class PreSurvey3 extends StatefulWidget {
@@ -33,8 +34,9 @@ class _PreSurvey3State extends State<PreSurvey3> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: BaseAppbar(),
       body: Container(
-        padding: EdgeInsets.fromLTRB(31, 78, 31, 31),
+        padding: EdgeInsets.fromLTRB(33, 78, 33, 31),
         width: double.infinity,
         height: double.infinity,
         decoration: BoxDecoration(color: Colors.white),
@@ -45,21 +47,33 @@ class _PreSurvey3State extends State<PreSurvey3> {
               height: MediaQuery.of(context).size.height * 0.2,
               child: Align(
                 alignment: Alignment.topLeft,
-                child: Text(
-                  '선호 혹은 기피 식품이 \n있으신가요?',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: 'yg-jalnan',
-                    fontSize: 30,
-                  ),
-                ),
+                child: Text.rich(
+                    TextSpan(
+                      text: '선호 ',
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontFamily: 'Pretendard-bold'),
+                      children: [
+                        TextSpan(
+                          text: '혹은 ',
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                        TextSpan(
+                          text: '기피 식품'
+                        ),
+                        TextSpan(
+                          text: '이 \n있으신가요?',
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        )
+                      ],
+                    ),
+                  )
               ),
             ),
 
            TextField(
               controller: searchController,
               decoration: InputDecoration(
-                labelText: "선호 식품 검색",
+                hintText: "선호 식품 검색",
+                    hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Color(0xffb6b6b6)),
                 border: UnderlineInputBorder(
                 ),
               ),
@@ -71,7 +85,7 @@ class _PreSurvey3State extends State<PreSurvey3> {
               spacing: 8.0,
               children: selectedLikeFood.map((term) => ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xff118B50), 
+                  backgroundColor: Color(0xff3CB196), 
                   foregroundColor: Colors.white, 
                 ),
                 onPressed: () {},
@@ -107,7 +121,7 @@ class _PreSurvey3State extends State<PreSurvey3> {
           //                 }
           //               },
           //               style: ElevatedButton.styleFrom(
-          //                 backgroundColor: selectedLikeFood.contains(k) ? Color(0xff118B50) : Colors.white,
+          //                 backgroundColor: selectedLikeFood.contains(k) ? Color(0xff3CB196) : Colors.white,
           //                 foregroundColor: selectedLikeFood.contains(k) ? Colors.white : Colors.black,
           //               ),
           //               child: Text("$k", 
@@ -122,75 +136,72 @@ class _PreSurvey3State extends State<PreSurvey3> {
           //   SizedBox(height: 20),
 
 
-            Center(
-              child: Container(
-                padding: EdgeInsets.fromLTRB(10, 50, 10, 10),
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    shape : RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    side: BorderSide(color: Color(0xff118B50), width: 1),
-                    elevation: 3,
+              SizedBox(height: 150,),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                        // margin: const EdgeInsets.fromLTRB(10, 50, 10, 20),
+                        width: double.infinity,
+                        child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xffd9d9d9),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 18),
+                          minimumSize: const Size(double.infinity, 50),
+                          elevation: 3,
+                          ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PreSurvey4())
+                          );
+                        }, 
+                          child: Text(
+                          '생략할게요',
+                              style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Color(0xff4d4d4d)),
                     
+                        ),
+                        ),
+                    )
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => PreSurvey4())
-                    );
-                  }, 
-                    child: Text(
-                    '다음',
-                      style: TextStyle(
-                      fontFamily: 'PretendartVariable',
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xff118B50),
-                
-                    ),
-                  ),
-                  ),
-              ),
-            ),
-
-            Center(
-              child: Container(
-                padding: EdgeInsets.fromLTRB(10, 10, 10, 30),
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff118B50),
-                    shape : RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    side: BorderSide(color: Color(0xff118B50), width: 1),
-                    elevation: 3,
+                  SizedBox(width: 14,),
+                  Expanded(
+                    flex: 2,
+                      child: Container(
+                        // margin: const EdgeInsets.fromLTRB(10, 50, 10, 20),
+                        width: double.infinity,
+                        child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xff3CB196),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 18),
+                          minimumSize: const Size(double.infinity, 50),
+                          elevation: 3,
+                          ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PreSurvey4())
+                          );
+                        }, 
+                          child: Text(
+                          '다음',
+                              style: Theme.of(context).textTheme.labelMedium,
                     
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => PreSurvey4())
-                    );
-                  }, 
-                    child: Text(
-                    '생략할게요',
-                      style: TextStyle(
-                      fontFamily: 'PretendartVariable',
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                
+                        ),
+                        ),
                     ),
                   ),
-                  ),
+                ],
               ),
-            ),
           ]
           
         )

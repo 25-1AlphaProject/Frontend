@@ -1,7 +1,7 @@
 import 'package:alpha_front/recipe/recipe_description.dart';
 import 'package:alpha_front/recipe/recipe_detail.dart';
-import 'package:alpha_front/widgets/baseappbar.dart';
-import 'package:alpha_front/widgets/basenavigationbar.dart';
+import 'package:alpha_front/widgets/base_app_bar.dart';
+import 'package:alpha_front/widgets/bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:string_similarity/string_similarity.dart';
 
@@ -47,35 +47,34 @@ class _RecipeListState extends State<RecipeList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const BaseAppbar(title: '레시피'),
       body: Padding(
         padding: const EdgeInsets.all(30.0),
         child: Column(
           children: [
             TextField(
               style: const TextStyle(
-                fontFamily: 'PretendardVariable',
+                fontFamily: 'Pretendard-regular',
                 letterSpacing: 0.25,
               ),
               onChanged: searchRecipe,
               decoration: InputDecoration(
                 icon: const Icon(
                   Icons.search,
-                  color: Color(0xff118B50),
+                  color: Color(0xff3CB196),
                 ),
                 hintText: "레시피를 검색하세요",
                 hintStyle: const TextStyle(
-                  fontFamily: 'PretendartVariable',
+                  fontFamily: 'Pretendard-regular',
                   letterSpacing: 0.25,
                   fontSize: 15,
                 ),
                 enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
-                  color: const Color(0xff118B50).withAlpha(150),
+                  color: const Color(0xff3CB196).withAlpha(150),
                 )),
                 focusedBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(
-                    color: Color(0xff118B50),
+                    color: Color(0xff3CB196),
                   ),
                 ),
               ),
@@ -103,7 +102,7 @@ class _RecipeListState extends State<RecipeList> {
                               filteredRecipes[index]['recipename']!,
                               textAlign: TextAlign.start,
                               style: const TextStyle(
-                                fontFamily: 'PretendardBariable',
+                                fontFamily: 'Pretendard-regular',
                                 fontSize: 20,
                               ),
                             ),
@@ -117,14 +116,14 @@ class _RecipeListState extends State<RecipeList> {
                             child: const Text(
                               '200 kcal', //// 칼로리 받아오기
                               style: TextStyle(
-                                fontFamily: 'PretendardBariable',
+                                fontFamily: 'Pretendard-regular',
                                 fontSize: 15,
                               ),
                             ),
                           ),
                         ),
                         const Divider(
-                          color: Color(0xff118B50),
+                          color: Color(0xff3CB196),
                         ),
                       ],
                     ),
@@ -135,9 +134,9 @@ class _RecipeListState extends State<RecipeList> {
           ],
         ),
       ),
-      bottomNavigationBar: const Basenavigationbar(
-        currentIndex: 2,
-      ),
+      // bottomNavigationBar: const Basenavigationbar(
+      //   currentIndex: 2,
+      // ),
     );
   }
 }
