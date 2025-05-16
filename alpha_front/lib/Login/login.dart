@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:alpha_front/SignUp/signup.dart';
 import 'package:alpha_front/Home/home.dart';
+import 'package:alpha_front/layout.dart';
 import 'package:alpha_front/services/api_service.dart';
 
 class loginScreen extends StatefulWidget {
@@ -149,8 +150,7 @@ class _loginScreenState extends State<loginScreen> {
                       // 로그인 성공 시 홈으로 이동
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => const HomeScreen()),
+                        MaterialPageRoute(builder: (context) => const Layout()),
                       );
                     } else {
                       // 로그인 실패 시 경고창

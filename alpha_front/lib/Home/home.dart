@@ -109,51 +109,66 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            // const SizedBox(height: 20),
-            // const Weekcal(),
-            const SizedBox(height: 28),
-            ElevatedButton(
-              onPressed: () {
-                _onKcalWidgetTap();
-              },
-              style: ElevatedButton.styleFrom(
-                shape: const CircleBorder(),
-                padding: const EdgeInsets.all(5),
-                fixedSize: const Size(245, 245),
-                elevation: 6,
-                // backgroundColor: Colors.black,
-                // foregroundColor: Colors.teal,
-              ),
-              child: const KcalWidget(),
-            ),
-            const SizedBox(height: 21),
-            SizedBox(
-              height: 500,
-              child: Swiper(
-                layout: SwiperLayout.STACK,
-                viewportFraction: 0.8,
-                scrollDirection: Axis.vertical,
-                itemWidth: 400, // 카드 너비 조정
-                itemHeight: 225, // 카드 높이 조정
-                loop: true,
-                autoplay: false,
-                duration: 1200,
-                itemCount: dietWidgetList.length, //간식이 있으면 간식까지도
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                      width: 400,
-                      height: 400,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: dietWidgetList[index]);
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // const SizedBox(height: 20),
+              // const Weekcal(),
+              const SizedBox(height: 28),
+              ElevatedButton(
+                onPressed: () {
+                  _onKcalWidgetTap();
                 },
+                style: ElevatedButton.styleFrom(
+                  shape: const CircleBorder(),
+                  padding: const EdgeInsets.all(5),
+                  fixedSize: const Size(245, 245),
+                  elevation: 6,
+                  // backgroundColor: Colors.black,
+                  // foregroundColor: Colors.teal,
+                ),
+                child: const KcalWidget(),
               ),
-            ),
-          ],
+              const SizedBox(height: 21),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    topRight: Radius.circular(15),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withAlpha(25),
+                      spreadRadius: 0,
+                      blurRadius: 25,
+                      blurStyle: BlurStyle.normal,
+                      offset: const Offset(0, -1),
+                    ),
+                  ],
+                ),
+                child: SizedBox(
+                  width: 367,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: dietWidgetList.map((widget) {
+                        return Padding(
+                          padding: const EdgeInsets.all(13.0),
+                          child: SizedBox(
+                            width: 130,
+                            height: 166,
+                            child: widget,
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
