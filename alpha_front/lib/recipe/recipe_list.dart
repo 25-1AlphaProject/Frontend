@@ -52,10 +52,9 @@ class _RecipeListState extends State<RecipeList> {
         child: Column(
           children: [
             TextField(
-              style: const TextStyle(
-                fontFamily: 'Pretendard-regular',
-                letterSpacing: 0.25,
-              ),
+              style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium,
               onChanged: searchRecipe,
               decoration: InputDecoration(
                 icon: const Icon(
@@ -63,11 +62,10 @@ class _RecipeListState extends State<RecipeList> {
                   color: Color(0xff3CB196),
                 ),
                 hintText: "레시피를 검색하세요",
-                hintStyle: const TextStyle(
-                  fontFamily: 'Pretendard-regular',
-                  letterSpacing: 0.25,
-                  fontSize: 15,
-                ),
+                hintStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!.
+                        copyWith(color: Color(0xff3CB196)),
                 enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
                   color: const Color(0xff3CB196).withAlpha(150),

@@ -33,28 +33,38 @@ class _LayoutState extends State<Layout> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      // 상단 네비게이션 바는 영속적으로 유지됩니다.
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60),
-        child: BaseAppbar(),
-      ),  
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _pages.map((page) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 33), // 좌우 padding을 33으로 설정
-            child: page,
-          );
-        }).toList(),
+Widget build(BuildContext context) {
+  return Scaffold(
+    backgroundColor: Colors.white,
+    appBar: PreferredSize(
+      preferredSize: const Size.fromHeight(70),
+      child: BaseAppbar(),
+    ),
+    body: IndexedStack(
+      index: _currentIndex,
+      children: _pages,
+    ),
+    floatingActionButton: FloatingActionButton(
+      backgroundColor: const Color(0xff3CB196),
+      elevation: 6,
+      shape: const CircleBorder(),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const Camera()),
+        );
+      },
+      child: const Icon(
+        Icons.camera,
+        color: Colors.white,
+        size: 40,
       ),
-      // 하단 네비게이션 바도 영속적으로 유지되며, onTap 이벤트를 통해 페이지 전환을 처리합니다.
-      bottomNavigationBar: BottomNavBar(
-        currentIndex: _currentIndex,
-        onTap: _onBottomNavTapped, // 이 콜백을 통해 선택된 인덱스 업데이트
-      ),    
-    );
-  }
+    ),
+    floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+    bottomNavigationBar: BottomNavBar(
+      currentIndex: _currentIndex,
+      onTap: _onBottomNavTapped,
+    ),
+  );
+}
 }

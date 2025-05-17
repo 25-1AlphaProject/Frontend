@@ -17,7 +17,20 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      // decoration: BoxDecoration(
+      //   borderRadius: BorderRadius.only(
+      //     topLeft: Radius.circular(15),
+      //     topRight: Radius.circular(15),
+      //   ),
+      //   boxShadow: [
+      //     BoxShadow(
+      //       color: Colors.black.withAlpha(25),
+      //       blurRadius: 10,
+      //       offset: Offset(0, 4),
+      //     )
+      //   ]
+      // ),
       height: 80,
       child: BottomNavigationBar(
         showSelectedLabels: true, // 선택된 라벨 보이기/숨기기
