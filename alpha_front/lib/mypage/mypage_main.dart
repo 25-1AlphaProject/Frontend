@@ -67,298 +67,301 @@ Future<void> _editInfo() async {
 
 Future<void> _editMyinfo() async {
   // Map<String, String> → int 로 제네릭 변경
-  final newAge = await Navigator.push<int>(
-    context,
-    MaterialPageRoute(
-      builder: (context) => _EditMyinfoScreen(age: _age),
-    ),
-  );
+  // final newAge = await Navigator.push<int>(
+  //   context,
+  //   MaterialPageRoute(
+  //     builder: (context) => _EditInfoScreen(),
+  //   ),
+  // );
 
-  if (newAge != null) {
-    setState(() {
-      _age = newAge;
-    });
-  }
+  // if (newAge != null) {
+  //   setState(() {
+  //     _age = newAge;
+  //   });
+  // }
 }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      // appBar: BaseAppbar(title: '마이페이지'),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            GestureDetector(
-              onTap: _pickImage,
-              child: Stack(
-                children: [
-                  CircleAvatar(
-                    radius: 80,
-                    backgroundColor: Colors.grey[300],
-                    backgroundImage:
-                        _imageFile != null ? FileImage(_imageFile!) : null,
-                    child: _imageFile == null
-                        ? const Icon(Icons.person,
-                            size: 80, color: Colors.white)
-                        : null,
+    return Padding(
+      padding: EdgeInsets.fromLTRB(33, 0, 33, 0),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        // appBar: BaseAppbar(title: '마이페이지'),
+        body: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: _pickImage,
+                  child: Stack(
+                    children: [
+                      CircleAvatar(
+                        radius: 80,
+                        backgroundColor: Colors.grey[300],
+                        backgroundImage:
+                            _imageFile != null ? FileImage(_imageFile!) : null,
+                        child: _imageFile == null
+                            ? const Icon(Icons.person,
+                                size: 80, color: Colors.white)
+                            : null,
+                      ),
+                      const Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: CircleAvatar(
+                          backgroundColor: Color(0xff3CB196),
+                          radius: 25,
+                          child: Icon(Icons.camera_alt, color: Colors.white),
+                        ),
+                      ),
+                    ],
                   ),
-                  const Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: CircleAvatar(
-                      backgroundColor: Color(0xff3CB196),
-                      radius: 25,
-                      child: Icon(Icons.camera_alt, color: Colors.white),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(width: 20),
+                      Text(
+                        _nickname,
+                        style: const TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.edit,
+                          size: 15,
+                          color: Color(0xff3CB196),
+                        ),
+                        onPressed: _editInfo,
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(10, 30, 10, 20),
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      // padding: const EdgeInsets.symmetric(vertical: 15),
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      side: const BorderSide(color: Color(0xff3CB196), width: 1),
+                      elevation: 3,
+                    ),
+                    onPressed: _editMyinfo,
+                    child: Text(
+                      '내정보',
+                      // style: TextStyle(
+                      //   fontFamily: 'PretendardVariable',
+                      //   fontSize: 15,
+                      //   fontWeight: FontWeight.bold,
+                      //   color: Color(0xff3CB196),
+                      // ),
+                      style: Theme.of(context).textTheme.bodyMedium,
+          
                     ),
                   ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const SizedBox(width: 20),
-                  Text(
-                    _nickname,
-                    style: const TextStyle(
-                      fontSize: 20,
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      side: const BorderSide(color: Color(0xff3CB196), width: 1),
+                      elevation: 3,
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const MypageMyscrap()));
+                    },
+                    child: Text(
+                      '내가 스크랩한 글',
+                      // style: TextStyle(
+                      //   fontFamily: 'PretendartVariable',
+                      //   fontSize: 15,
+                      //   fontWeight: FontWeight.bold,
+                      //   color: Color(0xff3CB196),
+                      // ),
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
-                  IconButton(
-                    icon: const Icon(
-                      Icons.edit,
-                      size: 15,
-                      color: Color(0xff3CB196),
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      side: const BorderSide(color: Color(0xff3CB196), width: 1),
+                      elevation: 3,
                     ),
-                    onPressed: _editInfo,
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const MypageMylike()));
+                    },
+                    child: Text(
+                      '내가 좋아요한 글',
+                      // style: TextStyle(
+                      //   fontFamily: 'PretendartVariable',
+                      //   fontSize: 15,
+                      //   fontWeight: FontWeight.bold,
+                      //   color: Color(0xff3CB196),
+                      // ),
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
                   ),
-                ],
-              ),
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      side: const BorderSide(color: Color(0xff3CB196), width: 1),
+                      elevation: 3,
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const MypageMywrite()));
+                    },
+                    child: Text(
+                      '내가 쓴 글',
+                      // style: TextStyle(
+                      //   fontFamily: 'PretendartVariable',
+                      //   fontSize: 15,
+                      //   fontWeight: FontWeight.bold,
+                      //   color: Color(0xff3CB196),
+                      // ),
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      side: const BorderSide(color: Color(0xff3CB196), width: 1),
+                      elevation: 3,
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const MypageMyscrap()));
+                    },
+                    child: Text(
+                      '내가 쓴 댓글',
+                      // style: TextStyle(
+                      //   fontFamily: 'PretendartVariable',
+                      //   fontSize: 15,
+                      //   fontWeight: FontWeight.bold,
+                      //   color: Color(0xff3CB196),
+                      // ),
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      side: const BorderSide(color: Color(0xff3CB196), width: 1),
+                      elevation: 3,
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const MypageMylike()));
+                    },
+                    child: Text(
+                      '내가 저장한 레시피',
+                      // style: TextStyle(
+                      //   fontFamily: 'PretendartVariable',
+                      //   fontSize: 15,
+                      //   fontWeight: FontWeight.bold,
+                      //   color: Color(0xff3CB196),
+                      // ),
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      // side: const BorderSide(color: Color(0xff3CB196), width: 1),
+                      elevation: 3,
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const loginScreen()) // 로그인 전 메인화면으로?? 로그인 화면으로??
+                          );
+                    },
+                    child: Text(
+                      '로그아웃',
+                      style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!.
+                        copyWith(color: Colors.red)
+                    ),
+                  ),
+                ),
+              ],
             ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(10, 50, 10, 20),
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  side: const BorderSide(color: Color(0xff3CB196), width: 1),
-                  elevation: 3,
-                ),
-                onPressed: _editMyinfo,
-                child: Text(
-                  '내정보',
-                  // style: TextStyle(
-                  //   fontFamily: 'PretendardVariable',
-                  //   fontSize: 15,
-                  //   fontWeight: FontWeight.bold,
-                  //   color: Color(0xff3CB196),
-                  // ),
-                  style: Theme.of(context).textTheme.bodyMedium,
-
-                ),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  side: const BorderSide(color: Color(0xff3CB196), width: 1),
-                  elevation: 3,
-                ),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const MypageMyscrap()));
-                },
-                child: Text(
-                  '내가 스크랩한 글',
-                  // style: TextStyle(
-                  //   fontFamily: 'PretendartVariable',
-                  //   fontSize: 15,
-                  //   fontWeight: FontWeight.bold,
-                  //   color: Color(0xff3CB196),
-                  // ),
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  side: const BorderSide(color: Color(0xff3CB196), width: 1),
-                  elevation: 3,
-                ),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const MypageMylike()));
-                },
-                child: Text(
-                  '내가 좋아요한 글',
-                  // style: TextStyle(
-                  //   fontFamily: 'PretendartVariable',
-                  //   fontSize: 15,
-                  //   fontWeight: FontWeight.bold,
-                  //   color: Color(0xff3CB196),
-                  // ),
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  side: const BorderSide(color: Color(0xff3CB196), width: 1),
-                  elevation: 3,
-                ),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const MypageMywrite()));
-                },
-                child: Text(
-                  '내가 쓴 글',
-                  // style: TextStyle(
-                  //   fontFamily: 'PretendartVariable',
-                  //   fontSize: 15,
-                  //   fontWeight: FontWeight.bold,
-                  //   color: Color(0xff3CB196),
-                  // ),
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  side: const BorderSide(color: Color(0xff3CB196), width: 1),
-                  elevation: 3,
-                ),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const MypageMyscrap()));
-                },
-                child: Text(
-                  '내가 쓴 댓글',
-                  // style: TextStyle(
-                  //   fontFamily: 'PretendartVariable',
-                  //   fontSize: 15,
-                  //   fontWeight: FontWeight.bold,
-                  //   color: Color(0xff3CB196),
-                  // ),
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  side: const BorderSide(color: Color(0xff3CB196), width: 1),
-                  elevation: 3,
-                ),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const MypageMylike()));
-                },
-                child: Text(
-                  '내가 저장한 레시피',
-                  // style: TextStyle(
-                  //   fontFamily: 'PretendartVariable',
-                  //   fontSize: 15,
-                  //   fontWeight: FontWeight.bold,
-                  //   color: Color(0xff3CB196),
-                  // ),
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(10, 0, 10, 20),
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  backgroundColor: const Color(0xff3CB196),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  side: const BorderSide(color: Color(0xff3CB196), width: 1),
-                  elevation: 3,
-                ),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              const loginScreen()) // 로그인 전 메인화면으로?? 로그인 화면으로??
-                      );
-                },
-                child: const Text(
-                  '로그아웃',
-                  style: TextStyle( // 수정
-                    fontFamily: 'yg-jalnan',
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
+        // bottomNavigationBar: Basenavigationbar(currentIndex: 3,),
       ),
-      // bottomNavigationBar: Basenavigationbar(currentIndex: 3,),
     );
   }
 }
@@ -427,177 +430,195 @@ class _EditInfoScreenState extends State<_EditInfoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          '정보 수정',
-          style: TextStyle(
-            color: Color(0xff3CB196),
+    return Padding(
+      padding: const EdgeInsets.all(33.0),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        // appBar: AppBar(
+        //   title: const Text(
+        //     '정보 수정',
+        //     style: TextStyle(
+        //       color: Color(0xff3CB196),
+        //     ),
+        //   ),
+        // ),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              TextField(
+                style: Theme.of(context).textTheme.bodyMedium,
+                controller: _nicknameController,
+                decoration: InputDecoration(
+                  labelText: '닉네임',
+                  labelStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!.
+                        copyWith(color: Color(0xff3CB196)),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: Color(0xff3CB196),
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: Color(0xff3CB196),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                style: Theme.of(context).textTheme.bodyMedium,
+                controller: _nameController,
+                decoration: InputDecoration(
+                  labelText: '이름',
+                  labelStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!.
+                        copyWith(color: Color(0xff3CB196)),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: Color(0xff3CB196),
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: Color(0xff3CB196),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                style: Theme.of(context).textTheme.bodyMedium,
+                controller: _idController,
+                decoration: InputDecoration(
+                  labelText: '아이디',
+                  labelStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!.
+                        copyWith(color: Color(0xff3CB196)),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: Color(0xff3CB196),
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: Color(0xff3CB196),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                style: Theme.of(context).textTheme.bodyMedium,
+                controller: _passwordController,
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: '비밀번호',
+                  labelStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!.
+                        copyWith(color: Color(0xff3CB196)),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: Color(0xff3CB196),
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: Color(0xff3CB196),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                style: Theme.of(context).textTheme.bodyMedium,
+                controller: _emailController,
+                keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(
+                  labelText: '이메일',
+                  labelStyle:Theme.of(context)
+                        .textTheme
+                        .bodyMedium!.
+                        copyWith(color: Color(0xff3CB196)),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: Color(0xff3CB196),
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: Color(0xff3CB196),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                style: Theme.of(context).textTheme.bodyMedium,
+                controller: _phoneController,
+                keyboardType: TextInputType.phone,
+                decoration: InputDecoration(
+                  labelText: '전화번호',
+                  labelStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!.
+                        copyWith(color: Color(0xff3CB196)),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: Color(0xff3CB196),
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: Color(0xff3CB196),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+                Center(
+                  child: Container(
+                    // margin: const EdgeInsets.fromLTRB(10, 50, 10, 20),
+                    width: double.infinity,
+                    child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xff3CB196),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      minimumSize: const Size(double.infinity, 50),
+                      elevation: 3,
+                      ),
+                      onPressed: (){},
+                      child: Text(
+                        '저장',
+                          style: Theme.of(context).textTheme.labelMedium,
+      
+                      ),
+                    ),
+                  ),
+                ),
+            ],
           ),
-        ),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TextField(
-              style: Theme.of(context).textTheme.bodyMedium,
-              controller: _nicknameController,
-              decoration: InputDecoration(
-                labelText: '닉네임',
-                labelStyle: TextStyle(
-                  color: Color(0xff3CB196),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide(
-                    color: Color(0xff3CB196),
-                  ),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide(
-                    color: Color(0xff3CB196),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              style: Theme.of(context).textTheme.bodyMedium,
-              controller: _nameController,
-              decoration: InputDecoration(
-                labelText: '이름',
-                labelStyle: TextStyle(
-                  color: Color(0xff3CB196),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide(
-                    color: Color(0xff3CB196),
-                  ),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide(
-                    color: Color(0xff3CB196),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              style: Theme.of(context).textTheme.bodyMedium,
-              controller: _idController,
-              decoration: InputDecoration(
-                labelText: '아이디',
-                labelStyle: TextStyle(
-                  color: Color(0xff3CB196),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide(
-                    color: Color(0xff3CB196),
-                  ),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide(
-                    color: Color(0xff3CB196),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              style: Theme.of(context).textTheme.bodyMedium,
-              controller: _passwordController,
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: '비밀번호',
-                labelStyle: TextStyle(
-                  color: Color(0xff3CB196),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide(
-                    color: Color(0xff3CB196),
-                  ),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide(
-                    color: Color(0xff3CB196),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              style: Theme.of(context).textTheme.bodyMedium,
-              controller: _emailController,
-              keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
-                labelText: '이메일',
-                labelStyle: TextStyle(
-                  color: Color(0xff3CB196),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide(
-                    color: Color(0xff3CB196),
-                  ),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide(
-                    color: Color(0xff3CB196),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              style: Theme.of(context).textTheme.bodyMedium,
-              controller: _phoneController,
-              keyboardType: TextInputType.phone,
-              decoration: InputDecoration(
-                labelText: '전화번호',
-                labelStyle: TextStyle(
-                  color: Color(0xff3CB196),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide(
-                    color: Color(0xff3CB196),
-                  ),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide(
-                    color: Color(0xff3CB196),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: _onSave,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xff3CB196),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                padding: const EdgeInsets.symmetric(vertical: 16),
-              ),
-              child: const Text(
-                '저장',
-                style: TextStyle(
-                  color: Colors.white,
-                ),),
-            ),
-          ],
         ),
       ),
     );
@@ -607,9 +628,15 @@ class _EditInfoScreenState extends State<_EditInfoScreen> {
 
 class _EditMyinfoScreen extends StatefulWidget {
   final int age;
+  final double weight;
+  final double height;
+  final int targetCalories;
 
   const _EditMyinfoScreen({
     required this.age,
+    required this.weight,
+    required this.height,
+    required this.targetCalories,
   });
 
   @override
@@ -618,6 +645,11 @@ class _EditMyinfoScreen extends StatefulWidget {
 
 class _EditMyinfoScreenState extends State<_EditMyinfoScreen> {
   late TextEditingController _ageController;
+  late TextEditingController _weightController;
+  late TextEditingController _heightController;
+  late TextEditingController _caloriesController;
+
+  // 체중, 성별, 키, 알레르기, 식단관리, 선호, 기피, 칼로리, 목표
 
   @override
   void initState() {
@@ -633,7 +665,6 @@ class _EditMyinfoScreenState extends State<_EditMyinfoScreen> {
   }
 
   void _onSave() {
-    // 입력값을 int로 변환
     final newAge = int.tryParse(_ageController.text) ?? widget.age;
     Navigator.of(context).pop(newAge);
   }
@@ -641,9 +672,10 @@ class _EditMyinfoScreenState extends State<_EditMyinfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('정보 수정')),
+      backgroundColor: Colors.white,
+      // appBar: AppBar(title: const Text('정보 수정')),
       body: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(33),
         child: Column(
           children: [
             TextField(
