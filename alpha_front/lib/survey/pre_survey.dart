@@ -14,12 +14,15 @@ class Survey extends StatefulWidget {
 }
 
 class _SurveyState extends State<Survey> {
-  String selectedGender = '';
+  String selectedGender = "";
   final TextEditingController ageController = TextEditingController();
 
   void _goToNext() {
     DietInfo.gender = selectedGender;
     DietInfo.age = int.tryParse(ageController.text) ?? 0;
+
+    print('gender 저장됨: ${DietInfo.gender}');
+    print('age 저장됨: ${DietInfo.age}');
 
     Navigator.push(
       context,
@@ -96,7 +99,7 @@ class _SurveyState extends State<Survey> {
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.symmetric(vertical: 15, horizontal: 60),
-                      backgroundColor: selectedGender == 'F'
+                      backgroundColor: selectedGender == "F"
                           ? const Color(0xff3CB196)
                           : Color(0xffECF8F5),
                       shape: RoundedRectangleBorder(
@@ -106,14 +109,14 @@ class _SurveyState extends State<Survey> {
                     ),
                     onPressed: () {
                       setState(() {
-                        selectedGender = 'F';
+                        selectedGender = "F";
                       });
                     },
                     child: Text(
                       '여자',
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontFamily: 'Pretendard-bold',
-                        color: selectedGender == 'F'
+                        color: selectedGender == "F"
                             ? Colors.white
                             : const Color(0xff3CB196),
                       ),
@@ -122,7 +125,7 @@ class _SurveyState extends State<Survey> {
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.symmetric(vertical: 15, horizontal: 60),
-                      backgroundColor: selectedGender == 'M'
+                      backgroundColor: selectedGender == "M"
                           ? const Color(0xff3CB196)
                           : Color(0xffECF8F5),
                       shape: RoundedRectangleBorder(
@@ -132,14 +135,14 @@ class _SurveyState extends State<Survey> {
                     ),
                     onPressed: () {
                       setState(() {
-                        selectedGender = 'M';
+                        selectedGender = "M";
                       });
                     },
                     child: Text(
                       '남자',
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontFamily: 'Pretendard-bold',
-                        color: selectedGender == 'M'
+                        color: selectedGender == "M"
                             ? Colors.white
                             : const Color(0xff3CB196),
                       ),

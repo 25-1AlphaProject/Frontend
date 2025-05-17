@@ -11,13 +11,23 @@ class PreSurvey6 extends StatefulWidget {
 }
 
 class _PreSurvey6State extends State<PreSurvey6> {
-  String selectedGoal = '';
+  String selectedGoalKor = '';
+
+  final Map<String, String> goalMap = {
+    '다이어트': 'DIET',
+    '질환관리': 'DISEASE_MANAGEMENT',
+    '식습관 개선': 'EATING_IMPROVEMENT',
+    '잘 모르겠음': 'NOT_SURE',
+  };
 
   void _submitSurvey() async {
-    // 유저 응답 저장
-    DietInfo.healthGoal = selectedGoal;
+    if (goalMap.containsKey(selectedGoalKor)) {
+      DietInfo.healthGoal = goalMap[selectedGoalKor]!;
+    }
 
-    // POST 요청 실행
+    print('healthgoal 저장됨: ${DietInfo.healthGoal}');
+
+
     bool result = await DietInfo.submitToBackend();
     if (result) {
       print("POST 성공: 설문 정보가 서버에 저장되었습니다.");
@@ -31,7 +41,35 @@ class _PreSurvey6State extends State<PreSurvey6> {
     );
   }
 
+  Widget _buildGoalButton(String goalKor) {
+    final bool isSelected = selectedGoalKor == goalKor;
 
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: isSelected ? const Color(0xff3CB196) : Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        side: const BorderSide(color: Color(0xff3CB196), width: 1),
+        elevation: 3,
+      ),
+      onPressed: () {
+        setState(() {
+          selectedGoalKor = goalKor;
+        });
+      },
+      child: Text(
+        goalKor,
+        style: const TextStyle(
+          fontFamily: 'PretendartVariable',
+          fontSize: 15,
+          fontWeight: FontWeight.bold,
+        ).copyWith(
+          color: isSelected ? Colors.white : const Color(0xff3CB196),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +78,7 @@ class _PreSurvey6State extends State<PreSurvey6> {
       resizeToAvoidBottomInset: false,
       appBar: BaseAppbar(),
       body: Padding(
-        padding: EdgeInsets.fromLTRB(33, 78, 33, 31),
+        padding: const EdgeInsets.fromLTRB(33, 78, 33, 31),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -48,163 +86,63 @@ class _PreSurvey6State extends State<PreSurvey6> {
               height: MediaQuery.of(context).size.height * 0.2,
               child: Align(
                 alignment: Alignment.topLeft,
-                 child: Text.rich(
-                    TextSpan(
-                      text: '건강목표',
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontFamily: 'Pretendard-bold'),
-                      children: [
-                        TextSpan(
-                          text: '를\n알려주세요!',
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                      ],
-                    ),
-                  )
+                child: Text.rich(
+                  TextSpan(
+                    text: '건강목표',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge!
+                        .copyWith(fontFamily: 'Pretendard-bold'),
+                    children: [
+                      TextSpan(
+                        text: '를\n알려주세요!',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: selectedGoal == '다이어트' ? Color(0xff3CB196) : Colors.white,
-                      shape : RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      side: BorderSide(color: Color(0xff3CB196), width: 1),
-                      elevation: 3,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        selectedGoal = '다이어트';
-                      }); 
-                    }, 
-                    child: Text(
-                      '다이어트',
-                      style: TextStyle(
-                        fontFamily: 'PretendartVariable',
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: selectedGoal == '다이어트' ? Colors.white : Color(0xff3CB196),
-              
-                      ),
-                    ),
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: selectedGoal == '질환관리'? Color(0xff3CB196) : Colors.white,                    
-                      shape : RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      side: BorderSide(color: Color(0xff3CB196), width: 1),
-                      elevation: 3,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        selectedGoal = '질환관리';
-                      });
-                    }, 
-                    child: Text(
-                      '질환관리',
-                      style: TextStyle(
-                        fontFamily: 'PretendartVariable',
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: selectedGoal == '질환관리' ? Colors.white : Color(0xff3CB196),
-              
-                      ),
-                    ),
-                  ),
-                ],
-                ),
-                SizedBox(height: 16),
-                Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                  
-                    ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: selectedGoal == '잘 모르겠음' ? Color(0xff3CB196) : Colors.white,
-                            shape : RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            side: BorderSide(color: Color(0xff3CB196), width: 1),
-                            elevation: 3,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              selectedGoal = '잘 모르겠음';
-                            });
-                          }, 
-                          child: Text(
-                            '잘 모르겠음',
-                            style: TextStyle(
-                              fontFamily: 'PretendartVariable',
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: selectedGoal == '잘 모르겠음' ? Colors.white : Color(0xff3CB196),
-                    
-                            ),
-                          ),
-                        ),
-                  
-                    ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: selectedGoal == '식습관 개선' ? Color(0xff3CB196) : Colors.white,
-                            shape : RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            side: BorderSide(color: Color(0xff3CB196), width: 1),
-                            elevation: 3,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              selectedGoal = '식습관 개선';
-                            });
-                          }, 
-                          child: Text(
-                            '식습관 개선',
-                            style: TextStyle(
-                              fontFamily: 'PretendartVariable',
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: selectedGoal == '식습관 개선' ? Colors.white : Color(0xff3CB196),
-                    
-                            ),
-                          ),
-                        ),
-                  ],
-                ),
-              
-              SizedBox(height: 150,),
-              Center(
-                child: Container(
-                  // margin: const EdgeInsets.fromLTRB(10, 50, 10, 20),
-                  width: double.infinity,
-                  child: ElevatedButton(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildGoalButton('다이어트'),
+                _buildGoalButton('질환관리'),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildGoalButton('잘 모르겠음'),
+                _buildGoalButton('식습관 개선'),
+              ],
+            ),
+            const SizedBox(height: 150),
+            Center(
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff3CB196),
+                    backgroundColor: const Color(0xff3CB196),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 18),
                     minimumSize: const Size(double.infinity, 50),
                     elevation: 3,
-                    ),
-            onPressed: _submitSurvey,
-              child: Text(
-              '작성 완료',
-              style: Theme.of(context).textTheme.labelMedium,
-
+                  ),
+                  onPressed: _submitSurvey,
+                  child: Text(
+                    '작성 완료',
+                    style: Theme.of(context).textTheme.labelMedium,
+                  ),
+                ),
+              ),
             ),
-            ),
+          ],
         ),
       ),
-      ],
-              
-    ),
-     
-      )
     );
   }
 }

@@ -43,7 +43,9 @@ class _PreSurvey4State extends State<PreSurvey4> {
 
     void _goToNext() {
     DietInfo.diseases = selectedDisease;
-    
+
+  print('disease 저장됨: ${DietInfo.diseases}');
+
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => PreSurvey5()),

@@ -44,7 +44,9 @@ class _PreSurvey2State extends State<PreSurvey2> {
 
   void _goToNext() {
     DietInfo.allergies = selectedAllergy;
-    
+
+    print('allergy 저장됨: ${DietInfo.allergies}');
+
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => PreSurvey3()),
