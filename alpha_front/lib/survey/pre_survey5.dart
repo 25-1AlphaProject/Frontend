@@ -19,6 +19,9 @@ class _PreSurvey5State extends State<PreSurvey5> {
       
     DietInfo.targetCalories = target_calories;
 
+    print('targetCalories 저장됨: ${DietInfo.targetCalories}');
+
+
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => PreSurvey6()),

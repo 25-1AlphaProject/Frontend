@@ -65,7 +65,7 @@ class ApiService {
   }
 
     static Future<bool> dietinfo(
-    String selectedGender, // m, f
+    String selectedGender,
     int age,
     double height,
     double weight,
@@ -73,8 +73,8 @@ class ApiService {
     int targetCalories,
     List<String> allergies, 
     List<String> diseases, 
-    List<String> preferredFoods,
-    List<String> hatedFoods, 
+    List<String> preferredMenus,
+    List<String> avoidIngredients, 
     String healthGoal,   
   ) async {
     try {
@@ -86,13 +86,15 @@ class ApiService {
           'age': age,
           'height': height,
           'weight': weight,
-          'mealCounts': mealCount,
+          'mealCount': mealCount,
           'targetCalories' : targetCalories,
-          'allergies' : allergies,
-          'diseases' : diseases,
-          'preferredMenus' : preferredFoods,
-          'avoidIngredients':hatedFoods,
-          'healthGoal' : healthGoal,
+          'userDietInfo': {
+            'allergies': allergies,
+            'diseases': diseases,
+            'preferredMenus': preferredMenus,
+            'avoidIngredients': avoidIngredients,
+          },
+          'healthGoal': healthGoal,
         }),
       );
 

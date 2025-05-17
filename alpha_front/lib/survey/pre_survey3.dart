@@ -70,8 +70,11 @@ class _PreSurvey3State extends State<PreSurvey3> {
   }
 
   void _goToNext() {
-    DietInfo.preferredFoods = selectedLikeFood;
-    DietInfo.hatedFoods = selectedHateFood;
+    DietInfo.preferredMenus = selectedLikeFood;
+    DietInfo.avoidIngredients = selectedHateFood;
+
+    print('preferred 저장됨: ${DietInfo.preferredMenus}');
+    print('Weiavoidght 저장됨: ${DietInfo.avoidIngredients}');
 
     Navigator.push(
       context,
@@ -80,8 +83,8 @@ class _PreSurvey3State extends State<PreSurvey3> {
   }
 
   void _skip() {
-    DietInfo.preferredFoods = [];
-    DietInfo.hatedFoods = [];
+    DietInfo.preferredMenus = [];
+    DietInfo.avoidIngredients = [];
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => PreSurvey4()),
