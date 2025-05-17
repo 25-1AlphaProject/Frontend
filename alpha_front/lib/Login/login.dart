@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:alpha_front/SignUp/signup.dart';
-import 'package:alpha_front/Home/home.dart';
 import 'package:alpha_front/layout.dart';
 import 'package:alpha_front/services/api_service.dart';
 

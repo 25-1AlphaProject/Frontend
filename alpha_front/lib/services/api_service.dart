@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:alpha_front/auth/auth_manager.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
@@ -16,7 +17,12 @@ class ApiService {
       );
 
       if (response.statusCode == 200) {
-        log("로그인 성공: ${response.statusCode} ${response.body}");
+        final responseData = jsonDecode(response.body);
+        final token = responseData['token'];
+        if (token != null) {
+          await AuthManager.saveToken(token);
+          log("로그인 성공: ${response.statusCode} ${response.body}");
+        }
         return true;
       } else {
         log("로그인 실패: ${response.statusCode} ${response.body}");
@@ -64,30 +70,35 @@ class ApiService {
     }
   }
 
-    static Future<bool> dietinfo(
+  static Future<bool> dietinfo(
     String selectedGender,
     int age,
     double height,
     double weight,
     List<String> mealCount,
     int targetCalories,
-    List<String> allergies, 
-    List<String> diseases, 
+    List<String> allergies,
+    List<String> diseases,
     List<String> preferredMenus,
-    List<String> avoidIngredients, 
-    String healthGoal,   
+    List<String> avoidIngredients,
+    String healthGoal,
   ) async {
     try {
+      final token = await AuthManager.getToken();
+
       final response = await http.post(
         Uri.parse('http://43.203.32.75:8080/api/users/diet-info'),
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+          'Content-Type': 'application/json',
+          if (token != null) 'Authorization': 'Bearer $token',
+        },
         body: jsonEncode({
-          'gender': selectedGender,
           'age': age,
           'height': height,
           'weight': weight,
+          'gender': selectedGender,
           'mealCount': mealCount,
-          'targetCalories' : targetCalories,
+          'targetCalories': targetCalories,
           'userDietInfo': {
             'allergies': allergies,
             'diseases': diseases,
