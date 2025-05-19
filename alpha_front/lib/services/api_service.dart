@@ -120,6 +120,10 @@ class ApiService {
         if (token != null) log("Token: $token");
         log("저장 완료: ${response.statusCode} ${response.body}");
         return true;
+      }
+      if (response.statusCode == 401) {
+        await AuthManager.clearToken();
+        return false;
       } else {
         if (token != null) log("Token: $token");
         log("저장 실패: ${response.statusCode} ${response.body}");

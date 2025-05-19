@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:alpha_front/SignUp/signup.dart';
 import 'package:alpha_front/layout.dart';
 import 'package:alpha_front/services/api_service.dart';
+import 'package:alpha_front/auth/auth_manager.dart';
 
 class loginScreen extends StatefulWidget {
   const loginScreen({super.key});
@@ -18,6 +21,15 @@ class _loginScreenState extends State<loginScreen> {
 
   final TextEditingController _idController = TextEditingController();
   final TextEditingController _pwController = TextEditingController();
+
+  @override
+  // void initState() {
+  //   super.initState();
+
+  //   WidgetsBinding.instance.addPostFrameCallback((_) async {
+  //     await AuthManager.clearToken();
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
