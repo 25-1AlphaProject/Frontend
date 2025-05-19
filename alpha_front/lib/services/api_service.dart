@@ -21,6 +21,7 @@ class ApiService {
         final token = responseData['token'];
         if (token != null) {
           await AuthManager.saveToken(token);
+          log("token: $token");
           log("로그인 성공: ${response.statusCode} ${response.body}");
         }
         return true;
@@ -55,7 +56,13 @@ class ApiService {
       );
 
       if (response.statusCode == 200) {
-        log("회원가입 완료: ${response.statusCode} ${response.body}");
+        final responseData = jsonDecode(response.body);
+        final token = responseData['token'];
+        if (token != null) {
+          await AuthManager.saveToken(token);
+          log("Token: $token");
+          log("회원가입 완료: ${response.statusCode} ${response.body}");
+        }
         return true;
       } else if (response.statusCode == 409) {
         log("중복된 아이디: ${response.statusCode} ${response.body}");
@@ -89,8 +96,8 @@ class ApiService {
       final response = await http.post(
         Uri.parse('http://43.203.32.75:8080/api/users/diet-info'),
         headers: {
-          'Content-Type': 'application/json',
           if (token != null) 'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
         },
         body: jsonEncode({
           'age': age,
@@ -110,9 +117,11 @@ class ApiService {
       );
 
       if (response.statusCode == 200) {
+        if (token != null) log("Token: $token");
         log("저장 완료: ${response.statusCode} ${response.body}");
         return true;
       } else {
+        if (token != null) log("Token: $token");
         log("저장 실패: ${response.statusCode} ${response.body}");
         return false;
       }

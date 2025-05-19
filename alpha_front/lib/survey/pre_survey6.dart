@@ -16,7 +16,7 @@ class _PreSurvey6State extends State<PreSurvey6> {
   final Map<String, String> goalMap = {
     '다이어트': 'DIET',
     '질환관리': 'DISEASE_MANAGEMENT',
-    '식습관 개선': 'EATING_IMPROVEMENT',
+    '식습관 개선': 'HABIT_IMPROVEMENT',
     '잘 모르겠음': 'NOT_SURE',
   };
 
@@ -27,7 +27,6 @@ class _PreSurvey6State extends State<PreSurvey6> {
 
     print('healthgoal 저장됨: ${DietInfo.healthGoal}');
 
-
     bool result = await DietInfo.submitToBackend();
     if (result) {
       print("POST 성공: 설문 정보가 서버에 저장되었습니다.");
@@ -37,7 +36,7 @@ class _PreSurvey6State extends State<PreSurvey6> {
 
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => PreSurveyFinal()),
+      MaterialPageRoute(builder: (context) => const PreSurveyFinal()),
     );
   }
 
@@ -76,7 +75,7 @@ class _PreSurvey6State extends State<PreSurvey6> {
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
-      appBar: BaseAppbar(),
+      appBar: const BaseAppbar(),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(33, 78, 33, 31),
         child: Column(
