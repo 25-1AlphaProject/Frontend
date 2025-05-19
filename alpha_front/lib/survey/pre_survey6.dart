@@ -30,14 +30,21 @@ class _PreSurvey6State extends State<PreSurvey6> {
     bool result = await DietInfo.submitToBackend();
     if (result) {
       print("POST 성공: 설문 정보가 서버에 저장되었습니다.");
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const PreSurveyFinal()),
+      );
     } else {
       print("POST 실패: 서버 통신에 실패했습니다.");
-    }
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const PreSurveyFinal()),
-    );
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('서버에 데이터를 저장하지 못했습니다. '),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 
   Widget _buildGoalButton(String goalKor) {

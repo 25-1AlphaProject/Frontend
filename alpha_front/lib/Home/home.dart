@@ -93,20 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
       //   ),
       // ),
       // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.white,
-          shape: const CircleBorder(),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const Camera()),
-            );
-          },
-          child: const Icon(
-            Icons.camera_alt,
-            color: Color(0xff3CB196),
-          )),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Center(
