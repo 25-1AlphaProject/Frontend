@@ -7,13 +7,23 @@ import 'package:alpha_front/survey/pre_survey.dart';
 import 'package:alpha_front/Login/login.dart';
 import 'package:alpha_front/SignUp/signup.dart';
 import 'package:alpha_front/survey/pre_survey1.dart';
+import 'package:alpha_front/survey/pre_survey5.dart';
 import 'package:flutter/material.dart';
 import 'package:alpha_front/Splash/splash.dart';
 import 'package:alpha_front/SignUp/signup_loading.dart';
 import 'package:alpha_front/recipe/recipe_description.dart';
+import 'user_provider.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const CCBS());
+  runApp(
+    MultiProvider(
+      providers : [
+        ChangeNotifierProvider(create: (_) => UserProvider())
+      ],
+      child: CCBS(),
+    ),
+  );
 }
 
 class CCBS extends StatelessWidget {
