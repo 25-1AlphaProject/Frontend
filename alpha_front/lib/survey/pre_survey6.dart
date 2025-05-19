@@ -16,36 +16,36 @@ class _PreSurvey6State extends State<PreSurvey6> {
   final Map<String, String> goalMap = {
     '다이어트': 'DIET',
     '질환관리': 'DISEASE_MANAGEMENT',
-    '식습관 개선': 'EATING_IMPROVEMENT',
+    '식습관 개선': 'HABIT_IMPROVEMENT',
     '잘 모르겠음': 'NOT_SURE',
   };
 
-void _submitSurvey() async {
-  if (goalMap.containsKey(selectedGoalKor)) {
-    DietInfo.healthGoal = goalMap[selectedGoalKor]!;
+  void _submitSurvey() async {
+    if (goalMap.containsKey(selectedGoalKor)) {
+      DietInfo.healthGoal = goalMap[selectedGoalKor]!;
+    }
+
+    print('healthgoal 저장됨: ${DietInfo.healthGoal}');
+
+    bool result = await DietInfo.submitToBackend();
+    if (result) {
+      print("POST 성공: 설문 정보가 서버에 저장되었습니다.");
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const PreSurveyFinal()),
+      );
+    } else {
+      print("POST 실패: 서버 통신에 실패했습니다.");
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('서버에 데이터를 저장하지 못했습니다. '),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
-
-  print('healthgoal 저장됨: ${DietInfo.healthGoal}');
-
-  bool result = await DietInfo.submitToBackend();
-  if (result) {
-    print("POST 성공: 설문 정보가 서버에 저장되었습니다.");
-    
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => PreSurveyFinal()),
-    );
-  } else {
-    print("POST 실패: 서버 통신에 실패했습니다.");
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('서버에 데이터를 저장하지 못했습니다. '),
-        backgroundColor: Colors.red,
-      ),
-    );
-  }
-}
 
   Widget _buildGoalButton(String goalKor) {
     final bool isSelected = selectedGoalKor == goalKor;
@@ -82,7 +82,7 @@ void _submitSurvey() async {
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
-      appBar: BaseAppbar(),
+      appBar: const BaseAppbar(),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(33, 78, 33, 31),
         child: Column(
