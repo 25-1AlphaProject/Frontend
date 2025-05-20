@@ -2,6 +2,7 @@ import 'package:alpha_front/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:alpha_front/SignUp/signup_loading.dart';
 import 'package:alpha_front/services/api_service.dart';
+import 'package:http/http.dart';
 
 class signupScreen extends StatefulWidget {
   const signupScreen({super.key});
@@ -253,7 +254,7 @@ class _signupScreenState extends State<signupScreen> {
                       final nickname = _nicknameController.text.trim();
                       final email = _emailController.text.trim();
 
-                      final success = await ApiService.signup(
+                      final response = await ApiService.signup(
                         id,
                         pw,
                         name,
@@ -263,7 +264,7 @@ class _signupScreenState extends State<signupScreen> {
 
                       if (!mounted) return;
 
-                      if (success) {
+                      if (response['success']) {
                         // 회원가입 성공 시 설문조사로 이동
                         Navigator.pushReplacement(
                           context,
@@ -276,7 +277,7 @@ class _signupScreenState extends State<signupScreen> {
                           context: context,
                           builder: (context) => AlertDialog(
                             title: const Text("회원가입 실패"),
-                            content: const Text("회원가입에 실패했습니다. 입력 정보를 확인해주세요."),
+                            content: Text(response['message']),
                             actions: [
                               TextButton(
                                 onPressed: () => Navigator.pop(context),
