@@ -136,4 +136,65 @@ class ApiService {
       return false;
     }
   }
+  static Future<bool> updateUser({
+    required String id,
+    required String password,
+    required String name,
+    required String nickname,
+    required String email,
+  }) async {
+    try {
+      final response = await http.put(
+        Uri.parse('http://43.203.32.75:8080/api/users/info'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'username': id,
+          'password': password,
+          'name': name,
+          'nickname': nickname,
+          'email': email,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        log("회원정보 수정 완료: ${response.statusCode} ${response.body}");
+        return true;
+      } else {
+        log("회원정보 수정 실패: ${response.statusCode} ${response.body}");
+        return false;
+      }
+    } catch (e) {
+      log("회원정보 수정 에러: $e");
+      return false;
+    }
+  }
+
+static Future<Map<String, dynamic>?> getUserInfo(String id, {String? token}) async {
+  if (id.isEmpty) {
+    log("회원정보 조회 실패: id가 비어 있습니다.");
+    return null;
+  }
+  try {
+    final uri = Uri.parse('http://43.203.32.75:8080/api/users/info?id=$id');
+    final headers = {
+      'Content-Type': 'application/json',
+      if (token != null) 'Authorization': 'Bearer $token',
+    };
+
+    final response = await http.get(uri, headers: headers);
+
+    if (response.statusCode == 200) {
+      log("회원정보 조회 성공: ${response.body}");
+      return jsonDecode(response.body);
+    } else {
+      log("회원정보 조회 실패: ${response.statusCode} ${response.body}");
+      return null;
+    }
+  } catch (e) {
+    log("회원정보 조회 에러: $e");
+    return null;
+  }
+}
+
+
 }

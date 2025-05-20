@@ -49,7 +49,7 @@ class _loginScreenState extends State<loginScreen> {
                 const Image(
                   image: AssetImage(
                     // image 변경 - url => network
-                    'alpha_front/assets/images/character.png',
+                    '../assets/images/character.png',
                   ),
                 ),
                 const SizedBox(height: 11),

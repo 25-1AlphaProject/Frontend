@@ -113,7 +113,7 @@ class _PreSurvey5State extends State<PreSurvey5> {
                                 style: TextStyle(fontFamily: 'PretendardVariable', fontSize: 11,fontWeight: FontWeight.bold),
                               ),
                               TextSpan(
-                                text: '체중(kg) x 24 x 활동계수 = 하루 섭취량\n남자: 66.47 + (13.75 x 체중) + (5 x 키) - (6.76 x 나이)\n여자: 655.1 + (9.56 x 체중) + (1.85 x 키) - (4.68 x 나이)\n',
+                                text: '체중(kg)x24x활동계수=하루 섭취량\n남자\n66.47+(13.75x체중)+(5x키)-(6.76x나이)\n여자\n655.1+(9.56x체중)+(1.85x키)-(4.68x나이)\n',
                                 style: TextStyle(fontFamily: 'PretendardVariable', fontSize: 11,fontWeight: FontWeight.w500),
                               ),
                               TextSpan(
