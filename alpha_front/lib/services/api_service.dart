@@ -35,7 +35,7 @@ class ApiService {
     }
   }
 
-  static Future<bool> signup(
+  static Future<Map<String, dynamic>> signup(
     String id,
     String pw,
     String name,
@@ -55,25 +55,27 @@ class ApiService {
         }),
       );
 
+      final responseData = jsonDecode(response.body);
+      final token = responseData['token'];
+      final responseMessage = responseData['message'] ?? '에러가 발생했습니다.';
+
       if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.body);
-        final token = responseData['token'];
         if (token != null) {
           await AuthManager.saveToken(token);
           log("Token: $token");
           log("회원가입 완료: ${response.statusCode} ${response.body}");
         }
-        return true;
+        return {'success': true};
       } else if (response.statusCode == 409) {
         log("중복된 아이디: ${response.statusCode} ${response.body}");
-        return false;
+        return {'success': false, 'message': responseMessage};
       } else {
         log("회원가입 실패: ${response.statusCode} ${response.body}");
-        return false;
+        return {'success': false, 'message': responseMessage};
       }
     } catch (e) {
       log("회원가입 에러: $e");
-      return false;
+      return {'success': false};
     }
   }
 
