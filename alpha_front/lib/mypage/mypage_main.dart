@@ -39,32 +39,16 @@ Future<void> _editInfo() async {
       // Provider의 정보도 즉시 갱신
       Provider.of<UserProvider>(context, listen: false).updateUserInfo(
         nickname: updated['nickname']!,
-        name: updated['name']!,
         password: updated['password']!,
-        email: updated['email']!,
       );
       setState(() {}); // 화면 갱신
     }
   }
-// Future<void> _editMyinfo() async {
-//   // Map<String, String> → int 로 제네릭 변경
-//   // final newAge = await Navigator.push<int>(
-//   //   context,
-//   //   MaterialPageRoute(
-//   //     builder: (context) => _EditInfoScreen(),
-//   //   ),
-//   // );
-
-//   // if (newAge != null) {
-//   //   setState(() {
-//   //     _age = newAge;
-//   //   });
-//   // }
-// }
 
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
+
 
     return Padding(
       padding: EdgeInsets.fromLTRB(33, 0, 33, 0),
@@ -378,7 +362,6 @@ class _EditInfoScreen extends StatefulWidget {
 }
 
 class _EditInfoScreenState extends State<_EditInfoScreen> {
-  late String userId;
   late TextEditingController _nicknameController;
   late TextEditingController _nameController;
   late TextEditingController _idController;
@@ -390,8 +373,8 @@ class _EditInfoScreenState extends State<_EditInfoScreen> {
   @override
   void initState() {
     super.initState();
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
-    userId = userProvider.id;    
+    // final userProvider = Provider.of<UserProvider>(context, listen: false);
+    // userId = userProvider.id;    
     _initControllers();
     _fetchUserData();
   }
@@ -399,20 +382,22 @@ class _EditInfoScreenState extends State<_EditInfoScreen> {
   void _initControllers() {
     _nicknameController = TextEditingController();
     _nameController = TextEditingController();
-    _idController = TextEditingController(text:userId); // ID는 고정
+    _idController = TextEditingController(); // ID는 고정
     _passwordController = TextEditingController();
     _emailController = TextEditingController();
   }
 
   
   Future<void> _fetchUserData() async {
-    final userData = await ApiService.getUserInfo(userId);
+    // final userData = await ApiService.getUserInfo(userId);
+  final userData = await ApiService.getUserInfo();
 
     if (userData != null) {
       setState(() {
         _nicknameController.text = userData['nickname'] ?? '';
         _nameController.text = userData['name'] ?? '';
-        _passwordController.text = userData['password'] ?? '';
+        _passwordController.text = '';
+        _idController.text = userData['username'] ?? '';
         _emailController.text = userData['email'] ?? '';
         _isLoading = false;
       });
@@ -425,23 +410,20 @@ class _EditInfoScreenState extends State<_EditInfoScreen> {
     }
   }
 
-  @override
-  void dispose() {
-    _nicknameController.dispose();
-    _nameController.dispose();
-    _idController.dispose();
-    _passwordController.dispose();
-    _emailController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _nicknameController.dispose();
+  //   _nameController.dispose();
+  //   _idController.dispose();
+  //   _passwordController.dispose();
+  //   _emailController.dispose();
+  //   super.dispose();
+  // }
 
   void _onSave() async {
     final success = await ApiService.updateUser(
-      id: userId,
       password: _passwordController.text,
-      name: _nameController.text,
       nickname: _nicknameController.text,
-      email: _emailController.text,
     );
 
     if (success) {
@@ -450,10 +432,7 @@ class _EditInfoScreenState extends State<_EditInfoScreen> {
       );
       Navigator.of(context).pop({
         'nickname': _nicknameController.text,
-        'name': _nameController.text,
-        'id': userId,
         'password': _passwordController.text,
-        'email': _emailController.text,
       });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

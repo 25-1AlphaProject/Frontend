@@ -14,6 +14,8 @@ class UserProvider with ChangeNotifier {
   String get password => _password;
   String get email => _email;
 
+
+
   void setUserInfo({
     required String nickname,
     required String name,
@@ -21,6 +23,7 @@ class UserProvider with ChangeNotifier {
     required String password,
     required String email,
   }) {
+
     _nickname = nickname;
     _name = name;
     _id = id;
@@ -32,14 +35,10 @@ class UserProvider with ChangeNotifier {
   // Setter (정보 수정)
   void updateUserInfo({
     required String nickname,
-    required String name,
     required String password,
-    required String email,
   }) {
     _nickname = nickname;
-    _name = name;
     _password = password;
-    _email = email;
     notifyListeners();
   }
 }
