@@ -136,23 +136,22 @@ class ApiService {
       return false;
     }
   }
+
   static Future<bool> updateUser({
-    required String id,
     required String password,
-    required String name,
     required String nickname,
-    required String email,
   }) async {
     try {
+      final token = await AuthManager.getToken();
       final response = await http.put(
         Uri.parse('http://43.203.32.75:8080/api/users/info'),
-        headers: {'Content-Type': 'application/json'},
+      headers: {
+        'Content-Type': 'application/json',
+        if (token != null) 'Authorization': 'Bearer $token',        
+        },
         body: jsonEncode({
-          'username': id,
           'password': password,
-          'name': name,
           'nickname': nickname,
-          'email': email,
         }),
       );
 
@@ -169,32 +168,75 @@ class ApiService {
     }
   }
 
-static Future<Map<String, dynamic>?> getUserInfo(String id, {String? token}) async {
-  if (id.isEmpty) {
-    log("회원정보 조회 실패: id가 비어 있습니다.");
-    return null;
-  }
-  try {
-    final uri = Uri.parse('http://43.203.32.75:8080/api/users/info?id=$id');
-    final headers = {
-      'Content-Type': 'application/json',
-      if (token != null) 'Authorization': 'Bearer $token',
-    };
+static Future<Map<String, dynamic>?> getUserInfo() async {    // if (id.isEmpty) {
+    //   log("회원정보 조회 실패");
+    //   return null;
+    // }
+    try {
+      final token = await AuthManager.getToken();
+      final uri = Uri.parse('http://43.203.32.75:8080/api/users/info');
+      final headers = {
+        'Content-Type': 'application/json',
+        if (token != null) 'Authorization': 'Bearer $token',
+      };
 
-    final response = await http.get(uri, headers: headers);
+      final response = await http.get(uri, headers: headers);
 
-    if (response.statusCode == 200) {
-      log("회원정보 조회 성공: ${response.body}");
-      return jsonDecode(response.body);
-    } else {
-      log("회원정보 조회 실패: ${response.statusCode} ${response.body}");
+      if (response.statusCode == 200) {
+        final decoded = jsonDecode(response.body);
+        log("회원정보 조회 성공: ${response.body}");
+        return decoded['data'];
+      } else {
+        log("회원정보 조회 실패: ${response.statusCode} ${response.body}");
+        return null;
+      }
+    } catch (e) {
+      log("회원정보 조회 에러: $e");
       return null;
     }
-  } catch (e) {
-    log("회원정보 조회 에러: $e");
-    return null;
   }
-}
 
+  static Future<bool> foodinfo(
+    String name,
+    double foodCalories,
+    String amount,
+    DateTime mealDate,
+    String mealType,
+    String mealPhoto,
+
+  ) async {
+    try {
+      final token = await AuthManager.getToken();
+
+      final response = await http.post(
+        Uri.parse('http://43.203.32.75:8080/api/meal/real-eat/write'),
+        headers: {
+          if (token != null) 'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'name': name,
+          'foodCalories': foodCalories,
+          'amount' : amount,
+          'mealDate' : mealDate,
+          'mealType' : mealType,
+          'mealPhoto': mealPhoto,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        if (token != null) log("Token: $token");
+        log("전달 완료: ${response.statusCode} ${response.body}");
+        return true;
+      } else {
+        if (token != null) log("Token: $token");
+        log("전달 실패: ${response.statusCode} ${response.body}");
+        return false;
+      }
+    } catch (e) {
+      log("전달 에러: $e");
+      return false;
+    }
+  }
 
 }
