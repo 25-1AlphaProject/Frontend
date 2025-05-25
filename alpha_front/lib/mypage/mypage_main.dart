@@ -21,6 +21,38 @@ class _MypageMainState extends State<MypageMain> {
   File? _imageFile;
   final ImagePicker _picker = ImagePicker();
 
+  List<String> meal_count = [];
+  List<String> _selectedDisease = [];
+  TextEditingController _diseasesearchController = TextEditingController();
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _loadDietInfoFromProvider();
+  // }
+
+  // void _loadDietInfoFromProvider() {
+  //   final userProvider = Provider.of<UserProvider>(context, listen: false);
+  //   setState(() {
+  //     meal_count = List<String>.from(userProvider.mealCount);
+  //     _selectedDisease = List<String>.from(userProvider.diseases);
+  //   });
+  // }
+
+  // Future<void> _fetchDietInfoFromServer() async {
+  //   final userDietInfo = await ApiService.getUserDietInfo();
+  //   if (userDietInfo != null) {
+  //     setState(() {
+  //       meal_count = (userDietInfo['mealCount'] is List)
+  //           ? List<String>.from(userDietInfo['mealCount'].map((e) => e.toString()))
+  //           : (userDietInfo['mealCount']?.toString().split(',') ?? []);
+  //       _selectedDisease = (userDietInfo['diseases'] is List)
+  //           ? List<String>.from(userDietInfo['diseases'].map((e) => e.toString()))
+  //           : (userDietInfo['diseases']?.toString().split(',') ?? []);
+  //     });
+  //   }
+  // }
+
   Future<void> _pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
@@ -40,6 +72,30 @@ Future<void> _editInfo() async {
       Provider.of<UserProvider>(context, listen: false).updateUserInfo(
         nickname: updated['nickname']!,
         password: updated['password']!,
+      );
+      setState(() {}); // 화면 갱신
+    }
+  }
+
+  Future<void> _editDietInfo() async {
+    final updated = await Navigator.push<Map<String, dynamic>>(
+      context,
+      MaterialPageRoute(builder: (context) => _EditDietInfoScreen()),
+    );
+    if (updated != null) {
+      // Provider의 정보도 즉시 갱신
+      Provider.of<UserProvider>(context, listen: false).updateUserDietInfo(
+        age: int.parse(updated['age'].toString()),
+        height: double.parse(updated['height'].toString()),
+        weight: double.parse(updated['weight'].toString()),
+        gender: updated['gender'],
+        mealCount: List<String>.from(updated['mealCount'] ?? []),
+        targetCalories: int.parse(updated['targetCalories'].toString()),
+        allergies: List<String>.from(updated['allergies'] ?? []),
+        diseases: List<String>.from(updated['diseases'] ?? []),
+        preferredMenus: List<String>.from(updated['preferredMenus'] ?? []),
+        avoidIngredients: List<String>.from(updated['avoidIngredients'] ?? []),
+        healthGoal: updated['healthGoal'],
       );
       setState(() {}); // 화면 갱신
     }
@@ -124,16 +180,10 @@ Future<void> _editInfo() async {
                       // side: const BorderSide(color: Color(0xff3CB196), width: 1),
                       elevation: 3,
                     ),
-                    onPressed: (){},
-                    //  _editMyinfo,
+                    onPressed:
+                    _editDietInfo,
                     child: Text(
                       '내정보',
-                      // style: TextStyle(
-                      //   fontFamily: 'PretendardVariable',
-                      //   fontSize: 15,
-                      //   fontWeight: FontWeight.bold,
-                      //   color: Color(0xff3CB196),
-                      // ),
                       style: Theme.of(context)
                         .textTheme
                         .labelMedium!.
@@ -230,12 +280,6 @@ Future<void> _editInfo() async {
                     },
                     child: Text(
                       '내가 쓴 글',
-                      // style: TextStyle(
-                      //   fontFamily: 'PretendartVariable',
-                      //   fontSize: 15,
-                      //   fontWeight: FontWeight.bold,
-                      //   color: Color(0xff3CB196),
-                      // ),
                       style: Theme.of(context)
                         .textTheme
                         .labelMedium!.
@@ -368,13 +412,13 @@ class _EditInfoScreenState extends State<_EditInfoScreen> {
   late TextEditingController _passwordController;
   late TextEditingController _emailController;
 
+
   bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    // final userProvider = Provider.of<UserProvider>(context, listen: false);
-    // userId = userProvider.id;    
+
     _initControllers();
     _fetchUserData();
   }
@@ -420,7 +464,7 @@ class _EditInfoScreenState extends State<_EditInfoScreen> {
   //   super.dispose();
   // }
 
-  void _onSave() async {
+  void _onSaveInfo() async {
     final success = await ApiService.updateUser(
       password: _passwordController.text,
       nickname: _nicknameController.text,
@@ -624,7 +668,7 @@ class _EditInfoScreenState extends State<_EditInfoScreen> {
                       minimumSize: const Size(double.infinity, 50),
                       elevation: 3,
                       ),
-                      onPressed: _onSave,
+                      onPressed: _onSaveInfo,
                       child: Text(
                         '저장',
                           style: Theme.of(context).textTheme.labelMedium,
@@ -642,81 +686,634 @@ class _EditInfoScreenState extends State<_EditInfoScreen> {
 }
 
 
-// class _EditMyinfoScreen extends StatefulWidget {
-//   final int age;
-//   final double weight;
-//   final double height;
-//   final int targetCalories;
+class _EditDietInfoScreen extends StatefulWidget {
+  
+  @override
+  _EditDietInfoScreenState createState() => _EditDietInfoScreenState();
 
-//   const _EditMyinfoScreen({
-//     required this.age,
-//     required this.weight,
-//     required this.height,
-//     required this.targetCalories,
-//   });
+}
 
-//   @override
-//   _EditMyinfoScreenState createState() => _EditMyinfoScreenState();
-// }
+class _EditDietInfoScreenState extends State<_EditDietInfoScreen> {
+  late TextEditingController _ageController;
+  late TextEditingController _heightController;
+  late TextEditingController _weightController;
+  late TextEditingController _targetCaloriescontroller;
+  late TextEditingController _allergiesSearchController;
+  late TextEditingController _preferredMenusSearchController;
+  late TextEditingController _avoidIngredientsSearchController;
+  late TextEditingController _diseasesearchController;
 
-// class _EditMyinfoScreenState extends State<_EditMyinfoScreen> {
-//   late TextEditingController _ageController;
-//   late TextEditingController _weightController;
-//   late TextEditingController _heightController;
-//   late TextEditingController _caloriesController;
+  bool _isLoading = true;
 
-//   // 체중, 성별, 키, 알레르기, 식단관리, 선호, 기피, 칼로리, 목표
+  late String _gender;
+  late List<String> _mealCount;
+  late List<String> _selectedAllergy;
+  late List<String> _selectedDisease;
+  late List<String> _selectedLikeFood;
+  late List<String> _selectedHateFood;
+  late String _healthGoal;
 
-//   @override
-//   void initState() {
-//     super.initState();
-//     // int → String
-//     _ageController = TextEditingController(text: widget.age.toString());
-//   }
+  @override
+  void initState() {
+    super.initState();
+    _initControllers();
+    _fetchUserDietData();
+  }
 
-//   @override
-//   void dispose() {
-//     _ageController.dispose();
-//     super.dispose();
-//   }
+  void _initControllers() {
+    _ageController = TextEditingController();
+    _weightController = TextEditingController();
+    _heightController = TextEditingController();
+    _targetCaloriescontroller = TextEditingController();
+    _allergiesSearchController = TextEditingController();
+    _preferredMenusSearchController = TextEditingController();
+    _avoidIngredientsSearchController = TextEditingController();
+    _diseasesearchController = TextEditingController();
+  }
 
-//   void _onSave() {
-//     final newAge = int.tryParse(_ageController.text) ?? widget.age;
-//     Navigator.of(context).pop(newAge);
-//   }
+  Future<void> _fetchUserDietData() async {
+    final userDietData = await ApiService.getUserDietInfo();
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Colors.white,
-//       // appBar: AppBar(title: const Text('정보 수정')),
-//       body: Padding(
-//         padding: const EdgeInsets.all(33),
-//         child: Column(
-//           children: [
-//             TextField(
-//               controller: _ageController,
-//               keyboardType: TextInputType.number,
-//               decoration: InputDecoration(
-//                 labelText: '나이',
-//                 border: OutlineInputBorder(
-//                   borderRadius: BorderRadius.circular(20),
-//                 ),
-//               ),
-//               // 입력 중에 숫자만 받도록 필터링
-//               inputFormatters: [
-//                 FilteringTextInputFormatter.digitsOnly,
-//               ],
-//               style: Theme.of(context).textTheme.bodyMedium,
-//             ),
-//             const SizedBox(height: 24),
-//             ElevatedButton(
-//               onPressed: _onSave,
-//               child: const Text('저장'),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
+    if (userDietData != null) {
+      setState(() {
+        _ageController.text = userDietData['age']?.toString() ?? '';
+        _heightController.text = userDietData['height']?.toString() ?? '';
+        _weightController.text = userDietData['weight']?.toString() ?? '';
+        _targetCaloriescontroller.text = userDietData['targetCalories']?.toString() ?? '';
+        _gender = userDietData['gender'] ?? "";
+        _mealCount = (userDietData['mealCount'] is List)
+            ? List<String>.from(userDietData['mealCount'].map((e) => e.toString()))
+            : (userDietData['mealCount']?.toString().split(',') ?? []);
+        _selectedAllergy = (userDietData['allergies'] is List)
+            ? List<String>.from(userDietData['allergies'].map((e) => e.toString()))
+            : (userDietData['allergies']?.toString().split(',') ?? []);
+        _selectedDisease = (userDietData['diseases'] is List)
+            ? List<String>.from(userDietData['diseases'].map((e) => e.toString()))
+            : (userDietData['diseases']?.toString().split(',') ?? []);
+        _selectedLikeFood = (userDietData['preferredMenus'] is List)
+            ? List<String>.from(userDietData['preferredMenus'].map((e) => e.toString()))
+            : (userDietData['preferredMenus']?.toString().split(',') ?? []);
+        _selectedHateFood = (userDietData['avoidIngredients'] is List)
+            ? List<String>.from(userDietData['avoidIngredients'].map((e) => e.toString()))
+            : (userDietData['avoidIngredients']?.toString().split(',') ?? []);
+        _healthGoal = userDietData['healthGoal'] ?? "DIET";
+        _isLoading = false;
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('사용자 다이어트 정보를 불러오는 데 실패했습니다.')),
+      );
+      Navigator.of(context).pop();
+    }
+  }
+
+  void _onSaveDietInfo() async {
+    final success = await ApiService.updateDiet(
+      age: int.parse(_ageController.text),
+      height: double.parse(_heightController.text),
+      weight: double.parse(_weightController.text),
+      targetCalories: int.parse(_targetCaloriescontroller.text),
+
+      selectedGender: _gender,
+      mealCount: _mealCount,
+      allergies: _selectedAllergy,
+      diseases: _selectedDisease,
+      preferredMenus: _selectedLikeFood,
+      avoidIngredients: _selectedHateFood, 
+      healthGoal: _healthGoal,
+
+    );
+
+    if (success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('회원 다이어트 정보가 수정되었습니다.')),
+      );
+      Navigator.of(context).pop({
+        'age': int.parse(_ageController.text),
+        'height': double.parse(_heightController.text),
+        'weight': double.parse(_weightController.text),
+        'targetCalories': int.parse(_targetCaloriescontroller.text),
+
+        'gender': _gender,
+        'mealCount': _mealCount,
+        'allergies': _selectedAllergy,
+        'diseases': _selectedDisease,
+        'preferredMenus': _selectedLikeFood,
+        'avoidIngredients': _selectedHateFood,
+        'healthGoal': _healthGoal,
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('회원정보 수정에 실패했습니다.')),
+      );
+    }
+  }
+
+  final Map<String, String> mealNameMap = {
+    '아침': 'BREAKFAST',
+    '점심': 'LUNCH',
+    '저녁': 'DINNER',
+  };
+
+  Widget _buildMealButton(String mealNameKor) {
+    final String mealKey = mealNameMap[mealNameKor]!;
+    final bool isSelected = _mealCount.contains(mealKey);
+
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 40),
+        backgroundColor:
+            isSelected ? const Color(0xff3CB196) : const Color(0xffECF8F5),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        elevation: 3,
+      ),
+      onPressed: () {
+        setState(() {
+          if (isSelected) {
+            _mealCount.remove(mealKey);
+          } else {
+            _mealCount.add(mealKey);
+          }
+        });
+      },
+      child: Text(
+        mealNameKor,
+        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+              fontFamily: 'Pretendard-bold',
+              color: isSelected ? Colors.white : const Color(0xff3CB196),
+            ),
+      ),
+    );
+  }
+
+  void _addAllergy(String input) {
+    if (input.isEmpty) return;
+    List<String> terms = input
+        .split(',')
+        .map((e) => e.trim())
+        .where((e) => e.isNotEmpty)
+        .toList();
+    setState(() {
+      for (var term in terms) {
+        if (!_selectedAllergy.contains(term)) {
+          _selectedAllergy.add(term);
+        }
+      }
+    });
+    _allergiesSearchController.clear();
+  }
+
+  void _removeAllergy(String term) {
+    setState(() {
+      _selectedAllergy.remove(term);
+    });
+  }
+
+  void _addLikeFood(String input) {
+    if (input.isEmpty) return;
+    List<String> terms = input
+        .split(',')
+        .map((e) => e.trim())
+        .where((e) => e.isNotEmpty)
+        .toList();
+    setState(() {
+      for (var term in terms) {
+        if (!_selectedLikeFood.contains(term)) {
+          _selectedLikeFood.add(term);
+        }
+      }
+    });
+    _preferredMenusSearchController.clear();
+  }
+
+  void _removeLikeFood(String term) {
+    setState(() {
+      _selectedLikeFood.remove(term);
+    });
+  }
+
+  void _addHateFood(String input) {
+    if (input.isEmpty) return;
+    List<String> terms = input
+        .split(',')
+        .map((e) => e.trim())
+        .where((e) => e.isNotEmpty)
+        .toList();
+    setState(() {
+      for (var term in terms) {
+        if (!_selectedHateFood.contains(term)) {
+          _selectedHateFood.add(term);
+        }
+      }
+    });
+    _avoidIngredientsSearchController.clear();
+  }
+
+  void _removeHateFood(String term) {
+    setState(() {
+      _selectedHateFood.remove(term);
+    });
+  }
+
+  void _addDisease(String input) {
+    if (input.isEmpty) return;
+    List<String> terms = input
+        .split(',')
+        .map((e) => e.trim())
+        .where((e) => e.isNotEmpty)
+        .toList();
+    setState(() {
+      for (var term in terms) {
+        if (!_selectedDisease.contains(term)) {
+          _selectedDisease.add(term);
+        }
+      }
+    });
+    _diseasesearchController.clear();
+  }
+
+  void _removeDisease(String term) {
+    setState(() {
+      _selectedDisease.remove(term);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_isLoading) {
+      return Center(child: CircularProgressIndicator());
+    }
+
+    final userProvider = Provider.of<UserProvider>(context);
+
+    return Padding(
+      padding: EdgeInsets.all(33.0),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              TextField(
+                style: Theme.of(context).textTheme.bodyMedium,
+                controller: _ageController,
+                decoration: InputDecoration(
+                  labelText: '나이',
+                  labelStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!.
+                        copyWith(color: Color(0xff3CB196)),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: Color(0xff3CB196),
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: Color(0xff3CB196),
+                    ),
+                  ),
+                )
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                style: Theme.of(context).textTheme.bodyMedium,
+                controller: _heightController,
+                decoration: InputDecoration(
+                  labelText: '키',
+                  labelStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!.
+                        copyWith(color: Color(0xff3CB196)),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: Color(0xff3CB196),
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: Color(0xff3CB196),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                style: Theme.of(context).textTheme.bodyMedium,
+                controller: _weightController,
+                decoration: InputDecoration(
+                  labelText: '체중',
+                  labelStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!.
+                        copyWith(color: Color(0xff3CB196)),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: Color(0xff3CB196),
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: Color(0xff3CB196),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                style: Theme.of(context).textTheme.bodyMedium,
+                controller: _targetCaloriescontroller,
+                decoration: InputDecoration(
+                  labelText: '목표 칼로리',
+                  labelStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!.
+                        copyWith(color: Color(0xff3CB196)),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: Color(0xff3CB196),
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: Color(0xff3CB196),
+                    ),
+                  ),
+                ),
+              ),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 60),
+                      backgroundColor: userProvider.gender == "F"
+                          ? const Color(0xff3CB196)
+                          : Color(0xffECF8F5),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      elevation: 3,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _gender = "F";
+                      });
+                    },                   
+                    child: Text(
+                      '여자',
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontFamily: 'Pretendard-bold',
+                        color: _gender == "F"
+                            ? Colors.white
+                            : const Color(0xff3CB196),
+                      ),
+                    ),
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 60),
+                      backgroundColor: userProvider.gender == "M"
+                          ? const Color(0xff3CB196)
+                          : Color(0xffECF8F5),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      elevation: 3,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _gender = "M";
+                      });
+                    },                      
+                    child: Text(
+                      '남자',
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontFamily: 'Pretendard-bold',
+                        color: _gender == "M"
+                            ? Colors.white
+                            : const Color(0xff3CB196),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildMealButton('아침'),
+                _buildMealButton('점심'),
+                _buildMealButton('저녁'),
+              ],
+            ),
+            SizedBox(height: 20),
+             TextField(
+              style: Theme.of(context).textTheme.bodyMedium,
+              controller: _allergiesSearchController,
+              decoration: InputDecoration(
+                hintText: "알러지 검색",
+                hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Color(0xffb6b6b6)),
+                border: UnderlineInputBorder(
+                ),
+              ),
+              onSubmitted: _addAllergy,
+            ),
+            SizedBox(height: 20),
+        
+              Wrap(
+                spacing: 8.0,
+                children: _selectedAllergy.map((term) => ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color:Colors.white),
+                    backgroundColor: Color(0xff3CB196), 
+                    foregroundColor: Colors.white, 
+                  ),
+                  onPressed: () {},
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(term),
+                      SizedBox(width: 8),
+                      GestureDetector(
+                        onTap: () => _removeAllergy(term),
+                        child: Icon(Icons.close, color: Colors.white, size: 16),
+                      ),
+                    ],
+                  ),
+                )).toList(),
+              ),
+              SizedBox(height: 20),
+
+            TextField(
+              style: Theme.of(context).textTheme.bodyMedium,
+              controller: _preferredMenusSearchController,
+              decoration: InputDecoration(
+                hintText: "선호 식품 검색",
+                hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Color(0xffb6b6b6)),
+                border: UnderlineInputBorder(),
+              ),
+              onSubmitted: _addLikeFood,
+            ),
+            SizedBox(height: 20),
+
+            // 선호 식품 목록 표시
+            Wrap(
+              spacing: 8.0,
+              children: _selectedLikeFood
+                  .map(
+                    (term) => ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.white),
+                        backgroundColor: Color(0xff3CB196),
+                        foregroundColor: Colors.white,
+                      ),
+                      onPressed: () {},
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(term),
+                          SizedBox(width: 8),
+                          GestureDetector(
+                            onTap: () => _removeLikeFood(term),
+                            child: Icon(Icons.close, color: Colors.white, size: 16),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                  .toList(),
+            ),
+            SizedBox(height: 20),
+
+            // 기피 식품 검색 TextField
+            TextField(
+              style: Theme.of(context).textTheme.bodyMedium,
+              controller: _avoidIngredientsSearchController,
+              decoration: InputDecoration(
+                hintText: "기피 식품 검색",
+                hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Color(0xffb6b6b6)),
+                border: UnderlineInputBorder(),
+              ),
+              onSubmitted: _addHateFood,
+            ),
+            SizedBox(height: 20),
+
+            // 기피 식품 목록 표시
+            Wrap(
+              spacing: 8.0,
+              children: _selectedHateFood
+                  .map(
+                    (term) => ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Colors.white),
+                        backgroundColor: Color(0xff3CB196),
+                        foregroundColor: Colors.white,
+                      ),
+                      onPressed: () {},
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(term),
+                          SizedBox(width: 8),
+                          GestureDetector(
+                            onTap: () => _removeHateFood(term),
+                            child: Icon(Icons.close, color: Colors.white, size: 16),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                  .toList(),
+            ),
+
+              TextField(
+                style: Theme.of(context).textTheme.bodyMedium,
+                controller: _diseasesearchController,
+                decoration: InputDecoration(
+                  hintText: '질환명',
+                    hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Color(0xffb6b6b6)),
+                  enabledBorder : UnderlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xff000000),
+                    )
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xff3CB196),
+                    ),  
+                  ),
+                ), 
+                onSubmitted: _addDisease,
+              ),
+
+            SizedBox(height: 20),
+            Wrap(
+              spacing: 8.0,
+              children: _selectedDisease.map((term) => ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color:Colors.white),
+                  backgroundColor: Color(0xff3CB196), 
+                  foregroundColor: Colors.white, 
+                ),
+                onPressed: () {},
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(term),
+                    SizedBox(width: 8),
+                    GestureDetector(
+                      onTap: () => _removeDisease(term),
+                      child: Icon(Icons.close, color: Colors.white, size: 16),
+                    ),
+                  ],
+                ),
+              )).toList(),
+            ),
+
+              const SizedBox(height: 24),
+                Center(
+                  child: Container(
+                    // margin: const EdgeInsets.fromLTRB(10, 50, 10, 20),
+                    width: double.infinity,
+                    child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xff3CB196),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      minimumSize: const Size(double.infinity, 50),
+                      elevation: 3,
+                      ),
+                      onPressed: _onSaveDietInfo,
+                      child: Text(
+                        '저장',
+                          style: Theme.of(context).textTheme.labelMedium,
+      
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+            
+          ),
+        ),
+      ),
+      );
+
+  }
+
+
+}
+

@@ -196,6 +196,86 @@ static Future<Map<String, dynamic>?> getUserInfo() async {    // if (id.isEmpty)
     }
   }
 
+    static Future<bool> updateDiet({
+    required String selectedGender,
+    required int age,
+    required double height,
+    required double weight,
+    required List<String> mealCount,
+    required int targetCalories,
+    required List<String> allergies,
+    required List<String> diseases,
+    required List<String> preferredMenus,
+    required List<String> avoidIngredients,
+    required String healthGoal,
+  }) async {
+    try {
+      final token = await AuthManager.getToken();
+      final response = await http.put(
+        Uri.parse('http://43.203.32.75:8080/api/users/diet-info'),
+      headers: {
+        'Content-Type': 'application/json',
+        if (token != null) 'Authorization': 'Bearer $token',        
+        },
+        body: jsonEncode({
+          'age': age,
+          'height': height,
+          'weight': weight,
+          'gender': selectedGender,
+          'mealCount': mealCount,
+          'targetCalories': targetCalories,
+          'userDietInfo': {
+            'allergies': allergies,
+            'diseases': diseases,
+            'preferredMenus': preferredMenus,
+            'avoidIngredients': avoidIngredients,
+          },
+          'healthGoal': healthGoal,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        log("회원 다이어트 정보 수정 완료: ${response.statusCode} ${response.body}");
+        return true;
+      } else {
+        log("회원 다이어트 정보 수정 실패: ${response.statusCode} ${response.body}");
+        return false;
+      }
+    } catch (e) {
+      log("회원 다이어트 정보 수정 에러: $e");
+      return false;
+    }
+  }
+
+static Future<Map<String, dynamic>?> getUserDietInfo() async {    // if (id.isEmpty) {
+    //   log("회원정보 조회 실패");
+    //   return null;
+    // }
+    try {
+      final token = await AuthManager.getToken();
+      final uri = Uri.parse('http://43.203.32.75:8080/api/users/diet-info');
+      final headers = {
+        'Content-Type': 'application/json',
+        if (token != null) 'Authorization': 'Bearer $token',
+      };
+
+      final response = await http.get(uri, headers: headers);
+
+      if (response.statusCode == 200) {
+        final decoded = jsonDecode(response.body);
+        log("회원 다이어트 정보 조회 성공: ${response.body}");
+        return decoded['data'];
+      } else {
+        log("회원 다이어트 정보 조회 실패: ${response.statusCode} ${response.body}");
+        return null;
+      }
+    } catch (e) {
+      log("회원 다이어트 정보 조회 에러: $e");
+      return null;
+    }
+  }
+
+
   static Future<bool> foodinfo(
     String name,
     double foodCalories,
