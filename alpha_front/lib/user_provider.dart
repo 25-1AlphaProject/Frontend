@@ -7,6 +7,19 @@ class UserProvider with ChangeNotifier {
   String _password = '';
   String _email = '';
 
+  int _age = 0;
+  double _weight = 0.0;
+  double _height = 0.0;
+  String _gender = '';
+  int _targetCalories = 0;
+  String _healthGoal = '';
+  List<String> _mealCount =[];
+  List<String> _allergies =[];
+  List<String> _diseases=[];
+  List<String> _preferredMenus =[];
+  List<String> _avoidIngredients=[];
+
+
   // Getter
   String get nickname => _nickname;
   String get name => _name;
@@ -14,6 +27,17 @@ class UserProvider with ChangeNotifier {
   String get password => _password;
   String get email => _email;
 
+  int get age => _age;
+  int get targetCalories => _targetCalories;
+  double get height => _height;
+  double get weight => _weight;
+  String get gender => _gender;
+  String get healthGoal => _healthGoal;
+  List<String> get mealCount => _mealCount;
+  List<String> get allergies => _allergies;
+  List<String> get diseases => _diseases;
+  List<String> get preferredMenus => _preferredMenus;
+  List<String> get avoidIngredients => _avoidIngredients;
 
 
   void setUserInfo({
@@ -32,6 +56,36 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void setUserDietInfo({
+    required int age,
+    required double height,
+    required double weight,
+    required int targetCalories,
+    required String gender, 
+    required List<String> mealCount,
+    required List<String> allergies,
+    required List<String> diseases,
+    required List<String> preferredMenus,
+    required List<String> avoidIngredients,
+    required String healthGoal,    
+
+
+  }) {
+    _age = age;
+    _weight = weight;
+    _height = height;
+    _targetCalories = targetCalories;
+    _gender = gender;
+    _mealCount = mealCount;
+    _allergies = allergies;
+    _diseases = diseases;
+    _preferredMenus = preferredMenus;
+    _avoidIngredients = avoidIngredients;
+    _healthGoal = healthGoal;
+    notifyListeners();
+  }
+
+
   // Setter (정보 수정)
   void updateUserInfo({
     required String nickname,
@@ -39,6 +93,34 @@ class UserProvider with ChangeNotifier {
   }) {
     _nickname = nickname;
     _password = password;
+    notifyListeners();
+  }
+
+  void updateUserDietInfo({
+    required int age,
+    required double weight,
+    required double height,
+    required int targetCalories,
+    required String gender,
+    required List<String> mealCount,
+    required List<String> allergies,
+    required List<String> diseases,
+    required List<String> preferredMenus,
+    required List<String> avoidIngredients,
+    required String healthGoal,
+
+  }) {
+    _age = age;
+    _weight = weight;
+    _height = height;
+    _targetCalories = targetCalories;
+    _gender = gender; 
+    _allergies = allergies;
+    _diseases = diseases;
+    _avoidIngredients = avoidIngredients;
+    _preferredMenus = preferredMenus;
+    _healthGoal = healthGoal;
+
     notifyListeners();
   }
 }

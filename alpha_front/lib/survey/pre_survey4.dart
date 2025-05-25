@@ -35,11 +35,11 @@ class _PreSurvey4State extends State<PreSurvey4> {
   searchController.clear();
 }
 
-  void _removeDisease(String term) {
-    setState(() {
-      selectedDisease.remove(term);
-    });
-  }
+void _removeDisease(String term) {
+  setState(() {
+    selectedDisease.remove(term);
+  });
+}
 
     void _goToNext() {
     DietInfo.diseases = selectedDisease;
@@ -95,7 +95,6 @@ class _PreSurvey4State extends State<PreSurvey4> {
               margin: EdgeInsets.fromLTRB(10, 20, 10, 20),
               child: TextField(
                 style: Theme.of(context).textTheme.bodyMedium,
-                keyboardType : TextInputType.number,
                 decoration: InputDecoration(
                   hintText: '질환명',
                     hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Color(0xffb6b6b6)),
