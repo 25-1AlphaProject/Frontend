@@ -18,10 +18,8 @@ import 'package:provider/provider.dart';
 void main() {
   runApp(
     MultiProvider(
-      providers : [
-        ChangeNotifierProvider(create: (_) => UserProvider())
-      ],
-      child: CCBS(),
+      providers: [ChangeNotifierProvider(create: (_) => UserProvider())],
+      child: const CCBS(),
     ),
   );
 }
@@ -69,7 +67,7 @@ class CCBS extends StatelessWidget {
       // home: const loginScreen(),
       // home: const signupScreen(),
       // home: const HomeScreen(),
-      home: Layout(),
+      home: const Layout(),
     );
   }
 }

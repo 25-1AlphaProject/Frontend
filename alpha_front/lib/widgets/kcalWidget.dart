@@ -18,18 +18,45 @@ class _KcalWidgetState extends State<KcalWidget> {
     double progress = intakeCalories / goalCalories;
 
     return Center(
-      child: CustomPaint(
-        size: const Size(245, 245),
-        painter: KcalPainter(progress),
-        child: Center(
-          child: Text(
-            "${intakeCalories.toInt()} kcal",
-            style: const TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
-              fontFamily: "PretenderardVariable",
+      child: SizedBox(
+        width: 500,
+        height: 500,
+        child: Stack(
+          alignment: Alignment.center,
+          clipBehavior: Clip.none,
+          children: [
+            // 캐릭터 몸통 이미지 (손 밑으로 위치)
+            Positioned(
+              top: -60,
+              child: Image.asset(
+                '../assets/images/character_body.png',
+                width: 90,
+              ),
             ),
-          ),
+            CustomPaint(
+              size: const Size(245, 245),
+              painter: KcalPainter(progress),
+              child: Center(
+                child: Text(
+                  "${intakeCalories.toInt()} kcal",
+                  style: const TextStyle(
+                      fontSize: 36,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "PretenderardVariable",
+                      color: Colors.white),
+                ),
+              ),
+            ),
+
+            // 캐릭터 손 이미지 (progress 시작점 위에 위치)
+            Positioned(
+              top: -20,
+              child: Image.asset(
+                '../assets/images/character_hand.png',
+                width: 90,
+              ),
+            ),
+          ],
         ),
       ),
     );

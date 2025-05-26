@@ -33,38 +33,38 @@ class _LayoutState extends State<Layout> {
   }
 
   @override
-Widget build(BuildContext context) {
-  return Scaffold(
-    backgroundColor: Colors.white,
-    appBar: PreferredSize(
-      preferredSize: const Size.fromHeight(70),
-      child: BaseAppbar(),
-    ),
-    body: IndexedStack(
-      index: _currentIndex,
-      children: _pages,
-    ),
-    floatingActionButton: FloatingActionButton(
-      backgroundColor: const Color(0xff3CB196),
-      elevation: 6,
-      shape: const CircleBorder(),
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const Camera()),
-        );
-      },
-      child: const Icon(
-        Icons.camera,
-        color: Colors.white,
-        size: 40,
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(70),
+        child: BaseAppbar(),
       ),
-    ),
-    floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-    bottomNavigationBar: BottomNavBar(
-      currentIndex: _currentIndex,
-      onTap: _onBottomNavTapped,
-    ),
-  );
-}
+      body: IndexedStack(
+        index: _currentIndex,
+        children: _pages,
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color(0xff3CB196),
+        elevation: 6,
+        shape: const CircleBorder(),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const Camera()),
+          );
+        },
+        child: const Icon(
+          Icons.camera,
+          color: Colors.white,
+          size: 40,
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: BottomNavBar(
+        currentIndex: _currentIndex,
+        onTap: _onBottomNavTapped,
+      ),
+    );
+  }
 }

@@ -1,4 +1,3 @@
-
 import 'package:alpha_front/widgets/base_app_bar.dart';
 import 'package:alpha_front/widgets/bottom_nav_bar.dart';
 import 'package:alpha_front/widgets/foodIngredient.dart';
@@ -24,12 +23,12 @@ class _RecipeDetailState extends State<RecipeDetail> {
   ]; // 한 번에 받아와서 리스트에 저장
 
   String recipeName = '닭가슴살 야채 볶음밥'; //받아오기
-  int currentStep = 0; //터치하거나 시간 지날 때마다 카운팅
+  int currentStep = 0; //터치하거나 시간 지날 때마다 카운팅 // 필요없어짐.
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-//       appBar: const BaseAppbar(title: '레시피'),
+      appBar: const BaseAppbar(),
       body: Stack(
         children: [
           SizedBox(
@@ -43,7 +42,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
             ),
           ),
           DraggableScrollableSheet(
-            initialChildSize: 0.6,
+            initialChildSize: 0.55,
             minChildSize: 0.5,
             maxChildSize: 1.0,
             builder: (context, ScrollController) {
