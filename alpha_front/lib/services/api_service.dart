@@ -519,4 +519,28 @@ class ApiService {
     }
     return null;
   }
+
+  static Future<bool> linksIngredient(String recipeId) async {
+    try {
+      final token = await AuthManager.getToken();
+      final response = await http.get(
+        Uri.parse('$_baseUrl/api/meal/ingredient-links/$recipeId'),
+        headers: {
+          if (token != null) 'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        log("재료링크 조회하기: $data");
+        return data;
+      } else {
+        log("서버 응답 오류: ${response.statusCode}");
+        throw Exception("서버 응답 오류: ${response.statusCode}");
+      }
+    } catch (e) {
+      log("요청 실패: $e");
+      throw Exception("요청 실패: $e");
+    }
+  }
 }
