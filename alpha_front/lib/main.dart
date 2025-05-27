@@ -14,14 +14,16 @@ import 'package:alpha_front/SignUp/signup_loading.dart';
 import 'package:alpha_front/recipe/recipe_description.dart';
 import 'user_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // 필수!
+  await initializeDateFormatting('ko'); // 한국어 날짜 포맷 초기화
+
   runApp(
     MultiProvider(
-      providers : [
-        ChangeNotifierProvider(create: (_) => UserProvider())
-      ],
-      child: CCBS(),
+      providers: [ChangeNotifierProvider(create: (_) => UserProvider())],
+      child: const CCBS(),
     ),
   );
 }
@@ -66,10 +68,10 @@ class CCBS extends StatelessWidget {
       // home: const MyHomePage(title: '척척밥사'),
       // home: Survey(),
       // home: const MypageMain(),
-      // home: const loginScreen(),
+      home: const loginScreen(),
       // home: const signupScreen(),
       // home: const HomeScreen(),
-      home: Layout(),
+      // home: const Layout(),
     );
   }
 }

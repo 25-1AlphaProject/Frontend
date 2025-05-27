@@ -9,6 +9,9 @@ import 'package:alpha_front/widgets/dietManagement.dart';
 import 'package:alpha_front/widgets/bottom_nav_bar.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:alpha_front/widgets/weekCal.dart';
+import 'package:gradient_elevated_button/gradient_elevated_button.dart';
+import 'package:timer_builder/timer_builder.dart';
+import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -18,10 +21,24 @@ class HomeScreen extends StatefulWidget {
 }
 
 final List<Widget> dietWidgetList = [
-  DietManagementWidget(cardname: "아침"),
-  DietManagementWidget(cardname: "점심"),
-  DietManagementWidget(cardname: "저녁"),
+  const DietManagementWidget(
+    cardname: "아침",
+    kcal: 380,
+  ),
+  const DietManagementWidget(
+    cardname: "점심",
+    kcal: 380,
+  ),
+  const DietManagementWidget(
+    cardname: "저녁",
+    kcal: 380,
+  ),
 ];
+
+var now = DateTime.now();
+final String nowDate = DateFormat('M.d(EEE)', 'ko').format(now);
+
+final List<String> response = []; // 한 번에 받아와서 리스트에 저장(날짜, )
 
 class _HomeScreenState extends State<HomeScreen> {
   void _onEditClicked() {
@@ -47,113 +64,124 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      // appBar: AppBar(
-      //   title: Text(
-      //     '척척밥사',
-      //     style: TextStyle(
-      //       fontFamily: 'yg-jalnan',
-      //       fontSize: 32,
-      //       fontWeight: FontWeight.bold,
-      //       color: Colors.green.shade800,
-      //     ),
-      //   ),
-      //   backgroundColor: Colors.white.withAlpha(0),
-      //   elevation: 0,
-      //   centerTitle: true,
-      // ),
-      // bottomNavigationBar: const Basenavigationbar(
-      //   currentIndex: 0,
-      // ),
-      // floatingActionButton: GestureDetector(
-      //   onTap: () {},
-      //   child: Container(
-      //     width: 64,
-      //     height: 64,
-      //     decoration: BoxDecoration(
-      //       shape: BoxShape.circle,
-      //       border: Border.all(
-      //           color: const Color.fromRGBO(251, 246, 233, 1.0), width: 7),
-      //     ),
-      //     child: const ClipOval(
-      //       child: Material(
-      //         color: Colors.white,
-      //         elevation: 10,
-      //         child: InkWell(
-      //           child: SizedBox(
-      //             width: 56,
-      //             height: 56,
-      //             child: Icon(
-      //               CupertinoIcons.camera,
-      //               color: Colors.black,
-      //             ),
-      //           ),
-      //         ),
-      //       ),
-      //     ),
-      //   ),
-      // ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+          child: Stack(
             children: [
-              // const SizedBox(height: 20),
-              // const Weekcal(),
-              const SizedBox(height: 28),
-              ElevatedButton(
-                onPressed: () {
-                  _onKcalWidgetTap();
-                },
-                style: ElevatedButton.styleFrom(
-                  shape: const CircleBorder(),
-                  padding: const EdgeInsets.all(5),
-                  fixedSize: const Size(245, 245),
-                  elevation: 6,
-                  // backgroundColor: Colors.black,
-                  // foregroundColor: Colors.teal,
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  height: 658,
+                  width: double.infinity,
+                  decoration: const BoxDecoration(
+                    color: Color.fromRGBO(60, 177, 150, 0.08),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(15),
+                      topRight: Radius.circular(15),
+                    ),
+                  ),
                 ),
-                child: const KcalWidget(),
               ),
-              const SizedBox(height: 21),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(15),
-                    topRight: Radius.circular(15),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withAlpha(25),
-                      spreadRadius: 0,
-                      blurRadius: 25,
-                      blurStyle: BlurStyle.normal,
-                      offset: const Offset(0, -1),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  // const SizedBox(height: 20),
+                  // const Weekcal(),
+                  const SizedBox(height: 78),
+                  GradientElevatedButton(
+                    onPressed: () {
+                      _onKcalWidgetTap();
+                    },
+                    style: GradientElevatedButton.styleFrom(
+                      shape: const CircleBorder(),
+                      padding: const EdgeInsets.all(5),
+                      fixedSize: const Size(245, 245),
+                      elevation: 6,
+                      backgroundGradient: const LinearGradient(
+                        colors: [
+                          Color.fromRGBO(60, 177, 150, 0.8),
+                          Color.fromRGBO(60, 177, 150, 0.4),
+                        ],
+                        begin: Alignment.centerRight,
+                        end: Alignment.centerLeft,
+                      ),
+                      // backgroundColor: const Color.fromRGBO(60, 177, 150, 0.8),
+                      foregroundColor: Colors.white,
                     ),
-                  ],
-                ),
-                child: SizedBox(
-                  width: 367,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: dietWidgetList.map((widget) {
-                        return Padding(
-                          padding: const EdgeInsets.all(13.0),
-                          child: SizedBox(
-                            width: 130,
-                            height: 166,
-                            child: widget,
-                          ),
-                        );
-                      }).toList(),
+                    child: const KcalWidget(),
+                  ),
+                  const SizedBox(height: 38),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          //  현재 페이지 정보 전날 날짜 정보 get 해오고 home.dart 정보 reload
+                        },
+                        icon: const Icon(Icons.arrow_left),
+                        iconSize: 60,
+                      ),
+                      const SizedBox(width: 30),
+                      Text(
+                        nowDate,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          color: Color.fromRGBO(48, 48, 48, 0.8),
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "PretenderardVariable",
+                        ),
+                      ),
+                      const SizedBox(width: 30),
+                      IconButton(
+                        onPressed: () {
+                          // 현재 페이지 정보 다음 날 날짜 정보 get 해오고 home.dart 정보 reload
+                        },
+                        icon: const Icon(Icons.arrow_right),
+                        iconSize: 60,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 37),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(15),
+                        topRight: Radius.circular(15),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withAlpha(25),
+                          spreadRadius: 0,
+                          blurRadius: 25,
+                          blurStyle: BlurStyle.normal,
+                          offset: const Offset(0, -1),
+                        ),
+                      ],
+                    ),
+                    child: SizedBox(
+                      height: 275,
+                      width: MediaQuery.of(context).size.width,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: dietWidgetList.map((widget) {
+                            return Padding(
+                              padding: const EdgeInsets.all(13.0),
+                              child: SizedBox(
+                                width: 140,
+                                height: 180,
+                                child: widget,
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              )
+                ],
+              ),
             ],
           ),
         ),
