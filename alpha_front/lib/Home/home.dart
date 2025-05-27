@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:alpha_front/meal/camera.dart';
 import 'package:alpha_front/meal/meal_edit.dart';
 import 'package:alpha_front/report/report_main.dart';
@@ -12,6 +14,7 @@ import 'package:alpha_front/widgets/weekCal.dart';
 import 'package:gradient_elevated_button/gradient_elevated_button.dart';
 import 'package:timer_builder/timer_builder.dart';
 import 'package:intl/intl.dart';
+import 'package:alpha_front/services/api_service.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -35,13 +38,21 @@ final List<Widget> dietWidgetList = [
   ),
 ];
 
-var now = DateTime.now();
-final String nowDate = DateFormat('M.d(EEE)', 'ko').format(now);
-
 final List<String> response = []; // 한 번에 받아와서 리스트에 저장(날짜, )
 
 class _HomeScreenState extends State<HomeScreen> {
-  void _onEditClicked() {
+  List<String> response = [];
+  late DateTime pageDate;
+  late String nowDate;
+
+  @override
+  void initState() {
+    super.initState();
+    pageDate = DateTime.now();
+    nowDate = DateFormat('M.d(EEE)', 'ko').format(pageDate);
+  }
+
+  void onEditClicked() {
     print("수정 아이콘 클릭됨");
     //page 이동
     Navigator.push(
@@ -118,6 +129,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       IconButton(
                         onPressed: () {
                           //  현재 페이지 정보 전날 날짜 정보 get 해오고 home.dart 정보 reload
+                          setState(() {
+                            pageDate =
+                                pageDate.subtract(const Duration(days: 1));
+                            nowDate =
+                                DateFormat('M.d(EEE)', 'ko').format(pageDate);
+                          });
                         },
                         icon: const Icon(Icons.arrow_left),
                         iconSize: 60,
@@ -136,6 +153,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       IconButton(
                         onPressed: () {
                           // 현재 페이지 정보 다음 날 날짜 정보 get 해오고 home.dart 정보 reload
+                          setState(() {
+                            pageDate = pageDate.add(const Duration(days: 1));
+                            nowDate =
+                                DateFormat('M.d(EEE)', 'ko').format(pageDate);
+                          });
                         },
                         icon: const Icon(Icons.arrow_right),
                         iconSize: 60,

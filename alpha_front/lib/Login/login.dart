@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:alpha_front/SignUp/signup.dart';
 import 'package:alpha_front/layout.dart';
 import 'package:alpha_front/services/api_service.dart';
-import 'package:alpha_front/auth/auth_manager.dart';
 
 class loginScreen extends StatefulWidget {
   const loginScreen({super.key});

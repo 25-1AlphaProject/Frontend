@@ -145,9 +145,9 @@ class ApiService {
       final token = await AuthManager.getToken();
       final response = await http.put(
         Uri.parse('http://43.203.32.75:8080/api/users/info'),
-      headers: {
-        'Content-Type': 'application/json',
-        if (token != null) 'Authorization': 'Bearer $token',        
+        headers: {
+          'Content-Type': 'application/json',
+          if (token != null) 'Authorization': 'Bearer $token',
         },
         body: jsonEncode({
           'password': password,
@@ -168,7 +168,8 @@ class ApiService {
     }
   }
 
-static Future<Map<String, dynamic>?> getUserInfo() async {    // if (id.isEmpty) {
+  static Future<Map<String, dynamic>?> getUserInfo() async {
+    // if (id.isEmpty) {
     //   log("회원정보 조회 실패");
     //   return null;
     // }
@@ -196,7 +197,7 @@ static Future<Map<String, dynamic>?> getUserInfo() async {    // if (id.isEmpty)
     }
   }
 
-    static Future<bool> updateDiet({
+  static Future<bool> updateDiet({
     required String selectedGender,
     required int age,
     required double height,
@@ -213,9 +214,9 @@ static Future<Map<String, dynamic>?> getUserInfo() async {    // if (id.isEmpty)
       final token = await AuthManager.getToken();
       final response = await http.put(
         Uri.parse('http://43.203.32.75:8080/api/users/diet-info'),
-      headers: {
-        'Content-Type': 'application/json',
-        if (token != null) 'Authorization': 'Bearer $token',        
+        headers: {
+          'Content-Type': 'application/json',
+          if (token != null) 'Authorization': 'Bearer $token',
         },
         body: jsonEncode({
           'age': age,
@@ -247,7 +248,8 @@ static Future<Map<String, dynamic>?> getUserInfo() async {    // if (id.isEmpty)
     }
   }
 
-static Future<Map<String, dynamic>?> getUserDietInfo() async {    // if (id.isEmpty) {
+  static Future<Map<String, dynamic>?> getUserDietInfo() async {
+    // if (id.isEmpty) {
     //   log("회원정보 조회 실패");
     //   return null;
     // }
@@ -275,7 +277,6 @@ static Future<Map<String, dynamic>?> getUserDietInfo() async {    // if (id.isEm
     }
   }
 
-
   static Future<bool> foodinfo(
     String name,
     double foodCalories,
@@ -283,7 +284,6 @@ static Future<Map<String, dynamic>?> getUserDietInfo() async {    // if (id.isEm
     DateTime mealDate,
     String mealType,
     String mealPhoto,
-
   ) async {
     try {
       final token = await AuthManager.getToken();
@@ -297,9 +297,9 @@ static Future<Map<String, dynamic>?> getUserDietInfo() async {    // if (id.isEm
         body: jsonEncode({
           'name': name,
           'foodCalories': foodCalories,
-          'amount' : amount,
-          'mealDate' : mealDate,
-          'mealType' : mealType,
+          'amount': amount,
+          'mealDate': mealDate,
+          'mealType': mealType,
           'mealPhoto': mealPhoto,
         }),
       );
@@ -319,11 +319,12 @@ static Future<Map<String, dynamic>?> getUserDietInfo() async {    // if (id.isEm
     }
   }
 
-
-  static Future<List<Map<String, dynamic>>?> getRecipeList(String keyword) async {
-  try {
-    final token = await AuthManager.getToken();
-    final uri = Uri.parse('http://43.203.32.75:8080/api/recipe/search?keyword=$keyword'); 
+  static Future<List<Map<String, dynamic>>?> getRecipeList(
+      String keyword) async {
+    try {
+      final token = await AuthManager.getToken();
+      final uri = Uri.parse(
+          'http://43.203.32.75:8080/api/recipe/search?keyword=$keyword');
       final headers = {
         'Content-Type': 'application/json',
         if (token != null) 'Authorization': 'Bearer $token',
@@ -344,7 +345,26 @@ static Future<Map<String, dynamic>?> getUserDietInfo() async {    // if (id.isEm
       return null;
     }
   }
-  
+
+  // Future<List<String>> fetchkcalData(String date) async {
+  //   try {
+  //     final token = await AuthManager.getToken();
+  //     final response = await http.get(
+  //       Uri.parse('http://43.203.32.75:8080/api/meal/real-eat/$date'),
+  //       headers: {
+  //         if (token != null) 'Authorization': 'Bearer $token',
+  //         'Content-Type': 'application/json',
+  //       },
+  //     );
+  //     if (response.statusCode == 200) {
+  //       final data = jsonDecode(response.body);
+  //       log("User data: $data");
+  //       return data;
+  //     } else {
+  //       log("서버 응답 오류: ${response.statusCode}");
+  //     }
+  //   } catch (e) {
+  //     log("요청 실패: $e");
+  //   }
+  // }
 }
-
-
