@@ -10,6 +10,8 @@ import 'package:alpha_front/widgets/bottom_nav_bar.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:alpha_front/widgets/weekCal.dart';
 import 'package:gradient_elevated_button/gradient_elevated_button.dart';
+import 'package:timer_builder/timer_builder.dart';
+import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,10 +21,24 @@ class HomeScreen extends StatefulWidget {
 }
 
 final List<Widget> dietWidgetList = [
-  DietManagementWidget(cardname: "아침"),
-  DietManagementWidget(cardname: "점심"),
-  DietManagementWidget(cardname: "저녁"),
+  const DietManagementWidget(
+    cardname: "아침",
+    kcal: 380,
+  ),
+  const DietManagementWidget(
+    cardname: "점심",
+    kcal: 380,
+  ),
+  const DietManagementWidget(
+    cardname: "저녁",
+    kcal: 380,
+  ),
 ];
+
+var now = DateTime.now();
+final String nowDate = DateFormat('M.d(EEE)', 'ko').format(now);
+
+final List<String> response = []; // 한 번에 받아와서 리스트에 저장(날짜, )
 
 class _HomeScreenState extends State<HomeScreen> {
   void _onEditClicked() {
@@ -96,7 +112,36 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: const KcalWidget(),
                   ),
                   const SizedBox(height: 38),
-                  // 날짜 위젯 들어갈 곳
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          //  현재 페이지 정보 전날 날짜 정보 get 해오고 home.dart 정보 reload
+                        },
+                        icon: const Icon(Icons.arrow_left),
+                        iconSize: 60,
+                      ),
+                      const SizedBox(width: 30),
+                      Text(
+                        nowDate,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          color: Color.fromRGBO(48, 48, 48, 0.8),
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "PretenderardVariable",
+                        ),
+                      ),
+                      const SizedBox(width: 30),
+                      IconButton(
+                        onPressed: () {
+                          // 현재 페이지 정보 다음 날 날짜 정보 get 해오고 home.dart 정보 reload
+                        },
+                        icon: const Icon(Icons.arrow_right),
+                        iconSize: 60,
+                      ),
+                    ],
+                  ),
                   const SizedBox(height: 37),
                   Container(
                     decoration: BoxDecoration(
@@ -116,17 +161,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                     child: SizedBox(
+                      height: 275,
                       width: MediaQuery.of(context).size.width,
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
-                          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: dietWidgetList.map((widget) {
                             return Padding(
                               padding: const EdgeInsets.all(13.0),
                               child: SizedBox(
-                                width: 130,
-                                height: 166,
+                                width: 140,
+                                height: 180,
                                 child: widget,
                               ),
                             );
