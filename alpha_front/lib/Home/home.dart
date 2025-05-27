@@ -23,7 +23,7 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-final List<Widget> dietWidgetList = [
+List<Widget> dietWidgetList = [
   const DietManagementWidget(
     cardname: "아침",
     kcal: 380,
@@ -38,12 +38,13 @@ final List<Widget> dietWidgetList = [
   ),
 ];
 
-final List<String> response = []; // 한 번에 받아와서 리스트에 저장(날짜, )
+Map<String, dynamic> dateKcal = {}; // 한 번에 받아와서 리스트에 저장(날짜, )
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with RouteAware {
   List<String> response = [];
   late DateTime pageDate;
   late String nowDate;
+  late String getDataDate;
 
   @override
   void initState() {
@@ -127,14 +128,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       IconButton(
-                        onPressed: () {
+                        onPressed: () async {
                           //  현재 페이지 정보 전날 날짜 정보 get 해오고 home.dart 정보 reload
                           setState(() {
                             pageDate =
                                 pageDate.subtract(const Duration(days: 1));
                             nowDate =
                                 DateFormat('M.d(EEE)', 'ko').format(pageDate);
+                            getDataDate =
+                                DateFormat('yyyy-MM-dd').format(pageDate);
                           });
+                          dateKcal =
+                              await ApiService.fetchkcalData(getDataDate);
                         },
                         icon: const Icon(Icons.arrow_left),
                         iconSize: 60,
@@ -151,13 +156,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       const SizedBox(width: 30),
                       IconButton(
-                        onPressed: () {
+                        onPressed: () async {
                           // 현재 페이지 정보 다음 날 날짜 정보 get 해오고 home.dart 정보 reload
                           setState(() {
                             pageDate = pageDate.add(const Duration(days: 1));
                             nowDate =
                                 DateFormat('M.d(EEE)', 'ko').format(pageDate);
+                            getDataDate =
+                                DateFormat('yyyy-MM-dd').format(pageDate);
                           });
+                          dateKcal =
+                              await ApiService.fetchkcalData(getDataDate);
                         },
                         icon: const Icon(Icons.arrow_right),
                         iconSize: 60,

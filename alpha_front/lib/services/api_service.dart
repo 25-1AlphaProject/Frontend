@@ -346,25 +346,27 @@ class ApiService {
     }
   }
 
-  // Future<List<String>> fetchkcalData(String date) async {
-  //   try {
-  //     final token = await AuthManager.getToken();
-  //     final response = await http.get(
-  //       Uri.parse('http://43.203.32.75:8080/api/meal/real-eat/$date'),
-  //       headers: {
-  //         if (token != null) 'Authorization': 'Bearer $token',
-  //         'Content-Type': 'application/json',
-  //       },
-  //     );
-  //     if (response.statusCode == 200) {
-  //       final data = jsonDecode(response.body);
-  //       log("User data: $data");
-  //       return data;
-  //     } else {
-  //       log("서버 응답 오류: ${response.statusCode}");
-  //     }
-  //   } catch (e) {
-  //     log("요청 실패: $e");
-  //   }
-  // }
+  static Future<Map<String, dynamic>> fetchkcalData(String date) async {
+    try {
+      final token = await AuthManager.getToken();
+      final response = await http.get(
+        Uri.parse('http://43.203.32.75:8080/api/meal/real-eat/$date'),
+        headers: {
+          if (token != null) 'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        log("User data: $data");
+        return data;
+      } else {
+        log("서버 응답 오류: ${response.statusCode}");
+        throw Exception("서버 응답 오류: ${response.statusCode}");
+      }
+    } catch (e) {
+      log("요청 실패: $e");
+      throw Exception("요청 실패: $e");
+    }
+  }
 }
