@@ -27,17 +27,17 @@ class UserProvider with ChangeNotifier {
   String get password => _password;
   String get email => _email;
 
-  int get age => _age;
-  int get targetCalories => _targetCalories;
-  double get height => _height;
-  double get weight => _weight;
-  String get gender => _gender;
-  String get healthGoal => _healthGoal;
-  List<String> get mealCount => _mealCount;
-  List<String> get allergies => _allergies;
-  List<String> get diseases => _diseases;
-  List<String> get preferredMenus => _preferredMenus;
-  List<String> get avoidIngredients => _avoidIngredients;
+  int get age => _age ?? 22;
+  int get targetCalories => _targetCalories ?? 1800;
+  double get height => _height ?? 170.0;
+  double get weight => _weight ?? 60.0;
+  String get gender => _gender ?? "F";
+  String get healthGoal => _healthGoal ?? "DIET";
+  List<String> get mealCount => _mealCount ?? ['BREAKFAST', 'LUNCH'];
+  List<String> get allergies => _allergies ?? [];
+  List<String> get diseases => _diseases ?? [];
+  List<String> get preferredMenus => _preferredMenus ?? [];
+  List<String> get avoidIngredients => _avoidIngredients ?? [];
 
 
   void setUserInfo({

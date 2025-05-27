@@ -1,4 +1,4 @@
-import 'package:alpha_front/meal/meal_edit.dart';
+import 'package:alpha_front/meal/mealAmount_edit.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -17,27 +17,31 @@ class _CameraState extends State<Camera> {
   Future getImage(ImageSource imageSource) async {
     final image = await picker.pickImage(source: imageSource);
 
+  if (image != null) {
     setState(() {
-      _image = File(image!.path); // 가져온 이미지를 _image에 저장
+      _image = File(image.path);
     });
   }
+}
 
   Widget showImage() {
     return Container(
         color: const Color(0xffd0cece),
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.width,
+        width: MediaQuery.of(context).size.width * 0.7,
+        height: MediaQuery.of(context).size.width * 0.7,
         child: Center(
-            child: _image == null
-                ? Text('No image selected.')
-                : Image.file(File(_image!.path))));
+          child: _image == null
+            ? Text('No image selected.')
+            : Image.file(_image!)                
+        )
+        );
   }
 
   @override
   Widget build(BuildContext context) {
     
     return Scaffold(
-      backgroundColor: const Color(0xfff4f3f9),
+      backgroundColor: const Color(0xffffffff),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -49,6 +53,7 @@ class _CameraState extends State<Camera> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
+
                 // 카메라 촬영 버튼
                 FloatingActionButton(
                   backgroundColor: Colors.white,
@@ -92,7 +97,7 @@ class _CameraState extends State<Camera> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => MealEdit())
+                  builder: (context) => MealamountEdit())
               );
             }, 
               child: Text(
