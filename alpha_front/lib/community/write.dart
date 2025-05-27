@@ -1,5 +1,7 @@
+import 'package:alpha_front/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:alpha_front/services/api_service.dart';
+import 'package:alpha_front/widgets/base_app_bar.dart';
 
 class PostCreatePage extends StatefulWidget {
   const PostCreatePage({super.key});
@@ -15,17 +17,8 @@ class _PostCreatePageState extends State<PostCreatePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.white.withAlpha(26),
-        title: Padding(
-          padding: const EdgeInsets.only(top: 20),
-          child: Text(
-            '척척밥사',
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-        ),
-        leading: TextButton(
+      appBar: BaseAppbar(
+        actionButton: TextButton(
           onPressed: () async {
             final success = await ApiService.write(
               titleController.text,
