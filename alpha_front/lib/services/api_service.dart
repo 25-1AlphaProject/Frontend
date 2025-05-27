@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:alpha_front/auth/auth_manager.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 class ApiService {
   //user
@@ -320,6 +321,46 @@ static Future<Map<String, dynamic>?> getUserDietInfo() async {    // if (id.isEm
   }
 
 
+  static Future<bool> foodinfoCustom(
+    double amount,
+    DateTime mealDate,
+    String mealType,
+    String mealPhoto,
+
+  ) async {
+    try {
+      final token = await AuthManager.getToken();
+
+      final response = await http.post(
+        Uri.parse('http://43.203.32.75:8080/api/meal/real-eat/custom'),
+        headers: {
+          if (token != null) 'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'amount' : amount,
+          'mealDate' : DateFormat('yyyy-MM-dd').format(mealDate),
+          'mealType' : mealType,
+          'mealPhoto': mealPhoto,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        if (token != null) log("Token: $token");
+        log("전달 완료: ${response.statusCode} ${response.body}");
+        return true;
+      } else {
+        if (token != null) log("Token: $token");
+        log("전달 실패: ${response.statusCode} ${response.body}");
+        return false;
+      }
+    } catch (e) {
+      log("전달 에러: $e");
+      return false;
+    }
+  }
+
+
   static Future<List<Map<String, dynamic>>?> getRecipeList(String keyword) async {
   try {
     final token = await AuthManager.getToken();
@@ -344,7 +385,36 @@ static Future<Map<String, dynamic>?> getUserDietInfo() async {    // if (id.isEm
       return null;
     }
   }
+
+
+  Future<String?> fetchPresignedUrl(String objectKey) async {
+    final token = await AuthManager.getToken();
+    final uri = Uri.parse('http://43.203.32.75:8080/api/s3/presigned-url?objectKey=$objectKey'); 
+
+    print('objectKey: $objectKey');
+    print('token: $token');
+    print('uri: $uri');
+    final headers = {
+
+      'Content-Type': 'application/json',
+      if (token != null) 'Authorization': 'Bearer $token',
+    };
+
+    final response = await http.get(
+      uri,
+      headers: headers,
+    );
+
+      if (response.statusCode == 200) {
+        final decoded = jsonDecode(response.body);
+        return decoded['message'] as String?;
+      }
+    return null;
+  }
+
+
   
 }
+
 
 
