@@ -17,6 +17,8 @@ import 'user_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
+// final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // 필수!
   await initializeDateFormatting('ko'); // 한국어 날짜 포맷 초기화
@@ -36,6 +38,7 @@ class CCBS extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      // navigatorObservers: [routeObserver],
       title: '척척밥사',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -69,11 +72,11 @@ class CCBS extends StatelessWidget {
       // home: const MyHomePage(title: '척척밥사'),
       // home: Survey(),
       // home: const MypageMain(),
-      // home: const loginScreen(),
+      home: const loginScreen(),
       // home: const signupScreen(),
       // home: const HomeScreen(),
       // home: const Layout(),
-      home: const CommunityList(),
+      // home: const CommunityList(),
     );
   }
 }
