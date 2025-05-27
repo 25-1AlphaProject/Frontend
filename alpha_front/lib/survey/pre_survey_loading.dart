@@ -40,7 +40,7 @@ class _PreSurveyFinalState extends State<PreSurveyFinal> {
               height: MediaQuery.of(context).size.height * 0.2,
               child: const Center(
                 child: Text(
-                  '김유진님, \n일주일치 식단 추천이 \n완료되었습니다!',
+                  '일주일치 식단 추천이 \n완료되었습니다!',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Color(0xff3CB196),

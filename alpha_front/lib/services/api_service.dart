@@ -2,13 +2,16 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:alpha_front/auth/auth_manager.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 class ApiService {
-  //user
+  static const _baseUrl = 'http://43.203.32.75:8080';
+
+  //로그인
   static Future<bool> login(String id, String pw) async {
     try {
       final response = await http.post(
-        Uri.parse('http://43.203.32.75:8080/api/users/login'),
+        Uri.parse('$_baseUrl/api/users/login'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'username': id,
@@ -35,6 +38,7 @@ class ApiService {
     }
   }
 
+  //회원가입
   static Future<Map<String, dynamic>> signup(
     String id,
     String pw,
@@ -44,7 +48,7 @@ class ApiService {
   ) async {
     try {
       final response = await http.post(
-        Uri.parse('http://43.203.32.75:8080/api/users/signup'),
+        Uri.parse('$_baseUrl/api/users/signup'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'username': id,
@@ -96,7 +100,7 @@ class ApiService {
       final token = await AuthManager.getToken();
 
       final response = await http.post(
-        Uri.parse('http://43.203.32.75:8080/api/users/diet-info'),
+        Uri.parse('$_baseUrl/api/users/diet-info'),
         headers: {
           if (token != null) 'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
@@ -144,7 +148,7 @@ class ApiService {
     try {
       final token = await AuthManager.getToken();
       final response = await http.put(
-        Uri.parse('http://43.203.32.75:8080/api/users/info'),
+        Uri.parse('$_baseUrl/api/users/info'),
         headers: {
           'Content-Type': 'application/json',
           if (token != null) 'Authorization': 'Bearer $token',
@@ -175,7 +179,7 @@ class ApiService {
     // }
     try {
       final token = await AuthManager.getToken();
-      final uri = Uri.parse('http://43.203.32.75:8080/api/users/info');
+      final uri = Uri.parse('$_baseUrl/api/users/info');
       final headers = {
         'Content-Type': 'application/json',
         if (token != null) 'Authorization': 'Bearer $token',
@@ -213,7 +217,7 @@ class ApiService {
     try {
       final token = await AuthManager.getToken();
       final response = await http.put(
-        Uri.parse('http://43.203.32.75:8080/api/users/diet-info'),
+        Uri.parse('$_baseUrl/api/users/diet-info'),
         headers: {
           'Content-Type': 'application/json',
           if (token != null) 'Authorization': 'Bearer $token',
@@ -255,7 +259,7 @@ class ApiService {
     // }
     try {
       final token = await AuthManager.getToken();
-      final uri = Uri.parse('http://43.203.32.75:8080/api/users/diet-info');
+      final uri = Uri.parse('$_baseUrl/api/users/diet-info');
       final headers = {
         'Content-Type': 'application/json',
         if (token != null) 'Authorization': 'Bearer $token',
@@ -289,7 +293,7 @@ class ApiService {
       final token = await AuthManager.getToken();
 
       final response = await http.post(
-        Uri.parse('http://43.203.32.75:8080/api/meal/real-eat/write'),
+        Uri.parse('$_baseUrl/api/meal/real-eat/write'),
         headers: {
           if (token != null) 'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
@@ -319,12 +323,49 @@ class ApiService {
     }
   }
 
+  static Future<bool> foodinfoCustom(
+    double amount,
+    DateTime mealDate,
+    String mealType,
+    String mealPhoto,
+  ) async {
+    try {
+      final token = await AuthManager.getToken();
+
+      final response = await http.post(
+        Uri.parse('$_baseUrl/api/meal/real-eat/custom'),
+        headers: {
+          if (token != null) 'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'amount': amount,
+          'mealDate': DateFormat('yyyy-MM-dd').format(mealDate),
+          'mealType': mealType,
+          'mealPhoto': mealPhoto,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        if (token != null) log("Token: $token");
+        log("전달 완료: ${response.statusCode} ${response.body}");
+        return true;
+      } else {
+        if (token != null) log("Token: $token");
+        log("전달 실패: ${response.statusCode} ${response.body}");
+        return false;
+      }
+    } catch (e) {
+      log("전달 에러: $e");
+      return false;
+    }
+  }
+
   static Future<List<Map<String, dynamic>>?> getRecipeList(
       String keyword) async {
     try {
       final token = await AuthManager.getToken();
-      final uri = Uri.parse(
-          'http://43.203.32.75:8080/api/recipe/search?keyword=$keyword');
+      final uri = Uri.parse('$_baseUrl/api/recipe/search?keyword=$keyword');
       final headers = {
         'Content-Type': 'application/json',
         if (token != null) 'Authorization': 'Bearer $token',
@@ -346,12 +387,12 @@ class ApiService {
     }
   }
 
+  //해당 날짜 실제 먹은 식단 조회
   static Future<Map<String, dynamic>> fetchkcalData(String date) async {
-    //해당 날짜 실제로 먹은 식단 조회
     try {
       final token = await AuthManager.getToken();
       final response = await http.get(
-        Uri.parse('http://43.203.32.75:8080/api/meal/real-eat/$date'),
+        Uri.parse('$_baseUrl/api/meal/real-eat/$date'),
         headers: {
           if (token != null) 'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
@@ -371,12 +412,12 @@ class ApiService {
     }
   }
 
+  //해당 날짜 생성된 식단 조회
   static Future<Map<String, dynamic>> mealDayData(String date) async {
-    //해당 날짜 생성된 식단 조회
     try {
       final token = await AuthManager.getToken();
       final response = await http.get(
-        Uri.parse('http://43.203.32.75:8080/api/meal/$date'),
+        Uri.parse('$_baseUrl/api/meal/$date'),
         headers: {
           if (token != null) 'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
@@ -396,12 +437,12 @@ class ApiService {
     }
   }
 
+  //일주일 식단 생성하기
   static Future<Map<String, dynamic>> createMealData() async {
-    //일주일 식단 생성하기
     try {
       final token = await AuthManager.getToken();
       final response = await http.get(
-        Uri.parse('http://43.203.32.75:8080/api/meal/weekly'),
+        Uri.parse('$_baseUrl/api/meal/weekly'),
         headers: {
           if (token != null) 'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
@@ -429,7 +470,7 @@ class ApiService {
     try {
       final token = await AuthManager.getToken();
       final response = await http.post(
-        Uri.parse('http://43.203.32.75:8080/api/community/posts'),
+        Uri.parse('$_baseUrl/api/community/posts'),
         headers: {
           if (token != null) 'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
@@ -452,5 +493,30 @@ class ApiService {
       log("요청 실패: $e");
       return false;
     }
+  }
+
+  Future<String?> fetchPresignedUrl(String objectKey) async {
+    final token = await AuthManager.getToken();
+    final uri =
+        Uri.parse('$_baseUrl/api/s3/presigned-url?objectKey=$objectKey');
+
+    log('objectKey: $objectKey');
+    log('token: $token');
+    log('uri: $uri');
+    final headers = {
+      'Content-Type': 'application/json',
+      if (token != null) 'Authorization': 'Bearer $token',
+    };
+
+    final response = await http.get(
+      uri,
+      headers: headers,
+    );
+
+    if (response.statusCode == 200) {
+      final decoded = jsonDecode(response.body);
+      return decoded['message'] as String?;
+    }
+    return null;
   }
 }
