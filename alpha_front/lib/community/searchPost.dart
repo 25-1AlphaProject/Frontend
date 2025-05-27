@@ -74,9 +74,10 @@ class _SearchPostState extends State<SearchPost> {
               postTitle: "오늘의 도시락",
               postDetail: "레시피 추천받은 주먹밥과...",
               postScrap: 13,
-              // postLike: "5",
-              // postComment: "3",
-              // postDate: "25/05/27",
+              postLike: 5,
+              postComment: 3,
+              postDate: "2025/05/27", // api body 가공해서 위젯 불러올 것
+              postURLs: "../assets/images/character.png",
             ),
             const SizedBox(height: 50),
             Expanded(
