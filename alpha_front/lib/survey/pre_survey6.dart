@@ -67,9 +67,8 @@ class _PreSurvey6State extends State<PreSurvey6> {
       child: Text(
         goalKor,
         style: const TextStyle(
-          fontFamily: 'PretendartVariable',
+          fontFamily: 'Pretendard-bold',
           fontSize: 15,
-          fontWeight: FontWeight.bold,
         ).copyWith(
           color: isSelected ? Colors.white : const Color(0xff3CB196),
         ),
@@ -79,74 +78,86 @@ class _PreSurvey6State extends State<PreSurvey6> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      resizeToAvoidBottomInset: false,
-      appBar: const BaseAppbar(),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(33, 78, 33, 31),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.2,
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Text.rich(
-                  TextSpan(
-                    text: '건강목표',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge!
-                        .copyWith(fontFamily: 'Pretendard-bold'),
-                    children: [
-                      TextSpan(
-                        text: '를\n알려주세요!',
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _buildGoalButton('다이어트'),
-                _buildGoalButton('질환관리'),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _buildGoalButton('잘 모르겠음'),
-                _buildGoalButton('식습관 개선'),
-              ],
-            ),
-            const SizedBox(height: 150),
-            Center(
-              child: SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xff3CB196),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            const Color(0xFF3CB196),
+            const Color(0xFF8ED1C1),
+          ]
+        ),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        resizeToAvoidBottomInset: false,
+        // appBar: const BaseAppbar(),
+        body: Padding(
+          padding: const EdgeInsets.fromLTRB(33, 78, 33, 31),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.2,
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Text.rich(
+                    TextSpan(
+                      text: '건강목표',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge!
+                          .copyWith(fontFamily: 'Pretendard-bold', color: Colors.white),
+                      children: [
+                        TextSpan(
+                          text: '를\n알려주세요!',
+                          style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.white),
+                        ),
+                      ],
                     ),
-                    padding: const EdgeInsets.symmetric(vertical: 18),
-                    minimumSize: const Size(double.infinity, 50),
-                    elevation: 3,
-                  ),
-                  onPressed: _submitSurvey,
-                  child: Text(
-                    '작성 완료',
-                    style: Theme.of(context).textTheme.labelMedium,
                   ),
                 ),
               ),
-            ),
-          ],
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _buildGoalButton('다이어트'),
+                  _buildGoalButton('질환관리'),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _buildGoalButton('잘 모르겠음'),
+                  _buildGoalButton('식습관 개선'),
+                ],
+              ),
+              const SizedBox(height: 150),
+              Center(
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xffffffff),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 18),
+                      minimumSize: const Size(double.infinity, 50),
+                      elevation: 3,
+                    ),
+                    onPressed: _submitSurvey,
+                    child: Text(
+                      '작성 완료',
+                      style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                        color: const Color(0xff3CB196),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
