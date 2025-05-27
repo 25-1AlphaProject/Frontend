@@ -347,6 +347,7 @@ class ApiService {
   }
 
   static Future<Map<String, dynamic>> fetchkcalData(String date) async {
+    //해당 날짜 실제로 먹은 식단 조회
     try {
       final token = await AuthManager.getToken();
       final response = await http.get(
@@ -358,7 +359,7 @@ class ApiService {
       );
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        log("User data: $data");
+        log("실제로 먹은 음식: $data");
         return data;
       } else {
         log("서버 응답 오류: ${response.statusCode}");
@@ -367,6 +368,89 @@ class ApiService {
     } catch (e) {
       log("요청 실패: $e");
       throw Exception("요청 실패: $e");
+    }
+  }
+
+  static Future<Map<String, dynamic>> mealDayData(String date) async {
+    //해당 날짜 생성된 식단 조회
+    try {
+      final token = await AuthManager.getToken();
+      final response = await http.get(
+        Uri.parse('http://43.203.32.75:8080/api/meal/$date'),
+        headers: {
+          if (token != null) 'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        log("생성된 식단 조회: $data");
+        return data;
+      } else {
+        log("서버 응답 오류: ${response.statusCode}");
+        throw Exception("서버 응답 오류: ${response.statusCode}");
+      }
+    } catch (e) {
+      log("요청 실패: $e");
+      throw Exception("요청 실패: $e");
+    }
+  }
+
+  static Future<Map<String, dynamic>> createMealData() async {
+    //일주일 식단 생성하기
+    try {
+      final token = await AuthManager.getToken();
+      final response = await http.get(
+        Uri.parse('http://43.203.32.75:8080/api/meal/weekly'),
+        headers: {
+          if (token != null) 'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        log("일주일치 식단 생성: $data");
+        return data;
+      } else {
+        log("서버 응답 오류: ${response.statusCode}");
+        throw Exception("서버 응답 오류: ${response.statusCode}");
+      }
+    } catch (e) {
+      log("요청 실패: $e");
+      throw Exception("요청 실패: $e");
+    }
+  }
+
+  static Future<bool> write(
+    String title,
+    String content,
+    List imageUrlsList,
+  ) async {
+    try {
+      final token = await AuthManager.getToken();
+      final response = await http.post(
+        Uri.parse('http://43.203.32.75:8080/api/community/posts'),
+        headers: {
+          if (token != null) 'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          "title": title,
+          "content": content,
+          "imageUrls": imageUrlsList,
+        }),
+      );
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        log("글 작성 성공: $data");
+        return true;
+      } else {
+        log("서버 응답 오류: ${response.statusCode}");
+        return false;
+      }
+    } catch (e) {
+      log("요청 실패: $e");
+      return false;
     }
   }
 }

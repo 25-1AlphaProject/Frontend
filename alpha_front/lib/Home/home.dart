@@ -45,12 +45,34 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
   late DateTime pageDate;
   late String nowDate;
   late String getDataDate;
+  late Map<String, dynamic> createMeal;
 
   @override
   void initState() {
     super.initState();
+    initializeData();
+    // pageDate = DateTime.now();
+    // nowDate = DateFormat('M.d(EEE)', 'ko').format(pageDate);
+    // getDataDate = DateFormat('yyyy-MM-dd').format(pageDate);
+    // dateKcal = await ApiService.mealDayData(getDataDate);
+
+    // if (dateKcal['message'] == null) {
+    //   createMeal = await ApiService.CreateMealData();
+    // }
+  }
+
+  Future<void> initializeData() async {
     pageDate = DateTime.now();
     nowDate = DateFormat('M.d(EEE)', 'ko').format(pageDate);
+    getDataDate = DateFormat('yyyy-MM-dd').format(pageDate);
+
+    dateKcal = await ApiService.mealDayData(getDataDate);
+
+    if (dateKcal['message'] is List && dateKcal['message'].isEmpty) {
+      createMeal = await ApiService.createMealData();
+    }
+
+    setState(() {}); // UI 갱신
   }
 
   void onEditClicked() {
