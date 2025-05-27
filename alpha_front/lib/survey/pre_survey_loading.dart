@@ -1,6 +1,7 @@
 import 'package:alpha_front/Home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:alpha_front/Login/login.dart';
+import 'package:alpha_front/layout.dart';
 import 'dart:async';
 
 class PreSurveyFinal extends StatefulWidget {
@@ -18,7 +19,7 @@ class _PreSurveyFinalState extends State<PreSurveyFinal> {
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const loginScreen()),
+        MaterialPageRoute(builder: (context) => const Layout()),
       );
     });
   }
@@ -49,14 +50,10 @@ class _PreSurveyFinalState extends State<PreSurveyFinal> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
               width: 30,
-              child: Image(
-                image: AssetImage(
-                  '../assets/images/character.png'
-                  )
-                ),
+              child: Image(image: AssetImage('../assets/images/character.png')),
             ),
           ],
         ),

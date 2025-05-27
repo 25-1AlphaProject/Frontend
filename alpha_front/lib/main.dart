@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:alpha_front/Splash/splash.dart';
 import 'package:alpha_front/SignUp/signup_loading.dart';
 import 'package:alpha_front/recipe/recipe_description.dart';
+import 'package:alpha_front/community/community_list.dart';
 import 'user_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -68,10 +69,11 @@ class CCBS extends StatelessWidget {
       // home: const MyHomePage(title: '척척밥사'),
       // home: Survey(),
       // home: const MypageMain(),
-      home: const loginScreen(),
+      // home: const loginScreen(),
       // home: const signupScreen(),
       // home: const HomeScreen(),
       // home: const Layout(),
+      home: const CommunityList(),
     );
   }
 }

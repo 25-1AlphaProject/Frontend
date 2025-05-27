@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:alpha_front/meal/camera.dart';
 import 'package:alpha_front/meal/meal_edit.dart';
 import 'package:alpha_front/report/report_main.dart';
@@ -12,6 +14,7 @@ import 'package:alpha_front/widgets/weekCal.dart';
 import 'package:gradient_elevated_button/gradient_elevated_button.dart';
 import 'package:timer_builder/timer_builder.dart';
 import 'package:intl/intl.dart';
+import 'package:alpha_front/services/api_service.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -20,7 +23,7 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-final List<Widget> dietWidgetList = [
+List<Widget> dietWidgetList = [
   const DietManagementWidget(
     cardname: "아침",
     kcal: 380,
@@ -35,13 +38,44 @@ final List<Widget> dietWidgetList = [
   ),
 ];
 
-var now = DateTime.now();
-final String nowDate = DateFormat('M.d(EEE)', 'ko').format(now);
+Map<String, dynamic> dateKcal = {}; // 한 번에 받아와서 리스트에 저장(날짜, )
 
-final List<String> response = []; // 한 번에 받아와서 리스트에 저장(날짜, )
+class _HomeScreenState extends State<HomeScreen> with RouteAware {
+  List<String> response = [];
+  late DateTime pageDate;
+  late String nowDate;
+  late String getDataDate;
+  late Map<String, dynamic> createMeal;
 
-class _HomeScreenState extends State<HomeScreen> {
-  void _onEditClicked() {
+  @override
+  void initState() {
+    super.initState();
+    initializeData();
+    // pageDate = DateTime.now();
+    // nowDate = DateFormat('M.d(EEE)', 'ko').format(pageDate);
+    // getDataDate = DateFormat('yyyy-MM-dd').format(pageDate);
+    // dateKcal = await ApiService.mealDayData(getDataDate);
+
+    // if (dateKcal['message'] == null) {
+    //   createMeal = await ApiService.CreateMealData();
+    // }
+  }
+
+  Future<void> initializeData() async {
+    pageDate = DateTime.now();
+    nowDate = DateFormat('M.d(EEE)', 'ko').format(pageDate);
+    getDataDate = DateFormat('yyyy-MM-dd').format(pageDate);
+
+    dateKcal = await ApiService.mealDayData(getDataDate);
+
+    if (dateKcal['message'] is List && dateKcal['message'].isEmpty) {
+      createMeal = await ApiService.createMealData();
+    }
+
+    setState(() {}); // UI 갱신
+  }
+
+  void onEditClicked() {
     print("수정 아이콘 클릭됨");
     //page 이동
     Navigator.push(
@@ -116,8 +150,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       IconButton(
-                        onPressed: () {
+                        onPressed: () async {
                           //  현재 페이지 정보 전날 날짜 정보 get 해오고 home.dart 정보 reload
+                          setState(() {
+                            pageDate =
+                                pageDate.subtract(const Duration(days: 1));
+                            nowDate =
+                                DateFormat('M.d(EEE)', 'ko').format(pageDate);
+                            getDataDate =
+                                DateFormat('yyyy-MM-dd').format(pageDate);
+                          });
+                          dateKcal =
+                              await ApiService.fetchkcalData(getDataDate);
                         },
                         icon: const Icon(Icons.arrow_left),
                         iconSize: 60,
@@ -134,8 +178,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       const SizedBox(width: 30),
                       IconButton(
-                        onPressed: () {
+                        onPressed: () async {
                           // 현재 페이지 정보 다음 날 날짜 정보 get 해오고 home.dart 정보 reload
+                          setState(() {
+                            pageDate = pageDate.add(const Duration(days: 1));
+                            nowDate =
+                                DateFormat('M.d(EEE)', 'ko').format(pageDate);
+                            getDataDate =
+                                DateFormat('yyyy-MM-dd').format(pageDate);
+                          });
+                          dateKcal =
+                              await ApiService.fetchkcalData(getDataDate);
                         },
                         icon: const Icon(Icons.arrow_right),
                         iconSize: 60,

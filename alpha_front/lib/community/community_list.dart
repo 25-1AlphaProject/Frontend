@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:alpha_front/widgets/base_app_bar.dart';
 import 'package:alpha_front/widgets/bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:alpha_front/community/write.dart';
+import 'package:alpha_front/community/searchPost.dart';
 
 class CommunityList extends StatefulWidget {
   const CommunityList({super.key});
@@ -13,9 +15,9 @@ class CommunityList extends StatefulWidget {
 class _CommunityListState extends State<CommunityList> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: Colors.white,
-      body: Text('text'),
+      body: SearchPost(),
     );
   }
 }
