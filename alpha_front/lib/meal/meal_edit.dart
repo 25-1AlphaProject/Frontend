@@ -1,6 +1,7 @@
 import 'package:alpha_front/Home/home.dart';
 import 'package:alpha_front/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:alpha_front/layout.dart';
 
 class MealEdit extends StatefulWidget {
   final int initialIndex; // 1: 아침, 2: 점심, 3:저녁
@@ -133,7 +134,7 @@ class _MealEditState extends State<MealEdit> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const HomeScreen()));
+                              builder: (context) => const Layout()));
                     },
                     child: const Text(
                       '작성 완료',
