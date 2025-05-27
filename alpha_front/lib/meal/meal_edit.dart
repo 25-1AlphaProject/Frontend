@@ -3,16 +3,22 @@ import 'package:alpha_front/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class MealEdit extends StatefulWidget {
-  const MealEdit({super.key});
+  final int initialIndex; // 1: 아침, 2: 점심, 3:저녁
+
+  const MealEdit({super.key, required this.initialIndex});
 
   @override
   State<MealEdit> createState() => _MealEditState();
 }
 
 class _MealEditState extends State<MealEdit> {
+  late int selectedIndex; // 기본
 
-  int selectedIndex = 1; // 기본
-
+  @override
+  void initState() {
+    super.initState();
+    selectedIndex = widget.initialIndex;
+  }
 
   Widget _getSelectedWidget() {
     switch (selectedIndex) {
@@ -27,13 +33,11 @@ class _MealEditState extends State<MealEdit> {
     }
   }
 
-
   void _onButtonPressed(int index) {
     setState(() {
       selectedIndex = index;
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -49,40 +53,55 @@ class _MealEditState extends State<MealEdit> {
                 children: [
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: selectedIndex == 1 ? Color(0xff3CB196) : Colors.white,
+                      backgroundColor: selectedIndex == 1
+                          ? const Color(0xff3CB196)
+                          : Colors.white,
                     ),
                     onPressed: () => _onButtonPressed(1),
-                  child: Text(
+                    child: Text(
                       '아침',
                       style: TextStyle(
-                        color: selectedIndex == 1 ? Colors.white : Color(0xff3CB196),
+                        color: selectedIndex == 1
+                            ? Colors.white
+                            : const Color(0xff3CB196),
                       ),
                     ),
                   ),
-                  SizedBox(width: 10,),
+                  const SizedBox(
+                    width: 10,
+                  ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: selectedIndex == 2 ? Color(0xff3CB196) : Colors.white,
+                      backgroundColor: selectedIndex == 2
+                          ? const Color(0xff3CB196)
+                          : Colors.white,
                     ),
-                    onPressed: () => _onButtonPressed(2), 
-                  child: Text(
+                    onPressed: () => _onButtonPressed(2),
+                    child: Text(
                       '점심',
                       style: TextStyle(
-                        color: selectedIndex == 2 ? Colors.white : Color(0xff3CB196),
+                        color: selectedIndex == 2
+                            ? Colors.white
+                            : const Color(0xff3CB196),
                       ),
                     ),
                   ),
-                  SizedBox(width: 10,),
+                  const SizedBox(
+                    width: 10,
+                  ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: selectedIndex == 3 ? Color(0xff3CB196) : Colors.white,
+                      backgroundColor: selectedIndex == 3
+                          ? const Color(0xff3CB196)
+                          : Colors.white,
                     ),
                     onPressed: () => _onButtonPressed(3),
-              
                     child: Text(
                       '저녁',
                       style: TextStyle(
-                        color: selectedIndex == 3 ? Colors.white : Color(0xff3CB196),
+                        color: selectedIndex == 3
+                            ? Colors.white
+                            : const Color(0xff3CB196),
                       ),
                     ),
                   ),
@@ -97,37 +116,35 @@ class _MealEditState extends State<MealEdit> {
               flex: 2,
               child: Center(
                 child: Container(
-                  margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                  margin: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                   // padding: EdgeInsets.fromLTRB(10, 60, 10, 30),
                   width: double.infinity,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xff3CB196),
-                      shape : RoundedRectangleBorder(
+                      backgroundColor: const Color(0xff3CB196),
+                      shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
-                      side: BorderSide(color: Color(0xff3CB196), width: 1),
+                      side:
+                          const BorderSide(color: Color(0xff3CB196), width: 1),
                       elevation: 3,
-                      
                     ),
                     onPressed: () {
                       Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => HomeScreen())
-                      );
-                    }, 
-                      child: Text(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomeScreen()));
+                    },
+                    child: const Text(
                       '작성 완료',
-                        style: TextStyle(
+                      style: TextStyle(
                         fontFamily: 'Pretendart-bold',
                         fontSize: 15,
                         // fontWeight: FontWeight.bold,
                         color: Colors.white,
-                  
                       ),
                     ),
-                    ),
+                  ),
                 ),
               ),
             )
@@ -144,15 +161,15 @@ class _BreakfastEdit extends StatefulWidget {
 }
 
 class _BreakfastEditState extends State<_BreakfastEdit> {
-
   String FoodName = '김치찌개';
   int Kcal = 118;
   int count = 1;
 
   bool isEditing = false; // 편집 모드
-  TextEditingController FoodNamecontroller = TextEditingController(text: "김치찌개"); // 초기값
-  TextEditingController FoodAmountcontroller = TextEditingController(text: "1인분"); // 초기값
-
+  TextEditingController FoodNamecontroller =
+      TextEditingController(text: "김치찌개"); // 초기값
+  TextEditingController FoodAmountcontroller =
+      TextEditingController(text: "1인분"); // 초기값
 
   void _toggleEditMode() {
     setState(() {
@@ -170,13 +187,14 @@ class _BreakfastEditState extends State<_BreakfastEdit> {
   Widget build(BuildContext context) {
     return Scaffold(
       // body: Text('아침 식단'),
-      body : SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Center(
           child: Column(
             children: [
               Card(
                 elevation: 5,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.8,
                   height: MediaQuery.of(context).size.height * 0.15,
@@ -188,11 +206,11 @@ class _BreakfastEditState extends State<_BreakfastEdit> {
                         right: 0,
                         top: 0,
                         child: IconButton(
-                          icon: Icon(Icons.edit, color: Colors.black),
+                          icon: const Icon(Icons.edit, color: Colors.black),
                           onPressed: _toggleEditMode,
                         ),
                       ),
-                      
+
                       SizedBox(
                         width: 200,
                         child: Column(
@@ -203,57 +221,65 @@ class _BreakfastEditState extends State<_BreakfastEdit> {
                                   ? TextField(
                                       controller: FoodNamecontroller,
                                       keyboardType: TextInputType.text,
-                                      decoration: InputDecoration(
+                                      decoration: const InputDecoration(
                                         isDense: true,
-                                        contentPadding: EdgeInsets.only(bottom:5),
+                                        contentPadding:
+                                            EdgeInsets.only(bottom: 5),
                                       ),
                                       textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 24,
-                                        fontFamily: 'Pretendard-bold',
-                                        fontWeight: FontWeight.bold
-                                        ),
-                                        onSubmitted: (_) => _saveEdit(), // 엔터 입력 시 저장
+                                      style: const TextStyle(
+                                          fontSize: 24,
+                                          fontFamily: 'Pretendard-bold',
+                                          fontWeight: FontWeight.bold),
+                                      onSubmitted: (_) =>
+                                          _saveEdit(), // 엔터 입력 시 저장
                                     )
                                   : Text(
                                       textAlign: TextAlign.start,
                                       FoodNamecontroller.text,
-                                      style: TextStyle(fontSize: 24, fontFamily: 'Pretendard-bold'),
+                                      style: const TextStyle(
+                                          fontSize: 24,
+                                          fontFamily: 'Pretendard-bold'),
                                     ),
                             ),
-                            SizedBox(height: 20,),
-                          Align(
-                          alignment: Alignment.topLeft,
-                          child: isEditing
-                              ? TextField(
-                                  controller: FoodAmountcontroller,
-                                  keyboardType: TextInputType.number,
-                                  decoration: InputDecoration(
-                                    isDense: true,
-                                    contentPadding: EdgeInsets.only(bottom:5),
-                                  ),                                
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(fontSize: 15,
-                                  fontFamily: 'Pretendard-regular',
-                                  ),
-                                  onSubmitted: (_) => _saveEdit(), // 엔터 입력 시 저장
-                                )
-                              : Text(
-                                  textAlign: TextAlign.start,
-                                  FoodAmountcontroller.text,
-                                  style: TextStyle(fontSize: 15, fontFamily: 'Pretendard-regular'),
-                                ),
-                        ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: isEditing
+                                  ? TextField(
+                                      controller: FoodAmountcontroller,
+                                      keyboardType: TextInputType.number,
+                                      decoration: const InputDecoration(
+                                        isDense: true,
+                                        contentPadding:
+                                            EdgeInsets.only(bottom: 5),
+                                      ),
+                                      textAlign: TextAlign.start,
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        fontFamily: 'Pretendard-regular',
+                                      ),
+                                      onSubmitted: (_) =>
+                                          _saveEdit(), // 엔터 입력 시 저장
+                                    )
+                                  : Text(
+                                      textAlign: TextAlign.start,
+                                      FoodAmountcontroller.text,
+                                      style: const TextStyle(
+                                          fontSize: 15,
+                                          fontFamily: 'Pretendard-regular'),
+                                    ),
+                            ),
                           ],
                         ),
                       ),
-
                     ],
                   ),
                 ),
               ),
               // Card(backgroundColor: Colors.white,)
-
             ],
           ),
         ),
@@ -270,7 +296,7 @@ class _LunchEdit extends StatefulWidget {
 class _LunchEditState extends State<_LunchEdit> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Text('점심 식단'),
     );
   }
@@ -284,7 +310,7 @@ class _DinnerEdit extends StatefulWidget {
 class _DinnerEditState extends State<_DinnerEdit> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Text('저녁 식단'),
     );
   }

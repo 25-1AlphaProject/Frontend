@@ -14,20 +14,17 @@ class MealamountEdit extends StatefulWidget {
 }
 
 class _MealamountEditState extends State<MealamountEdit> {
-
-
   void _goToNext() {
-
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => Camera()),
+      MaterialPageRoute(builder: (context) => const Camera()),
     );
   }
 
   void _skip() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => MealEdit()),
+      MaterialPageRoute(builder: (context) => const MealEdit(initialIndex: 1)),
     );
   }
 
@@ -47,22 +44,20 @@ class _MealamountEditState extends State<MealamountEdit> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: const Color(0xffd0cece),
-
       ),
-        width: MediaQuery.of(context).size.width*0.7,
-        height: MediaQuery.of(context).size.width*0.7,
-        child: Center(
+      width: MediaQuery.of(context).size.width * 0.7,
+      height: MediaQuery.of(context).size.width * 0.7,
+      child: Center(
           child: _image == null
-            ? Text('No image selected.')
-            : Image.file(File(_image!.path))
-            ),
-            );
+              ? const Text('No image selected.')
+              : Image.file(File(_image!.path))),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration : BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [
             Color(0xff3CB196),
@@ -76,7 +71,6 @@ class _MealamountEditState extends State<MealamountEdit> {
         padding: const EdgeInsets.only(left: 33.0, right: 33.0),
         child: Scaffold(
           backgroundColor: Colors.transparent,
-        
           body: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -90,10 +84,10 @@ class _MealamountEditState extends State<MealamountEdit> {
                     borderRadius: BorderRadius.circular(50),
                     boxShadow: [
                       BoxShadow(
-                        color: Color(0xffA3A2B0).withAlpha(20),
+                        color: const Color(0xffA3A2B0).withAlpha(20),
                         spreadRadius: -10,
                         blurRadius: 30,
-                        offset: Offset(0, 4),
+                        offset: const Offset(0, 4),
                       ),
                     ],
                   ),
@@ -102,99 +96,118 @@ class _MealamountEditState extends State<MealamountEdit> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       showImage(),
-                      SizedBox(height: 15,),
+                      const SizedBox(
+                        height: 15,
+                      ),
                       Text(
                         '부대찌개',
                         textAlign: TextAlign.start,
-                        style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                          color: Colors.black,
-                          fontSize: 28,
-                        ),
+                        style:
+                            Theme.of(context).textTheme.labelMedium!.copyWith(
+                                  color: Colors.black,
+                                  fontSize: 28,
+                                ),
                       ),
-                      SizedBox(height: 15,),
+                      const SizedBox(
+                        height: 15,
+                      ),
                       Row(
                         children: [
                           Container(
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                              color: Color(0xff3CB196),
+                              color: const Color(0xff3CB196),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Text(
                               '378 kcal',
-                              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                color: Colors.white,
-                                fontFamily: 'Pretendard-bold',
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    color: Colors.white,
+                                    fontFamily: 'Pretendard-bold',
+                                  ),
                             ),
                           ),
-                          SizedBox(width: 15,),
+                          const SizedBox(
+                            width: 15,
+                          ),
                           Text(
                             '1 인분',
-                            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              fontFamily: 'Pretendard-bold',
-                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  fontFamily: 'Pretendard-bold',
+                                ),
                           ),
                         ],
                       ),
                     ],
                   ),
                 ),
-                    SizedBox(height: 50,),
-                    Row(
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: Container(
-                              // margin: const EdgeInsets.fromLTRB(10, 50, 10, 20),
-                              width: double.infinity,
-                              child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Color(0xffd9d9d9),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                padding: const EdgeInsets.symmetric(vertical: 18),
-                                minimumSize: const Size(double.infinity, 50),
-                                elevation: 3,
-                                ),
-                              onPressed: _skip,
-                                child: Text(
-                                '다시 인식',
-                                    style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Color(0xff4d4d4d)),
-                          
+                const SizedBox(
+                  height: 50,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                        flex: 1,
+                        child: SizedBox(
+                          // margin: const EdgeInsets.fromLTRB(10, 50, 10, 20),
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xffd9d9d9),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
                               ),
-                              ),
-                          )
-                        ),
-                        SizedBox(width: 14,),
-                        Expanded(
-                          flex: 2,
-                            child: Container(
-                              // margin: const EdgeInsets.fromLTRB(10, 50, 10, 20),
-                              width: double.infinity,
-                              child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Color(0xffffffff),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                padding: const EdgeInsets.symmetric(vertical: 18),
-                                minimumSize: const Size(double.infinity, 50),
-                                elevation: 3,
-                                ),
-                              onPressed: _goToNext,
-                                child: Text(
-                                '다음',
-                                    style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                                      color: Color(0xff3CB196),
-                                    )
-                                ),
-                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 18),
+                              minimumSize: const Size(double.infinity, 50),
+                              elevation: 3,
+                            ),
+                            onPressed: _skip,
+                            child: Text(
+                              '다시 인식',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelMedium!
+                                  .copyWith(color: const Color(0xff4d4d4d)),
+                            ),
                           ),
-                        ),
-                      ],
+                        )),
+                    const SizedBox(
+                      width: 14,
                     ),
+                    Expanded(
+                      flex: 2,
+                      child: SizedBox(
+                        // margin: const EdgeInsets.fromLTRB(10, 50, 10, 20),
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xffffffff),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            padding: const EdgeInsets.symmetric(vertical: 18),
+                            minimumSize: const Size(double.infinity, 50),
+                            elevation: 3,
+                          ),
+                          onPressed: _goToNext,
+                          child: Text('다음',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelMedium!
+                                  .copyWith(
+                                    color: const Color(0xff3CB196),
+                                  )),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),

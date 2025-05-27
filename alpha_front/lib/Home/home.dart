@@ -15,6 +15,7 @@ import 'package:gradient_elevated_button/gradient_elevated_button.dart';
 import 'package:timer_builder/timer_builder.dart';
 import 'package:intl/intl.dart';
 import 'package:alpha_front/services/api_service.dart';
+import 'package:alpha_front/main.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,6 +23,9 @@ class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
+
+Map<String, dynamic> createdMeal = {}; // 한 번에 받아와서 리스트에 저장(아침,점심,저녁 당일 생성된 식단)
+Map<String, dynamic> dateKcal = {}; // 한 번에 받아와서 리스트에 저장(아침,점심,저녁 당일 실제 먹은 식단)
 
 List<Widget> dietWidgetList = [
   const DietManagementWidget(
@@ -38,8 +42,6 @@ List<Widget> dietWidgetList = [
   ),
 ];
 
-Map<String, dynamic> dateKcal = {}; // 한 번에 받아와서 리스트에 저장(날짜, )
-
 class _HomeScreenState extends State<HomeScreen> with RouteAware {
   List<String> response = [];
   late DateTime pageDate;
@@ -51,14 +53,6 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
   void initState() {
     super.initState();
     initializeData();
-    // pageDate = DateTime.now();
-    // nowDate = DateFormat('M.d(EEE)', 'ko').format(pageDate);
-    // getDataDate = DateFormat('yyyy-MM-dd').format(pageDate);
-    // dateKcal = await ApiService.mealDayData(getDataDate);
-
-    // if (dateKcal['message'] == null) {
-    //   createMeal = await ApiService.CreateMealData();
-    // }
   }
 
   Future<void> initializeData() async {
@@ -66,21 +60,22 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     nowDate = DateFormat('M.d(EEE)', 'ko').format(pageDate);
     getDataDate = DateFormat('yyyy-MM-dd').format(pageDate);
 
-    dateKcal = await ApiService.mealDayData(getDataDate);
+    createdMeal = await ApiService.mealDayData(getDataDate); //추천 식단
+    dateKcal = await ApiService.fetchkcalData(getDataDate); //실제 식단
 
-    if (dateKcal['message'] is List && dateKcal['message'].isEmpty) {
+    if (createdMeal['message'] is List && createdMeal['message'].isEmpty) {
       createMeal = await ApiService.createMealData();
     }
 
     setState(() {}); // UI 갱신
   }
 
-  void onEditClicked() {
-    print("수정 아이콘 클릭됨");
-    //page 이동
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const MealEdit()));
-  }
+  // void onEditClicked() {
+  //   print("수정 아이콘 클릭됨");
+  //   //page 이동
+  //   Navigator.push(
+  //       context, MaterialPageRoute(builder: (context) => const MealEdit()));
+  // }
 
   // void _onDragUpdate(Offset position) {
   //   print("드래그 동작함");
@@ -219,13 +214,27 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
-                          children: dietWidgetList.map((widget) {
-                            return Padding(
-                              padding: const EdgeInsets.all(13.0),
-                              child: SizedBox(
-                                width: 140,
-                                height: 180,
-                                child: widget,
+                          children:
+                              List.generate(dietWidgetList.length, (index) {
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        MealEdit(initialIndex: index + 1),
+                                  ),
+                                ).then((_) {
+                                  initializeData(); // 돌아오면 새로고침
+                                });
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(13.0),
+                                child: SizedBox(
+                                  width: 140,
+                                  height: 180,
+                                  child: dietWidgetList[index],
+                                ),
                               ),
                             );
                           }).toList(),
