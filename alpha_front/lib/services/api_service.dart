@@ -319,4 +319,32 @@ static Future<Map<String, dynamic>?> getUserDietInfo() async {    // if (id.isEm
     }
   }
 
+
+  static Future<List<Map<String, dynamic>>?> getRecipeList(String keyword) async {
+  try {
+    final token = await AuthManager.getToken();
+    final uri = Uri.parse('http://43.203.32.75:8080/api/recipe/search?keyword=$keyword'); 
+      final headers = {
+        'Content-Type': 'application/json',
+        if (token != null) 'Authorization': 'Bearer $token',
+      };
+
+      final response = await http.get(uri, headers: headers);
+
+      if (response.statusCode == 200) {
+        final decoded = jsonDecode(response.body);
+        log("레시피 검색 성공: ${response.body}");
+        return List<Map<String, dynamic>>.from(decoded['data'] ?? decoded);
+      } else {
+        log("레시피 검색 실패: ${response.statusCode} ${response.body}");
+        return null;
+      }
+    } catch (e) {
+      log("레시피 검색 에러: $e");
+      return null;
+    }
+  }
+  
 }
+
+
