@@ -87,17 +87,25 @@ class _CameraState extends State<Camera> {
 
     final uploadedUrl = presignedUrl.split('?').first;
 
-    final success = await ApiService.foodinfoCustom(
+    final responseData = await ApiService.foodinfoCustom(
       amount,
       now,
       mealType,
       uploadedUrl,
     );
-          if (success) {
+
+      if (responseData != null) {
         _showMessage('식사 정보 저장 완료!');
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => MealamountEdit()),
+          MaterialPageRoute(
+            builder: (context) => MealamountEdit(
+              imageBytes: _imageBytes!,
+              mealName: responseData['mealName'] ?? 'Unknown Meal',
+              foodCalories: responseData['foodCalories'] ?? 0.0,
+              amount: amount,
+            ),
+          ),
         );
       } else {
         _showMessage('식사 정보 저장 실패');

@@ -323,43 +323,46 @@ class ApiService {
     }
   }
 
-  static Future<bool> foodinfoCustom(
+static Future<Map<String, dynamic>?> foodinfoCustom(
     double amount,
     DateTime mealDate,
     String mealType,
     String mealPhoto,
+
   ) async {
     try {
       final token = await AuthManager.getToken();
 
       final response = await http.post(
-        Uri.parse('$_baseUrl/api/meal/real-eat/custom'),
+        Uri.parse('http://43.203.32.75:8080/api/meal/real-eat/custom'),
         headers: {
           if (token != null) 'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
         },
         body: jsonEncode({
-          'amount': amount,
-          'mealDate': DateFormat('yyyy-MM-dd').format(mealDate),
-          'mealType': mealType,
+          'amount' : amount,
+          'mealDate' : DateFormat('yyyy-MM-dd').format(mealDate),
+          'mealType' : mealType,
           'mealPhoto': mealPhoto,
         }),
       );
 
       if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
         if (token != null) log("Token: $token");
         log("전달 완료: ${response.statusCode} ${response.body}");
-        return true;
+        return responseData['message'];
       } else {
         if (token != null) log("Token: $token");
         log("전달 실패: ${response.statusCode} ${response.body}");
-        return false;
+        return null;
       }
     } catch (e) {
       log("전달 에러: $e");
-      return false;
+      return null;
     }
   }
+
 
   static Future<List<Map<String, dynamic>>?> getRecipeList(
       String keyword) async {
