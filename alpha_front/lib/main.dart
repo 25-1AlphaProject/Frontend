@@ -1,5 +1,6 @@
 import 'package:alpha_front/Home/home.dart';
 import 'package:alpha_front/layout.dart';
+import 'package:alpha_front/meal/meal_edit.dart';
 import 'package:alpha_front/mypage/mypage_main.dart';
 import 'package:alpha_front/recipe/recipe_list.dart';
 import 'package:alpha_front/report/report_main.dart';
@@ -72,11 +73,12 @@ class CCBS extends StatelessWidget {
       // home: const MyHomePage(title: '척척밥사'),
       // home: Survey(),
       // home: const MypageMain(),
-      home: const loginScreen(),
+      // home: const loginScreen(),
       // home: const signupScreen(),
       // home: const HomeScreen(),
       // home: const Layout(),
       // home: const CommunityList(),
+      home:MealEdit(initialIndex: 1),
     );
   }
 }

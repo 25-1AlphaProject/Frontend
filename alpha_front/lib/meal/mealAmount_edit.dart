@@ -27,12 +27,21 @@ class MealamountEdit extends StatefulWidget {
 
 class _MealamountEditState extends State<MealamountEdit> {
   void _goToNext() {
+    int index = 1;
+
+    if (widget.mealName.toUpperCase() == 'BREAKFAST') {
+      index = 1;
+    } else if (widget.mealName.toUpperCase() == 'LUNCH') {
+      index = 2;
+    } else if (widget.mealName.toUpperCase() == 'DINNER') {
+      index = 3;
+    }
+
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const MealEdit(initialIndex: 1)),
+      MaterialPageRoute(builder: (context) => MealEdit(initialIndex: index)),
     );
   }
-
   void _skip() {
     Navigator.push(
       context,
