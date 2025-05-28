@@ -1,5 +1,6 @@
 import 'package:alpha_front/Home/home.dart';
 import 'package:alpha_front/layout.dart';
+import 'package:alpha_front/meal/meal_edit.dart';
 import 'package:alpha_front/mypage/mypage_main.dart';
 import 'package:alpha_front/recipe/recipe_list.dart';
 import 'package:alpha_front/report/report_main.dart';
