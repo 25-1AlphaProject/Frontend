@@ -91,7 +91,7 @@ class _SearchPostState extends State<SearchPost> {
                   : posts.isEmpty
                       ? const Center(
                           child: Text(
-                            "검색어를 입력하세요.",
+                            "검색결과가 없습니다.",
                             style: TextStyle(
                               fontFamily: 'Pretendard-regular',
                               fontSize: 16,
@@ -122,14 +122,19 @@ class _SearchPostState extends State<SearchPost> {
                                 //         builder: (context) =>
                                 //             const 작성된 게시글()));
                               },
-                              child: PostIngredient(
-                                postTitle: title,
-                                postDetail: detail,
-                                postScrap: scrap,
-                                postLike: like,
-                                postComment: comment,
-                                postDate: dateFormat,
-                                postURLs: image,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  PostIngredient(
+                                    postTitle: title,
+                                    postDetail: detail,
+                                    postScrap: scrap,
+                                    postLike: like,
+                                    postComment: comment,
+                                    postDate: dateFormat,
+                                    postURLs: image,
+                                  ),
+                                ],
                               ),
                             );
                           },
