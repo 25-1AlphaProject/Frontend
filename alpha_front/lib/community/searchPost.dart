@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:string_similarity/string_similarity.dart';
 import 'package:alpha_front/widgets/post_widget.dart';
+import 'package:alpha_front/community/write.dart';
 
 class SearchPost extends StatefulWidget {
   const SearchPost({super.key});
@@ -70,6 +71,15 @@ class _SearchPostState extends State<SearchPost> {
                 ),
               ),
             ),
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const PostCreatePage()),
+                  );
+                },
+                icon: const Icon(Icons.wifi_password_outlined)),
             const SizedBox(height: 50),
             Expanded(
               child: isLoading
@@ -93,12 +103,11 @@ class _SearchPostState extends State<SearchPost> {
                           itemCount: posts.length,
                           itemBuilder: (context, index) {
                             final post = posts[index];
-                            final title = post['title']?.toString() ?? '';
-                            // final detail = post['detail']?.toString() ?? '';
-                            final detail = post['title']?.toString() ?? '';
-                            final scrap = post['scrapCount'] ?? 0;
+                            final title = post["title"]?.toString() ?? '';
+                            final detail = post['content']?.toString() ?? '';
+                            final scrap = post["scrapCount"] ?? 0;
                             final like = post['likeCount'] ?? 0;
-                            final comment = post['commnetCount'] ?? 0;
+                            final comment = post['commentCount'] ?? 0;
                             final image =
                                 post['thumbnailUrl']?.toString() ?? '';
                             final date = post['createdAt']?.toString() ?? '';

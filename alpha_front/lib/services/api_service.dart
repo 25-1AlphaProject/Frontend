@@ -470,6 +470,7 @@ class ApiService {
     }
   }
 
+  //게시글 목록 조회
   static Future<bool> write(
     String title,
     String content,
@@ -528,6 +529,7 @@ class ApiService {
     return null;
   }
 
+  //재료 링크 조회하기
   static Future<bool> linksIngredient(String recipeId) async {
     try {
       final token = await AuthManager.getToken();
@@ -552,6 +554,7 @@ class ApiService {
     }
   }
 
+  //게시글 키워드 검색
   static Future<List<Map<String, dynamic>>?> getPostList(String keyword) async {
     try {
       final token = await AuthManager.getToken();
@@ -578,6 +581,7 @@ class ApiService {
     }
   }
 
+  //레시피 이미지 조회하기
   static Future<String> getImage(String imageURL) async {
     try {
       final token = await AuthManager.getToken();
