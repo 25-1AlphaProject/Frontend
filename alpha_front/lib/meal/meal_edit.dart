@@ -7,7 +7,17 @@ import 'package:alpha_front/layout.dart';
 class MealEdit extends StatefulWidget {
   final int initialIndex; // 1: 아침, 2: 점심, 3:저녁
 
-  const MealEdit({super.key, required this.initialIndex});
+  final List<Map<String, dynamic>> recommendBreakfastList;
+  final List<Map<String, dynamic>> recommendLunchList;
+  final List<Map<String, dynamic>> recommendDinnerList;
+
+  const MealEdit({
+    super.key,
+    required this.initialIndex,
+    required this.recommendBreakfastList,
+    required this.recommendLunchList,
+    required this.recommendDinnerList,
+  });
 
   @override
   State<MealEdit> createState() => _MealEditState();
@@ -39,13 +49,15 @@ class _MealEditState extends State<MealEdit> {
   Widget _getSelectedWidget() {
     switch (selectedIndex) {
       case 1:
-        return _BreakfastEdit();
+        return _BreakfastEdit(
+            recommendBreakfastList: widget.recommendBreakfastList);
       case 2:
         return _LunchEdit();
       case 3:
         return _DinnerEdit();
       default:
-        return _BreakfastEdit();
+        return _BreakfastEdit(
+            recommendBreakfastList: widget.recommendBreakfastList);
     }
   }
 
@@ -361,6 +373,10 @@ class MealCard extends StatelessWidget {
 
 // 아침
 class _BreakfastEdit extends StatefulWidget {
+  final List<Map<String, dynamic>> recommendBreakfastList;
+
+  const _BreakfastEdit({required this.recommendBreakfastList});
+
   @override
   State<_BreakfastEdit> createState() => _BreakfastEditState();
 }
@@ -368,8 +384,10 @@ class _BreakfastEdit extends StatefulWidget {
 class _BreakfastEditState extends State<_BreakfastEdit> {
   bool isEditing = false;
 
-  TextEditingController nameController = TextEditingController(text: "부대찌개");
-  TextEditingController kcalController = TextEditingController(text: "378");
+  TextEditingController nameController =
+      TextEditingController(text: recommendBreakfastList[0]["name"]);
+  TextEditingController kcalController = TextEditingController(
+      text: recommendBreakfastList[0]["calories"].toString());
   TextEditingController amountController = TextEditingController(text: "1");
 
   void _toggleEditMode() {
@@ -382,7 +400,7 @@ class _BreakfastEditState extends State<_BreakfastEdit> {
   Widget build(BuildContext context) {
     return Center(
       child: MealCard(
-        imageURL: null,
+        imageURL: recommendBreakfastList[0]["foodImage"],
         isEditing: isEditing,
         amountController: amountController,
         nameController: nameController,

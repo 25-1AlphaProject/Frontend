@@ -275,8 +275,13 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        MealEdit(initialIndex: index + 1),
+                                    builder: (context) => MealEdit(
+                                        initialIndex: index + 1,
+                                        recommendBreakfastList:
+                                            recommendBreakfastList,
+                                        recommendLunchList: recommendLunchList,
+                                        recommendDinnerList:
+                                            recommendDinnerList),
                                   ),
                                 ).then((_) {
                                   initializeData(); // 돌아오면 새로고침

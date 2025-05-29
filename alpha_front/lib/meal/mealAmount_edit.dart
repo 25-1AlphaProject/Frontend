@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:alpha_front/layout.dart';
 
 import 'package:alpha_front/meal/camera.dart';
 import 'package:alpha_front/meal/meal_edit.dart';
@@ -26,6 +27,10 @@ class MealamountEdit extends StatefulWidget {
 }
 
 class _MealamountEditState extends State<MealamountEdit> {
+  List<Map<String, dynamic>> recommendBreakfastList = [];
+  List<Map<String, dynamic>> recommendLunchList = [];
+  List<Map<String, dynamic>> recommendDinnerList = [];
+
   void _goToNext() {
     int index = 1;
 
@@ -39,9 +44,17 @@ class _MealamountEditState extends State<MealamountEdit> {
 
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => MealEdit(initialIndex: index)),
+      MaterialPageRoute(
+          builder: (context) => MealEdit(
+                initialIndex: 1,
+                recommendBreakfastList: recommendBreakfastList,
+                recommendLunchList: recommendLunchList,
+                recommendDinnerList: recommendDinnerList,
+              )),
+      // MealEdit(initialIndex: index)
     );
   }
+
   void _skip() {
     Navigator.push(
       context,
@@ -70,7 +83,7 @@ class _MealamountEditState extends State<MealamountEdit> {
       height: MediaQuery.of(context).size.width * 0.7,
       child: Center(
         child: Image.memory(widget.imageBytes),
-              ),
+      ),
     );
   }
 
