@@ -1,5 +1,6 @@
 import 'package:alpha_front/services/api_service.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import 'package:string_similarity/string_similarity.dart';
 import 'package:alpha_front/widgets/post_widget.dart';
@@ -15,14 +16,44 @@ class SearchPost extends StatefulWidget {
 class _SearchPostState extends State<SearchPost> {
   List<Map<String, dynamic>> posts = [];
   bool isLoading = false;
-  String searchText = '';
+  bool isLoadingMore = false;
+  bool hasMore = true;
 
-  void searchPost(String keyword) async {
+  String searchText = '';
+  String sort = 'recent';
+  int page = 0;
+  int size = 10;
+
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController()..addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200) {
+      _fetchMorePosts();
+    }
+  }
+
+  Future<void> searchPost(String keyword) async {
     if (keyword.trim().isEmpty) return;
 
     setState(() {
+      searchText = keyword;
       isLoading = true;
       posts = [];
+      page = 0;
+      hasMore = true;
     });
 
     final result = await ApiService.getPostList(keyword);
@@ -35,6 +66,48 @@ class _SearchPostState extends State<SearchPost> {
 
     setState(() {
       posts = filtered;
+      isLoading = false;
+    });
+  }
+
+  Future<void> _fetchMorePosts() async {
+    if (isLoadingMore || !hasMore) return;
+
+    setState(() {
+      isLoadingMore = true;
+    });
+
+    final nextPage = page + 1;
+    final result = await ApiService.sortSearchPost(sort, nextPage, size);
+
+    if (result != null && result.isNotEmpty) {
+      setState(() {
+        posts.addAll(result);
+        page = nextPage;
+      });
+    } else {
+      setState(() {
+        hasMore = false;
+      });
+    }
+
+    setState(() {
+      isLoadingMore = false;
+    });
+  }
+
+  Future<void> _loadSortedPosts(String selectedSort) async {
+    setState(() {
+      sort = selectedSort;
+      page = 0;
+      posts = [];
+      hasMore = true;
+      isLoading = true;
+    });
+
+    final result = await ApiService.sortSearchPost(sort, page, size);
+    setState(() {
+      posts = result ?? [];
       isLoading = false;
     });
   }
@@ -71,15 +144,39 @@ class _SearchPostState extends State<SearchPost> {
                 ),
               ),
             ),
-            IconButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const PostCreatePage()),
-                  );
-                },
-                icon: const Icon(Icons.wifi_password_outlined)),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextButton(
+                  onPressed: () => _loadSortedPosts('recent'), //sort
+                  child: const Text(
+                    "최신순",
+                    style: TextStyle(color: Color(0xff3CB196)),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () => _loadSortedPosts('popular'), // popular
+                  child: const Text(
+                    "인기순",
+                    style: TextStyle(color: Color(0xff3CB196)),
+                  ),
+                ),
+                const Spacer(),
+                IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const PostCreatePage()),
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.create_rounded,
+                    color: Color(0xff3CB196),
+                  ),
+                ),
+              ],
+            ),
             const SizedBox(height: 50),
             Expanded(
               child: isLoading
@@ -100,43 +197,57 @@ class _SearchPostState extends State<SearchPost> {
                           ),
                         )
                       : ListView.builder(
-                          itemCount: posts.length,
+                          controller: _scrollController,
+                          itemCount: posts.length + (hasMore ? 1 : 0),
                           itemBuilder: (context, index) {
-                            final post = posts[index];
-                            final title = post["title"]?.toString() ?? '';
-                            final detail = post['content']?.toString() ?? '';
-                            final scrap = post["scrapCount"] ?? 0;
-                            final like = post['likeCount'] ?? 0;
-                            final comment = post['commentCount'] ?? 0;
-                            final image =
-                                post['thumbnailUrl']?.toString() ?? '';
-                            final date = post['createdAt']?.toString() ?? '';
-                            final dateFormat =
-                                date.length >= 10 ? date.substring(0, 10) : '';
+                            if (index < posts.length) {
+                              final post = posts[index];
+                              final title = post["title"]?.toString() ?? '';
+                              final detail = post['content']?.toString() ?? '';
+                              final scrap = post["scrapCount"] ?? 0;
+                              final like = post['likeCount'] ?? 0;
+                              final comment = post['commentCount'] ?? 0;
+                              final image =
+                                  post['thumbnailUrl']?.toString() ?? '';
+                              final date = post['createdAt']?.toString() ?? '';
+                              final dateFormat = date.length >= 10
+                                  ? date.substring(0, 10)
+                                  : '';
 
-                            return InkWell(
-                              onTap: () {
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) =>
-                                //             const 작성된 게시글()));
-                              },
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  PostIngredient(
-                                    postTitle: title,
-                                    postDetail: detail,
-                                    postScrap: scrap,
-                                    postLike: like,
-                                    postComment: comment,
-                                    postDate: dateFormat,
-                                    postURLs: image,
+                              return InkWell(
+                                onTap: () {
+                                  // Navigator.push(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //         builder: (context) =>
+                                  //             const 작성된 게시글()));
+                                },
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    PostIngredient(
+                                      postTitle: title,
+                                      postDetail: detail,
+                                      postScrap: scrap,
+                                      postLike: like,
+                                      postComment: comment,
+                                      postDate: dateFormat,
+                                      postURLs: image,
+                                    ),
+                                  ],
+                                ),
+                              );
+                            } else {
+                              // 로딩 인디케이터 (다음 페이지 로딩 중일 때)
+                              return const Padding(
+                                padding: EdgeInsets.all(16.0),
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    color: Color(0xff3CB196),
                                   ),
-                                ],
-                              ),
-                            );
+                                ),
+                              );
+                            }
                           },
                         ),
             ),
