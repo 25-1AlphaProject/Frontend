@@ -7,27 +7,37 @@ import 'package:alpha_front/layout.dart';
 class MealEdit extends StatefulWidget {
   final int initialIndex; // 1: 아침, 2: 점심, 3:저녁
 
-  const MealEdit({super.key, required this.initialIndex});
+  final List<Map<String, dynamic>> recommendBreakfastList;
+  final List<Map<String, dynamic>> recommendLunchList;
+  final List<Map<String, dynamic>> recommendDinnerList;
+
+  const MealEdit({
+    super.key,
+    required this.initialIndex,
+    required this.recommendBreakfastList,
+    required this.recommendLunchList,
+    required this.recommendDinnerList,
+  });
 
   @override
   State<MealEdit> createState() => _MealEditState();
 }
 
 class _MealEditState extends State<MealEdit> {
-
   void _goToNext() {
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => Layout()),
+      MaterialPageRoute(builder: (context) => const Layout()),
     );
   }
 
   void _skip() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => Camera()),
+      MaterialPageRoute(builder: (context) => const Camera()),
     );
   }
+
   late int selectedIndex; // 기본
 
   @override
@@ -39,13 +49,15 @@ class _MealEditState extends State<MealEdit> {
   Widget _getSelectedWidget() {
     switch (selectedIndex) {
       case 1:
-        return _BreakfastEdit();
+        return _BreakfastEdit(
+            recommendBreakfastList: widget.recommendBreakfastList);
       case 2:
         return _LunchEdit();
       case 3:
         return _DinnerEdit();
       default:
-        return _BreakfastEdit();
+        return _BreakfastEdit(
+            recommendBreakfastList: widget.recommendBreakfastList);
     }
   }
 
@@ -72,139 +84,108 @@ class _MealEditState extends State<MealEdit> {
                     flex: 1,
                     child: SizedBox(
                       width: double.infinity,
-                      child:
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: selectedIndex == 1
-                                ? const Color(0xff3CB196)
-                                : Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                    
-                          ),
-                          onPressed: () => _onButtonPressed(1),
-                          child: Text(
-                            '아침',
-                            style: TextStyle(
-                              fontFamily: 'Pretendard-bold',
-                              fontSize: 20,
-                              color: selectedIndex == 1
-                                  ? Colors.white
-                                  : const Color(0xff3CB196),
-                            ),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: selectedIndex == 1
+                              ? const Color(0xff3CB196)
+                              : Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
                           ),
                         ),
+                        onPressed: () => _onButtonPressed(1),
+                        child: Text(
+                          '아침',
+                          style: TextStyle(
+                            fontFamily: 'Pretendard-bold',
+                            fontSize: 20,
+                            color: selectedIndex == 1
+                                ? Colors.white
+                                : const Color(0xff3CB196),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: selectedIndex == 2
-                                    ? const Color(0xff3CB196)
-                                    : Colors.white,
-                                                                  shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              ),
-                              onPressed: () => _onButtonPressed(2),
-                              child: Text(
-                                '점심',
-                                style: TextStyle(
-                                  fontFamily: 'Pretendard-bold',
-                                  fontSize: 20,
-                                  color: selectedIndex == 2
-                                      ? Colors.white
-                                      : const Color(0xff3CB196),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Expanded(
-                          child: SizedBox(
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: selectedIndex == 3
-                                    ? const Color(0xff3CB196)
-                                    : Colors.white,
-                                                                  shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              ),
-                              onPressed: () => _onButtonPressed(3),
-                              child: Text(
-                                '저녁',
-                                style: TextStyle(
-                                  fontFamily: 'Pretendard-bold',
-                                  fontSize: 20,
-                                  color: selectedIndex == 3
-                                      ? Colors.white
-                                      : const Color(0xff3CB196),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                  const SizedBox(
+                    width: 10,
                   ),
-                              ),
-              //   ],
-              // ),
+                  Expanded(
+                    flex: 1,
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: selectedIndex == 2
+                              ? const Color(0xff3CB196)
+                              : Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                        onPressed: () => _onButtonPressed(2),
+                        child: Text(
+                          '점심',
+                          style: TextStyle(
+                            fontFamily: 'Pretendard-bold',
+                            fontSize: 20,
+                            color: selectedIndex == 2
+                                ? Colors.white
+                                : const Color(0xff3CB196),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: SizedBox(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: selectedIndex == 3
+                              ? const Color(0xff3CB196)
+                              : Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                        onPressed: () => _onButtonPressed(3),
+                        child: Text(
+                          '저녁',
+                          style: TextStyle(
+                            fontFamily: 'Pretendard-bold',
+                            fontSize: 20,
+                            color: selectedIndex == 3
+                                ? Colors.white
+                                : const Color(0xff3CB196),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            //   ],
+            // ),
             Expanded(
               flex: 6,
               child: _getSelectedWidget(),
             ),
             Expanded(
               flex: 2,
-              child:
-                Row(
-                  children: [
-                    Expanded(
-                        flex: 1,
-                        child: SizedBox(
-                          // margin: const EdgeInsets.fromLTRB(10, 50, 10, 20),
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xffd9d9d9),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              padding: const EdgeInsets.symmetric(vertical: 18),
-                              minimumSize: const Size(double.infinity, 50),
-                              elevation: 3,
-                            ),
-                            onPressed: _skip,
-                            child: Text(
-                              '다시 인식',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelMedium!
-                                  .copyWith(color: const Color(0xff4d4d4d)),
-                            ),
-                          ),
-                        )),
-                    const SizedBox(
-                      width: 14,
-                    ),
-                    Expanded(
-                      flex: 2,
+              child: Row(
+                children: [
+                  Expanded(
+                      flex: 1,
                       child: SizedBox(
                         // margin: const EdgeInsets.fromLTRB(10, 50, 10, 20),
                         width: double.infinity,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xffffffff),
+                            backgroundColor: const Color(0xffd9d9d9),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
@@ -212,19 +193,47 @@ class _MealEditState extends State<MealEdit> {
                             minimumSize: const Size(double.infinity, 50),
                             elevation: 3,
                           ),
-                          onPressed: _goToNext,
-                          child: Text('식단 추가',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelMedium!
-                                  .copyWith(
-                                    color: const Color(0xff3CB196),
-                                  )),
+                          onPressed: _skip,
+                          child: Text(
+                            '다시 인식',
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelMedium!
+                                .copyWith(color: const Color(0xff4d4d4d)),
+                          ),
                         ),
+                      )),
+                  const SizedBox(
+                    width: 14,
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: SizedBox(
+                      // margin: const EdgeInsets.fromLTRB(10, 50, 10, 20),
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xffffffff),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 18),
+                          minimumSize: const Size(double.infinity, 50),
+                          elevation: 3,
+                        ),
+                        onPressed: _goToNext,
+                        child: Text('식단 추가',
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelMedium!
+                                .copyWith(
+                                  color: const Color(0xff3CB196),
+                                )),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
+              ),
             )
           ],
         ),
@@ -286,7 +295,8 @@ class MealCard extends StatelessWidget {
                                     fontSize: 20, fontWeight: FontWeight.bold),
                                 decoration: const InputDecoration(
                                   isDense: true,
-                                  contentPadding: EdgeInsets.symmetric(vertical: 8),
+                                  contentPadding:
+                                      EdgeInsets.symmetric(vertical: 8),
                                   border: UnderlineInputBorder(),
                                 ),
                               )
@@ -307,14 +317,16 @@ class MealCard extends StatelessWidget {
                     children: [
                       isEditing
                           ? SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.3, // 전체의 약 절반
+                              width: MediaQuery.of(context).size.width *
+                                  0.3, // 전체의 약 절반
                               child: TextField(
                                 controller: kcalController,
                                 keyboardType: TextInputType.number,
                                 style: const TextStyle(fontSize: 14),
                                 decoration: const InputDecoration(
                                   isDense: true,
-                                  contentPadding: EdgeInsets.symmetric(vertical: 4),
+                                  contentPadding:
+                                      EdgeInsets.symmetric(vertical: 4),
                                   border: UnderlineInputBorder(),
                                 ),
                               ),
@@ -337,7 +349,8 @@ class MealCard extends StatelessWidget {
                                 style: const TextStyle(fontSize: 14),
                                 decoration: const InputDecoration(
                                   isDense: true,
-                                  contentPadding: EdgeInsets.symmetric(vertical: 4),
+                                  contentPadding:
+                                      EdgeInsets.symmetric(vertical: 4),
                                   border: UnderlineInputBorder(),
                                 ),
                               ),
@@ -358,10 +371,12 @@ class MealCard extends StatelessWidget {
   }
 }
 
-
-
 // 아침
 class _BreakfastEdit extends StatefulWidget {
+  final List<Map<String, dynamic>> recommendBreakfastList;
+
+  const _BreakfastEdit({required this.recommendBreakfastList});
+
   @override
   State<_BreakfastEdit> createState() => _BreakfastEditState();
 }
@@ -370,11 +385,10 @@ class _BreakfastEditState extends State<_BreakfastEdit> {
   bool isEditing = false;
 
   TextEditingController nameController =
-      TextEditingController(text: "부대찌개");
-  TextEditingController kcalController =
-      TextEditingController(text: "378");
-  TextEditingController amountController =
-      TextEditingController(text: "1");
+      TextEditingController(text: recommendBreakfastList[0]["name"]);
+  TextEditingController kcalController = TextEditingController(
+      text: recommendBreakfastList[0]["calories"].toString());
+  TextEditingController amountController = TextEditingController(text: "1");
 
   void _toggleEditMode() {
     setState(() {
@@ -386,7 +400,7 @@ class _BreakfastEditState extends State<_BreakfastEdit> {
   Widget build(BuildContext context) {
     return Center(
       child: MealCard(
-        imageURL: null,
+        imageURL: recommendBreakfastList[0]["foodImage"],
         isEditing: isEditing,
         amountController: amountController,
         nameController: nameController,
