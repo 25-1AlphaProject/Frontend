@@ -364,31 +364,38 @@ static Future<Map<String, dynamic>?> foodinfoCustom(
   }
 
 
-  static Future<List<Map<String, dynamic>>?> getRecipeList(
-      String keyword) async {
-    try {
-      final token = await AuthManager.getToken();
-      final uri = Uri.parse('$_baseUrl/api/recipe/search?keyword=$keyword');
-      final headers = {
-        'Content-Type': 'application/json',
-        if (token != null) 'Authorization': 'Bearer $token',
-      };
+static Future<List<Map<String, dynamic>>?> getRecipeList(String keyword) async {
+  try {
+    final token = await AuthManager.getToken();
+    final uri = Uri.parse('$_baseUrl/api/recipe/search?keyword=$keyword');
+    final headers = {
+      'Content-Type': 'application/json',
+      if (token != null) 'Authorization': 'Bearer $token',
+    };
 
-      final response = await http.get(uri, headers: headers);
+    final response = await http.get(uri, headers: headers);
 
-      if (response.statusCode == 200) {
-        final decoded = jsonDecode(response.body);
-        log("레시피 검색 성공: ${response.body}");
-        return List<Map<String, dynamic>>.from(decoded['data'] ?? decoded);
+    if (response.statusCode == 200) {
+      final decoded = jsonDecode(response.body);
+      log("레시피 검색 성공: ${response.body}");
+
+      final message = decoded['message'];
+      if (message is List) {
+        return List<Map<String, dynamic>>.from(message);
       } else {
-        log("레시피 검색 실패: ${response.statusCode} ${response.body}");
+        log("message가 리스트가 아님: $message");
         return null;
       }
-    } catch (e) {
-      log("레시피 검색 에러: $e");
+    } else {
+      log("레시피 검색 실패: ${response.statusCode} ${response.body}");
       return null;
     }
+  } catch (e) {
+    log("레시피 검색 에러: $e");
+    return null;
   }
+}
+
 
   //해당 날짜 실제 먹은 식단 조회
   static Future<Map<String, dynamic>> fetchkcalData(String date) async {
