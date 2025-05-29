@@ -377,7 +377,14 @@ class ApiService {
       if (response.statusCode == 200) {
         final decoded = jsonDecode(response.body);
         log("레시피 검색 성공: ${response.body}");
-        return List<Map<String, dynamic>>.from(decoded['data'] ?? decoded);
+
+        final message = decoded['message'];
+        if (message is List) {
+          return List<Map<String, dynamic>>.from(message);
+        } else {
+          log("message가 리스트가 아님: $message");
+          return null;
+        }
       } else {
         log("레시피 검색 실패: ${response.statusCode} ${response.body}");
         return null;
