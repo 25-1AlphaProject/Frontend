@@ -90,9 +90,7 @@ Future<void> _editInfo() async {
     }
   }
 
-  Future<void> editDietInfo() async {
-    // ... 기존 코드와 동일
-  }
+  
 
   Widget _buildMenuCard({
     required String title,
@@ -124,6 +122,13 @@ Future<void> _editInfo() async {
           Icons.chevron_right, 
           color: Colors.black),
       ),
+    );
+  }
+
+  void editDietInfo(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const DietInfoScreen()),
     );
   }
 
@@ -232,7 +237,7 @@ Future<void> _editInfo() async {
                           _buildMenuCard(
                             title: '맞춤 정보 수정하기',
                             iconPath: '../assets/images/dietIcon.png',
-                            onTap: editDietInfo,
+                            onTap: () => editDietInfo(context)
                           ),
                         ],
                       ),
@@ -287,7 +292,6 @@ Future<void> _editInfo() async {
                         ],
                       ),
                     ),
-                    // 로그아웃 카드
                     Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -386,9 +390,12 @@ Future<void> _fetchUserData() async {
       _isLoading = false;
     });
 
-  } catch (e, stack) {
-    print('사용자 데이터 조회 실패: $e');
-    print('Stack trace: $stack');
+  } catch (e, stackTrace) {
+  debugPrint('❗ 오류 발생: $e');
+  debugPrint('🧵 스택트레이스: $stackTrace');
+  ScaffoldMessenger.of(context).showSnackBar(
+    const SnackBar(content: Text('회원 정보를 불러오지 못했습니다.')),
+  );
 
     if (!mounted) return;
     
@@ -647,4 +654,278 @@ String _getErrorMessage(dynamic error) {
   }
 }
 
+class DietInfoScreen extends StatefulWidget {
+  const DietInfoScreen({super.key});
 
+  @override
+  State<DietInfoScreen> createState() => _DietInfoScreenState();
+}
+
+class _DietInfoScreenState extends State<DietInfoScreen> {
+  late TextEditingController _ageController;
+  late TextEditingController _weightController;
+  late TextEditingController _heightController;
+
+  late TextEditingController _allergyInputController;
+  late TextEditingController _diseaseInputController;
+
+  late String _selectedGender;
+  late List<String> _allergies;
+  late List<String> _diseases;
+
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _allergyInputController = TextEditingController();
+    _diseaseInputController = TextEditingController();
+    _initializeData();
+  }
+
+Future<void> fetchAndSetDietInfo() async {
+  try {
+    final data = await ApiService.getUserDietInfo();
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+
+    if (data != null) {
+      final dietInfo = data['userDietInfo'] ?? {};
+
+      userProvider.setUserDietInfo(
+        age: data['age'] ?? 22,
+        weight: (data['weight'] as num?)?.toDouble() ?? 60.0,
+        height: (data['height'] as num?)?.toDouble() ?? 170.0,
+        targetCalories: data['targetCalories'] ?? 1800,
+        gender: data['gender'] ?? 'F',
+        mealCount: (data['mealCounts'] as List<dynamic>?)
+            ?.map((e) => e.toString())
+            .toList() ?? ['BREAKFAST', 'LUNCH'],
+        allergies: (dietInfo['allergies'] as List<dynamic>?)
+            ?.map((e) => e.toString())
+            .toList() ?? [],
+        diseases: (dietInfo['diseases'] as List<dynamic>?)
+            ?.map((e) => e.toString())
+            .toList() ?? [],
+        preferredMenus: (dietInfo['preferredMenus'] as List<dynamic>?)
+            ?.map((e) => e.toString())
+            .toList() ?? [],
+        avoidIngredients: (dietInfo['avoidIngredients'] as List<dynamic>?)
+            ?.map((e) => e.toString())
+            .toList() ?? [],
+        healthGoal: data['healthGoal'] ?? 'DIET',
+      );
+    } else {
+      throw Exception('데이터가 null입니다');
+    }
+  } catch (e) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    userProvider.setUserDietInfo(
+      age: 22,
+      weight: 60.0,
+      height: 170.0,
+      targetCalories: 1800,
+      gender: 'F',
+      mealCount: ['BREAKFAST', 'LUNCH'],
+      allergies: [],
+      diseases: [],
+      preferredMenus: [],
+      avoidIngredients: [],
+      healthGoal: 'DIET',
+    );
+
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('서버에서 정보를 불러오지 못해 기본값을 사용합니다.')),
+      );
+    }
+  }
+}
+
+
+  Future<void> _initializeData() async {
+    await fetchAndSetDietInfo();
+
+    if (!mounted) return;
+
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    setState(() {
+      _ageController = TextEditingController(text: userProvider.age.toString());
+      _weightController = TextEditingController(text: userProvider.weight.toString());
+      _heightController = TextEditingController(text: userProvider.height.toString());
+
+      _selectedGender = userProvider.gender == 'F' ? '여성' : '남성';
+      _allergies = List.from(userProvider.allergies);
+      _diseases = List.from(userProvider.diseases);
+
+      _isLoading = false;
+    });
+  }
+
+  void _addToList(String value, List<String> list, TextEditingController controller) {
+    if (value.isNotEmpty && !list.contains(value)) {
+      setState(() => list.add(value));
+      controller.clear();
+    }
+  }
+
+  void _removeFromList(String item, List<String> list) {
+    setState(() => list.remove(item));
+  }
+
+  Future<void> _editDietInfo() async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final genderCode = _selectedGender == '여성' ? 'F' : 'M';
+    final age = int.tryParse(_ageController.text) ?? userProvider.age;
+    final weight = double.tryParse(_weightController.text) ?? userProvider.weight;
+    final height = double.tryParse(_heightController.text) ?? userProvider.height;
+
+    // 사용자 입력 정보로 상태 업데이트
+    userProvider.updateUserDietInfo(
+      age: age,
+      weight: weight,
+      height: height,
+      targetCalories: userProvider.targetCalories,
+      gender: genderCode,
+      mealCount: userProvider.mealCount,
+      allergies: _allergies,
+      diseases: _diseases,
+      preferredMenus: userProvider.preferredMenus,
+      avoidIngredients: userProvider.avoidIngredients,
+      healthGoal: userProvider.healthGoal,
+    );
+
+    try {
+      final success = await ApiService.updateDiet(
+        selectedGender: genderCode,
+        age: age,
+        height: height,
+        weight: weight,
+        mealCount: userProvider.mealCount,
+        targetCalories: userProvider.targetCalories,
+        allergies: _allergies,
+        diseases: _diseases,
+        preferredMenus: userProvider.preferredMenus,
+        avoidIngredients: userProvider.avoidIngredients,
+        healthGoal: userProvider.healthGoal,
+      );
+
+      if (success && context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('정보가 저장되었습니다')),
+        );
+      } else if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('저장에 실패했습니다')),
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('저장 중 오류가 발생했습니다: $e')),
+        );
+      }
+    }
+  }
+
+  Widget _buildChipList(String label, List<String> list, TextEditingController controller, void Function(String) onAdd) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 8,
+          children: list.map((item) {
+            return Chip(
+              label: Text(item),
+              deleteIcon: const Icon(Icons.close),
+              onDeleted: () => _removeFromList(item, list),
+            );
+          }).toList(),
+        ),
+        TextField(
+          controller: controller,
+          onSubmitted: onAdd,
+          decoration: const InputDecoration(hintText: '추가 후 Enter'),
+        ),
+        const SizedBox(height: 16),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    return Scaffold(
+      appBar: AppBar(title: const Text('내 맞춤 정보 편집')),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('내 맞춤 정보', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  const Text('나이'),
+                  const SizedBox(width: 16),
+                  Expanded(child: TextField(controller: _ageController, keyboardType: TextInputType.number)),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ChoiceChip(
+                    label: const Text('남성'),
+                    selected: _selectedGender == '남성',
+                    onSelected: (_) => setState(() => _selectedGender = '남성'),
+                  ),
+                  ChoiceChip(
+                    label: const Text('여성'),
+                    selected: _selectedGender == '여성',
+                    onSelected: (_) => setState(() => _selectedGender = '여성'),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  const Text('몸무게'),
+                  const SizedBox(width: 16),
+                  Expanded(child: TextField(controller: _weightController, keyboardType: TextInputType.number)),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  const Text('키'),
+                  const SizedBox(width: 16),
+                  Expanded(child: TextField(controller: _heightController, keyboardType: TextInputType.number)),
+                ],
+              ),
+              const SizedBox(height: 16),
+              _buildChipList('알레르기', _allergies, _allergyInputController,
+                  (value) => _addToList(value, _allergies, _allergyInputController)),
+              _buildChipList('질환명', _diseases, _diseaseInputController,
+                  (value) => _addToList(value, _diseases, _diseaseInputController)),
+              const SizedBox(height: 16),
+              Center(
+                child: ElevatedButton(
+                  onPressed: _editDietInfo,
+                  child: const Text('저장하기'),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
