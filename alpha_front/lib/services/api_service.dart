@@ -323,12 +323,11 @@ class ApiService {
     }
   }
 
-static Future<Map<String, dynamic>?> foodinfoCustom(
+  static Future<Map<String, dynamic>?> foodinfoCustom(
     double amount,
     DateTime mealDate,
     String mealType,
     String mealPhoto,
-
   ) async {
     try {
       final token = await AuthManager.getToken();
@@ -340,9 +339,9 @@ static Future<Map<String, dynamic>?> foodinfoCustom(
           'Content-Type': 'application/json',
         },
         body: jsonEncode({
-          'amount' : amount,
-          'mealDate' : DateFormat('yyyy-MM-dd').format(mealDate),
-          'mealType' : mealType,
+          'amount': amount,
+          'mealDate': DateFormat('yyyy-MM-dd').format(mealDate),
+          'mealType': mealType,
           'mealPhoto': mealPhoto,
         }),
       );
@@ -362,7 +361,6 @@ static Future<Map<String, dynamic>?> foodinfoCustom(
       return null;
     }
   }
-
 
   static Future<List<Map<String, dynamic>>?> getRecipeList(
       String keyword) async {
@@ -544,6 +542,32 @@ static Future<Map<String, dynamic>?> foodinfoCustom(
     } catch (e) {
       log("요청 실패: $e");
       throw Exception("요청 실패: $e");
+    }
+  }
+
+  static Future<List<Map<String, dynamic>>?> getPostList(String keyword) async {
+    try {
+      final token = await AuthManager.getToken();
+
+      final response = await http.get(
+        Uri.parse('$_baseUrl/api/community/posts/search?keyword=$keyword'),
+        headers: {
+          'Content-Type': 'application/json',
+          if (token != null) 'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final decoded = jsonDecode(response.body);
+        log("커뮤니티 검색 성공: ${response.body}");
+        return List<Map<String, dynamic>>.from(decoded['data'] ?? decoded);
+      } else {
+        log("커뮤니티 검색 실패: ${response.statusCode} ${response.body}");
+        return null;
+      }
+    } catch (e) {
+      log("커뮤니티 검색 에러: $e");
+      return null;
     }
   }
 }

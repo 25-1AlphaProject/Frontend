@@ -56,7 +56,7 @@ class _PostCreatePageState extends State<PostCreatePage> {
                 maxLines: null,
                 expands: true,
                 decoration: const InputDecoration(
-                  hintText: '내용을 입력하세요...',
+                  hintText: '내용을 입력하세요',
                   border: InputBorder.none,
                 ),
               ),
