@@ -25,7 +25,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 Map<String, dynamic> createdMeal = {}; // 한 번에 받아와서 리스트에 저장(아침,점심,저녁 당일 생성된 식단)
+List<Map<String, dynamic>> recommendBreakfastList = [];
+List<Map<String, dynamic>> recommendLunchList = [];
+List<Map<String, dynamic>> recommendDinnerList = [];
+
 Map<String, dynamic> dateKcal = {}; // 한 번에 받아와서 리스트에 저장(아침,점심,저녁 당일 실제 먹은 식단)
+List<Map<String, dynamic>> realBreakfastList = [];
+List<Map<String, dynamic>> realLunchList = [];
+List<Map<String, dynamic>> realDinnerList = [];
 
 List<Widget> dietWidgetList = [
   const DietManagementWidget(
@@ -55,6 +62,28 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     initializeData();
   }
 
+  void categorizeMeals(Map<String, dynamic> createdMeal) {
+    recommendBreakfastList.clear();
+    recommendLunchList.clear();
+    recommendDinnerList.clear();
+
+    List<dynamic> meals = createdMeal['message'];
+
+    for (var meal in meals) {
+      switch (meal['mealType']) {
+        case 'BREAKFAST':
+          recommendBreakfastList.add(meal);
+          break;
+        case 'LUNCH':
+          recommendLunchList.add(meal);
+          break;
+        case 'DINNER':
+          recommendDinnerList.add(meal);
+          break;
+      }
+    }
+  }
+
   Future<void> initializeData() async {
     pageDate = DateTime.now();
     nowDate = DateFormat('M.d(EEE)', 'ko').format(pageDate);
@@ -64,7 +93,33 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     dateKcal = await ApiService.fetchkcalData(getDataDate); //실제 식단
 
     if (createdMeal['message'] is List && createdMeal['message'].isEmpty) {
+      print("식단이 생성됨");
       createMeal = await ApiService.createMealData();
+      await ApiService.mealDayData(getDataDate).then((result) {
+        createdMeal = result;
+        categorizeMeals(createdMeal);
+      });
+    } else {
+      categorizeMeals(createdMeal); // 생성된 식단 아침,점심, 저녁 별 구분 저장
+    }
+
+    setState(() {}); // UI 갱신
+  }
+
+  Future<void> updateData(DateTime pageDate) async {
+    nowDate = DateFormat('M.d(EEE)', 'ko').format(pageDate);
+    getDataDate = DateFormat('yyyy-MM-dd').format(pageDate);
+
+    createdMeal = await ApiService.mealDayData(getDataDate); //추천 식단
+    dateKcal = await ApiService.fetchkcalData(getDataDate); //실제 식단
+
+    if (createdMeal['message'] is List && createdMeal['message'].isEmpty) {
+      // print("식단이 생성됨");
+      // createMeal = await ApiService.createMealData();
+      print("n일 뒤 다시 생성해주세요");
+      initializeData();
+    } else {
+      categorizeMeals(createdMeal); // 생성된 식단 아침,점심, 저녁 별 구분 저장
     }
 
     setState(() {}); // UI 갱신
@@ -86,7 +141,10 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const ReportMain()),
-    );
+    ).then((_) {
+      pageDate = DateTime.now();
+      updateData(pageDate); // 돌아오면 새로고침
+    });
   }
 
   @override
@@ -150,13 +208,14 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                           setState(() {
                             pageDate =
                                 pageDate.subtract(const Duration(days: 1));
-                            nowDate =
-                                DateFormat('M.d(EEE)', 'ko').format(pageDate);
-                            getDataDate =
-                                DateFormat('yyyy-MM-dd').format(pageDate);
+                            // nowDate =
+                            //     DateFormat('M.d(EEE)', 'ko').format(pageDate);
+                            // getDataDate =
+                            //     DateFormat('yyyy-MM-dd').format(pageDate);
+                            updateData(pageDate);
                           });
-                          dateKcal =
-                              await ApiService.fetchkcalData(getDataDate);
+                          // dateKcal =
+                          //     await ApiService.fetchkcalData(getDataDate);
                         },
                         icon: const Icon(Icons.arrow_left),
                         iconSize: 60,
@@ -177,13 +236,8 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                           // 현재 페이지 정보 다음 날 날짜 정보 get 해오고 home.dart 정보 reload
                           setState(() {
                             pageDate = pageDate.add(const Duration(days: 1));
-                            nowDate =
-                                DateFormat('M.d(EEE)', 'ko').format(pageDate);
-                            getDataDate =
-                                DateFormat('yyyy-MM-dd').format(pageDate);
+                            updateData(pageDate);
                           });
-                          dateKcal =
-                              await ApiService.fetchkcalData(getDataDate);
                         },
                         icon: const Icon(Icons.arrow_right),
                         iconSize: 60,
@@ -218,11 +272,16 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                               List.generate(dietWidgetList.length, (index) {
                             return GestureDetector(
                               onTap: () {
-                                Navigator.push(
+                                Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        MealEdit(initialIndex: index + 1),
+                                    builder: (context) => MealEdit(
+                                        initialIndex: index + 1,
+                                        recommendBreakfastList:
+                                            recommendBreakfastList,
+                                        recommendLunchList: recommendLunchList,
+                                        recommendDinnerList:
+                                            recommendDinnerList),
                                   ),
                                 ).then((_) {
                                   initializeData(); // 돌아오면 새로고침
