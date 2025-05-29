@@ -831,7 +831,11 @@ Future<void> fetchAndSetDietInfo() async {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
+        Text(
+          label, 
+        style: const TextStyle(
+          fontWeight: FontWeight.bold)
+          ),
         const SizedBox(height: 8),
         Wrap(
           spacing: 8,
@@ -843,11 +847,22 @@ Future<void> fetchAndSetDietInfo() async {
             );
           }).toList(),
         ),
-        TextField(
-          controller: controller,
-          onSubmitted: onAdd,
-          decoration: const InputDecoration(hintText: '추가 후 Enter'),
-        ),
+                TextField(
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  decoration: InputDecoration(
+                    hintText: '추가할 $label',
+                      hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Color(0xff3CB196)),
+                    enabledBorder : UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xff3CB196),
+                      )
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xff3CB196),
+                      ),  
+                    ),
+                  ), 
+                  onSubmitted: onAdd,
+                ),
         const SizedBox(height: 16),
       ],
     );
@@ -862,20 +877,47 @@ Future<void> fetchAndSetDietInfo() async {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('내 맞춤 정보 편집')),
+      appBar: BaseAppbar(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('내 맞춤 정보', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              const Text(
+                '내 맞춤 정보', 
+                style: TextStyle(
+                  fontSize: 18, 
+                  fontWeight: FontWeight.bold)
+                  ),
               const SizedBox(height: 16),
               Row(
                 children: [
-                  const Text('나이'),
-                  const SizedBox(width: 16),
-                  Expanded(child: TextField(controller: _ageController, keyboardType: TextInputType.number)),
+                  Expanded(
+              child : TextField(
+                style: Theme.of(context).textTheme.bodyMedium,
+                controller: _ageController,
+                decoration: InputDecoration(
+                  labelText: '나이',
+                  labelStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!.
+                        copyWith(color: Color(0xff3CB196)),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: Color(0xff3CB196),
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: Color(0xff3CB196),
+                    ),
+                  ),
+                ),
+              ),
+                  ),
                 ],
               ),
               const SizedBox(height: 16),
@@ -897,30 +939,95 @@ Future<void> fetchAndSetDietInfo() async {
               const SizedBox(height: 16),
               Row(
                 children: [
-                  const Text('몸무게'),
-                  const SizedBox(width: 16),
-                  Expanded(child: TextField(controller: _weightController, keyboardType: TextInputType.number)),
+                  Expanded(
+              child : TextField(
+                style: Theme.of(context).textTheme.bodyMedium,
+                controller: _weightController,
+                decoration: InputDecoration(
+                  labelText: '몸무게',
+                  labelStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!.
+                        copyWith(color: Color(0xff3CB196)),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: Color(0xff3CB196),
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: Color(0xff3CB196),
+                    ),
+                  ),
+                ),
+              ),
+                    ),
                 ],
               ),
               const SizedBox(height: 16),
               Row(
                 children: [
-                  const Text('키'),
-                  const SizedBox(width: 16),
-                  Expanded(child: TextField(controller: _heightController, keyboardType: TextInputType.number)),
+                  Expanded(              
+                    child : TextField(
+                style: Theme.of(context).textTheme.bodyMedium,
+                controller: _heightController,
+                decoration: InputDecoration(
+                  labelText: '키',
+                  labelStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!.
+                        copyWith(color: Color(0xff3CB196)),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: Color(0xff3CB196),
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: Color(0xff3CB196),
+                    ),
+                  ),
+                ),
+              ),
+                    ),
                 ],
               ),
               const SizedBox(height: 16),
-              _buildChipList('알레르기', _allergies, _allergyInputController,
-                  (value) => _addToList(value, _allergies, _allergyInputController)),
-              _buildChipList('질환명', _diseases, _diseaseInputController,
-                  (value) => _addToList(value, _diseases, _diseaseInputController)),
+              _buildChipList('알레르기', _allergies, 
+              _allergyInputController,
+                  (value) => _addToList(value, _allergies, 
+                  _allergyInputController)),
+              _buildChipList('질환명', _diseases,
+               _diseaseInputController,
+                  (value) => _addToList(value, _diseases, 
+                  _diseaseInputController)),
               const SizedBox(height: 16),
               Center(
-                child: ElevatedButton(
-                  onPressed: _editDietInfo,
-                  child: const Text('저장하기'),
-                ),
+                    child: Container(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xffffffff),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 18),
+                          minimumSize: const Size(double.infinity, 50),
+                          elevation: 3,
+                        ),
+                        onPressed: _editDietInfo,
+                        child: Text(
+                          '저장하기',
+                          style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                            color: Color(0xff3CB196),
+                          ),
+                        ),
+                      ),
+                    ),
               ),
             ],
           ),
