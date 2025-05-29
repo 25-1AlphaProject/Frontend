@@ -31,6 +31,7 @@ class _MealamountEditState extends State<MealamountEdit> {
   List<Map<String, dynamic>> recommendLunchList = [];
   List<Map<String, dynamic>> recommendDinnerList = [];
 
+
   void _goToNext() {
     int index = 1;
 
@@ -50,7 +51,8 @@ class _MealamountEditState extends State<MealamountEdit> {
                 recommendBreakfastList: recommendBreakfastList,
                 recommendLunchList: recommendLunchList,
                 recommendDinnerList: recommendDinnerList,
-                routeNum: 1,
+                mealDate: DateTime.now().toIso8601String(),
+                // routeNum: 1,
               )),
       // MealEdit(initialIndex: index)
     );

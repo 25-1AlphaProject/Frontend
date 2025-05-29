@@ -221,23 +221,23 @@ class BarChartExample extends StatelessWidget {
 
     
 
-    List<Widget> imageWidgets = List.generate(yValues.length, (index) {
-      double y = yValues[index];
-      double barHeight = y * unitHeight;
-      double top = chartHeight - barHeight - imageSize;
-      double left = index * barSpacing + (barWidth) / 3;
+    // List<Widget> imageWidgets = List.generate(yValues.length, (index) {
+    //   double y = yValues[index];
+    //   double barHeight = y * unitHeight;
+    //   double top = chartHeight - barHeight - imageSize;
+    //   double left = index * barSpacing + (barWidth) / 3;
 
 
-      return Positioned(
-        top: top,
-        left: left,
-        child: Image.asset(
-          '../assets/images/character.png',
-          width: imageSize,
-          height: imageSize,
-        ),
-      );
-    });
+    //   return Positioned(
+    //     top: top,
+    //     left: left,
+    //     child: Image.asset(
+    //       '../assets/images/character.png',
+    //       width: imageSize,
+    //       height: imageSize,
+    //     ),
+    //   );
+    // });
 
     return SizedBox(
       height: chartHeight,
@@ -312,7 +312,7 @@ class BarChartExample extends StatelessWidget {
               borderData: FlBorderData(show: false),
             ),
           ),
-          ...imageWidgets,
+          // ...imageWidgets,
         ],
       ),
     );
