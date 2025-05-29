@@ -25,7 +25,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 Map<String, dynamic> createdMeal = {}; // 한 번에 받아와서 리스트에 저장(아침,점심,저녁 당일 생성된 식단)
+List<Map<String, dynamic>> recommendBreakfastList = [];
+List<Map<String, dynamic>> recommendLunchList = [];
+List<Map<String, dynamic>> recommendDinnerList = [];
+
 Map<String, dynamic> dateKcal = {}; // 한 번에 받아와서 리스트에 저장(아침,점심,저녁 당일 실제 먹은 식단)
+List<Map<String, dynamic>> realBreakfastList = [];
+List<Map<String, dynamic>> realLunchList = [];
+List<Map<String, dynamic>> realDinnerList = [];
 
 List<Widget> dietWidgetList = [
   const DietManagementWidget(
@@ -55,6 +62,28 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     initializeData();
   }
 
+  void categorizeMeals(Map<String, dynamic> createdMeal) {
+    recommendBreakfastList.clear();
+    recommendLunchList.clear();
+    recommendDinnerList.clear();
+
+    List<dynamic> meals = createdMeal['message'];
+
+    for (var meal in meals) {
+      switch (meal['mealType']) {
+        case 'BREAKFAST':
+          recommendBreakfastList.add(meal);
+          break;
+        case 'LUNCH':
+          recommendLunchList.add(meal);
+          break;
+        case 'DINNER':
+          recommendDinnerList.add(meal);
+          break;
+      }
+    }
+  }
+
   Future<void> initializeData() async {
     pageDate = DateTime.now();
     nowDate = DateFormat('M.d(EEE)', 'ko').format(pageDate);
@@ -66,6 +95,12 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     if (createdMeal['message'] is List && createdMeal['message'].isEmpty) {
       print("식단이 생성됨");
       createMeal = await ApiService.createMealData();
+      await ApiService.mealDayData(getDataDate).then((result) {
+        createdMeal = result;
+        categorizeMeals(createdMeal);
+      });
+    } else {
+      categorizeMeals(createdMeal); // 생성된 식단 아침,점심, 저녁 별 구분 저장
     }
 
     setState(() {}); // UI 갱신
@@ -83,6 +118,8 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
       // createMeal = await ApiService.createMealData();
       print("n일 뒤 다시 생성해주세요");
       initializeData();
+    } else {
+      categorizeMeals(createdMeal); // 생성된 식단 아침,점심, 저녁 별 구분 저장
     }
 
     setState(() {}); // UI 갱신

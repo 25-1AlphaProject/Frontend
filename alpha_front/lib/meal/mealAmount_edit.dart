@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:alpha_front/meal/camera.dart';
 import 'package:alpha_front/meal/meal_edit.dart';
@@ -7,7 +8,18 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 
 class MealamountEdit extends StatefulWidget {
-  const MealamountEdit({super.key});
+  final Uint8List imageBytes;
+  final String mealName;
+  final double foodCalories;
+  final double amount;
+
+  const MealamountEdit({
+    super.key,
+    required this.imageBytes,
+    required this.mealName,
+    required this.foodCalories,
+    required this.amount,
+  });
 
   @override
   State<MealamountEdit> createState() => _MealamountEditState();
@@ -15,16 +27,25 @@ class MealamountEdit extends StatefulWidget {
 
 class _MealamountEditState extends State<MealamountEdit> {
   void _goToNext() {
+    int index = 1;
+
+    if (widget.mealName.toUpperCase() == 'BREAKFAST') {
+      index = 1;
+    } else if (widget.mealName.toUpperCase() == 'LUNCH') {
+      index = 2;
+    } else if (widget.mealName.toUpperCase() == 'DINNER') {
+      index = 3;
+    }
+
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const Camera()),
+      MaterialPageRoute(builder: (context) => MealEdit(initialIndex: index)),
     );
   }
-
   void _skip() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const MealEdit(initialIndex: 1)),
+      MaterialPageRoute(builder: (context) => const Camera()),
     );
   }
 
@@ -48,9 +69,8 @@ class _MealamountEditState extends State<MealamountEdit> {
       width: MediaQuery.of(context).size.width * 0.7,
       height: MediaQuery.of(context).size.width * 0.7,
       child: Center(
-          child: _image == null
-              ? const Text('No image selected.')
-              : Image.file(File(_image!.path))),
+        child: Image.memory(widget.imageBytes),
+              ),
     );
   }
 
@@ -100,7 +120,7 @@ class _MealamountEditState extends State<MealamountEdit> {
                         height: 15,
                       ),
                       Text(
-                        '부대찌개',
+                        widget.mealName,
                         textAlign: TextAlign.start,
                         style:
                             Theme.of(context).textTheme.labelMedium!.copyWith(
@@ -120,7 +140,7 @@ class _MealamountEditState extends State<MealamountEdit> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Text(
-                              '378 kcal',
+                              '${widget.foodCalories.toStringAsFixed(1)} kcal',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium!
@@ -134,7 +154,7 @@ class _MealamountEditState extends State<MealamountEdit> {
                             width: 15,
                           ),
                           Text(
-                            '1 인분',
+                            '${widget.amount.toStringAsFixed(1)} 인분',
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium!
