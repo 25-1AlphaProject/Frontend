@@ -136,194 +136,197 @@ Future<void> _editInfo() async {
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
 
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF3CB196), Color(0xFF9FD7CA)],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+    return Padding(
+      padding: const EdgeInsets.all(0.0),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF3CB196), Color(0xFF9FD7CA)],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
           ),
-        ),
-        child: SafeArea(
-          child: Center(
-            child: SingleChildScrollView(
-              child: Container(
-                width: 350,
-                padding: const EdgeInsets.symmetric(vertical: 30),
-                child: Column(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.only(bottom: 30),
-                      child: Column(
-                        children: [
-                          Stack(
-                            children: [
-                              CircleAvatar(
-                                radius: 80,
-                                backgroundColor: Colors.white,
-                                backgroundImage: _imageBytes != null
-                                    ? MemoryImage(_imageBytes!)
-                                    : (_profileImageUrl != null
-                                        ? NetworkImage(_profileImageUrl!)
-                                        : null) as ImageProvider?,
-                                child: (_imageBytes == null &&
-                                        _profileImageUrl == null)
-                                    ? Image.asset(
-                                        'assets/images/running_character.png',
-                                        width: 80,
-                                        height: 80,
-                                      )
-                                    : null,
-                              ),
-                              Positioned(
-                                bottom: 0,
-                                right: 0,
-                                child: GestureDetector(
-                                  onTap: _pickImage,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      shape: BoxShape.circle,
-                                      border: Border.all(color: Color(0xFF3CB196), width: 2),
-                                    ),
-                                    padding: const EdgeInsets.all(2),
-                                    child: CircleAvatar(
-                                      backgroundColor: Color(0xFF3CB196),
-                                      radius: 15,
-                                      child: const Icon(Icons.add, color: Colors.white, size: 20),
+          child: SafeArea(
+            child: Center(
+              child: SingleChildScrollView(
+                child: Container(
+                  width: 350,
+                  padding: const EdgeInsets.symmetric(vertical: 30),
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.only(bottom: 30),
+                        child: Column(
+                          children: [
+                            Stack(
+                              children: [
+                                CircleAvatar(
+                                  radius: 80,
+                                  backgroundColor: Colors.white,
+                                  backgroundImage: _imageBytes != null
+                                      ? MemoryImage(_imageBytes!)
+                                      : (_profileImageUrl != null
+                                          ? NetworkImage(_profileImageUrl!)
+                                          : null) as ImageProvider?,
+                                  child: (_imageBytes == null &&
+                                          _profileImageUrl == null)
+                                      ? Image.asset(
+                                          'assets/images/running_character.png',
+                                          width: 80,
+                                          height: 80,
+                                        )
+                                      : null,
+                                ),
+                                Positioned(
+                                  bottom: 0,
+                                  right: 0,
+                                  child: GestureDetector(
+                                    onTap: _pickImage,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        shape: BoxShape.circle,
+                                        border: Border.all(color: Color(0xFF3CB196), width: 2),
+                                      ),
+                                      padding: const EdgeInsets.all(2),
+                                      child: CircleAvatar(
+                                        backgroundColor: Color(0xFF3CB196),
+                                        radius: 15,
+                                        child: const Icon(Icons.add, color: Colors.white, size: 20),
+                                      ),
                                     ),
                                   ),
                                 ),
+                              ],
+                            ),
+                            const SizedBox(height: 12),
+                            Text(
+                              userProvider.nickname,
+                              style: const TextStyle(
+                                fontSize: 22,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1.2,
                               ),
-                            ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      // 내 정보 카드
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(18),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withAlpha(10),
+                              blurRadius: 8,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        margin: const EdgeInsets.only(bottom: 18),
+                        child: Column(
+                          children: [
+                            _buildMenuCard(
+                              title: '내 정보 수정하기',
+                              iconPath: '../assets/images/infoIcon.png',
+                              onTap: _editInfo,
+                            ),
+                            const Divider(height: 1),
+                            _buildMenuCard(
+                              title: '맞춤 정보 수정하기',
+                              iconPath: '../assets/images/dietIcon.png',
+                              onTap: () => editDietInfo(context)
+                            ),
+                          ],
+                        ),
+                      ),
+                      // 내 활동 카드
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(18),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withAlpha(10),
+                              blurRadius: 8,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        margin: const EdgeInsets.only(bottom: 18),
+                        child: Column(
+                          children: [
+                            _buildMenuCard(
+                              title: '내가 스크랩한 글',
+                              iconPath: '../assets/images/scrabIcon.png',
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => const MypageMyscrap()));
+                              },
+                            ),
+                            const Divider(height: 1),
+                            _buildMenuCard(
+                              title: '내가 좋아요한 글',
+                              iconPath: '../assets/images/likeIcon.png',
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => const MypageMylike()));
+                              },
+                            ),
+                            const Divider(height: 1),
+                            _buildMenuCard(
+                              title: '내가 쓴 글',
+                              iconPath: '../assets/images/writeIcon.png',
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => const MypageMywrite()));
+                              },
+                            ),
+                            const Divider(height: 1),
+                            _buildMenuCard(
+                              title: '내가 저장한 레시피',
+                              iconPath: '../assets/images/recipeIcon.png',
+                              onTap: () {
+                                // 저장한 레시피 화면으로 이동
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(18),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withAlpha(10),
+                              blurRadius: 8,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: ListTile(
+                          leading: Image.asset(
+                            '../assets/images/character.png',
+                            width: 22,
+                            height: 22,
                           ),
-                          const SizedBox(height: 12),
-                          Text(
-                            userProvider.nickname,
-                            style: const TextStyle(
-                              fontSize: 22,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 1.2,
+                          title: const Text(
+                            '로그아웃',
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 15,
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                    // 내 정보 카드
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(18),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withAlpha(10),
-                            blurRadius: 8,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      margin: const EdgeInsets.only(bottom: 18),
-                      child: Column(
-                        children: [
-                          _buildMenuCard(
-                            title: '내 정보 수정하기',
-                            iconPath: '../assets/images/infoIcon.png',
-                            onTap: _editInfo,
-                          ),
-                          const Divider(height: 1),
-                          _buildMenuCard(
-                            title: '맞춤 정보 수정하기',
-                            iconPath: '../assets/images/dietIcon.png',
-                            onTap: () => editDietInfo(context)
-                          ),
-                        ],
-                      ),
-                    ),
-                    // 내 활동 카드
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(18),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withAlpha(10),
-                            blurRadius: 8,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      margin: const EdgeInsets.only(bottom: 18),
-                      child: Column(
-                        children: [
-                          _buildMenuCard(
-                            title: '내가 스크랩한 글',
-                            iconPath: '../assets/images/scrabIcon.png',
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => const MypageMyscrap()));
-                            },
-                          ),
-                          const Divider(height: 1),
-                          _buildMenuCard(
-                            title: '내가 좋아요한 글',
-                            iconPath: '../assets/images/likeIcon.png',
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => const MypageMylike()));
-                            },
-                          ),
-                          const Divider(height: 1),
-                          _buildMenuCard(
-                            title: '내가 쓴 글',
-                            iconPath: '../assets/images/writeIcon.png',
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => const MypageMywrite()));
-                            },
-                          ),
-                          const Divider(height: 1),
-                          _buildMenuCard(
-                            title: '내가 저장한 레시피',
-                            iconPath: '../assets/images/recipeIcon.png',
-                            onTap: () {
-                              // 저장한 레시피 화면으로 이동
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(18),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.03),
-                            blurRadius: 8,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: ListTile(
-                        leading: Image.asset(
-                          '../assets/images/character.png',
-                          width: 22,
-                          height: 22,
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const loginScreen()));
+                          },
                         ),
-                        title: const Text(
-                          '로그아웃',
-                          style: TextStyle(
-                            color: Colors.red,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 15,
-                          ),
-                        ),
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const loginScreen()));
-                        },
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -668,10 +671,15 @@ class _DietInfoScreenState extends State<DietInfoScreen> {
 
   late TextEditingController _allergyInputController;
   late TextEditingController _diseaseInputController;
+  late TextEditingController _preferredMenusController;
+  late TextEditingController _avoidIngredientsController;
+ 
 
   late String _selectedGender;
   late List<String> _allergies;
   late List<String> _diseases;
+  late List<String> _preferredMenus;
+  late List<String> _avoidIngredients;
 
   bool _isLoading = true;
 
@@ -680,6 +688,8 @@ class _DietInfoScreenState extends State<DietInfoScreen> {
     super.initState();
     _allergyInputController = TextEditingController();
     _diseaseInputController = TextEditingController();
+    _preferredMenusController = TextEditingController();
+    _avoidIngredientsController = TextEditingController();
     _initializeData();
   }
 
@@ -726,18 +736,18 @@ Future<void> fetchAndSetDietInfo() async {
       targetCalories: 1800,
       gender: 'F',
       mealCount: ['BREAKFAST', 'LUNCH'],
-      allergies: [],
-      diseases: [],
-      preferredMenus: [],
-      avoidIngredients: [],
+      allergies: ["우유"],
+      diseases: ["고혈압"],
+      preferredMenus: ["김치찌개", "된장찌개"],
+      avoidIngredients: ["오이"],
       healthGoal: 'DIET',
     );
 
-    if (context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('서버에서 정보를 불러오지 못해 기본값을 사용합니다.')),
-      );
-    }
+    // if (context.mounted) {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     const SnackBar(content: Text('서버에서 정보를 불러오지 못해 기본값을 사용합니다.')),
+    //   );
+    // }
   }
 }
 
@@ -756,6 +766,9 @@ Future<void> fetchAndSetDietInfo() async {
       _selectedGender = userProvider.gender == 'F' ? '여성' : '남성';
       _allergies = List.from(userProvider.allergies);
       _diseases = List.from(userProvider.diseases);
+
+      _preferredMenus = List.from(userProvider.preferredMenus);
+      _avoidIngredients = List.from(userProvider.avoidIngredients);
 
       _isLoading = false;
     });
@@ -778,6 +791,10 @@ Future<void> fetchAndSetDietInfo() async {
     final age = int.tryParse(_ageController.text) ?? userProvider.age;
     final weight = double.tryParse(_weightController.text) ?? userProvider.weight;
     final height = double.tryParse(_heightController.text) ?? userProvider.height;
+    final allergies = _allergies.isNotEmpty ? _allergies : userProvider.allergies;
+    final diseases = _diseases.isNotEmpty ? _diseases : userProvider.diseases;
+    final preferredMenus = _preferredMenus.isNotEmpty ? _preferredMenus : userProvider.preferredMenus;
+    final avoidIngredients = _avoidIngredients.isNotEmpty ? _avoidIngredients : userProvider.avoidIngredients;
 
     // 사용자 입력 정보로 상태 업데이트
     userProvider.updateUserDietInfo(
@@ -876,163 +893,173 @@ Future<void> fetchAndSetDietInfo() async {
       );
     }
 
-    return Scaffold(
-      appBar: BaseAppbar(),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                '내 맞춤 정보', 
-                style: TextStyle(
-                  fontSize: 18, 
-                  fontWeight: FontWeight.bold)
-                  ),
-              const SizedBox(height: 16),
-              Row(
-                children: [
-                  Expanded(
-              child : TextField(
-                style: Theme.of(context).textTheme.bodyMedium,
-                controller: _ageController,
-                decoration: InputDecoration(
-                  labelText: '나이',
-                  labelStyle: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!.
-                        copyWith(color: Color(0xff3CB196)),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(
-                      color: Color(0xff3CB196),
+    return Padding(
+      padding: const EdgeInsets.all(33.0),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: BaseAppbar(),
+        body:SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  '내 맞춤 정보', 
+                  style: TextStyle(
+                    fontSize: 18, 
+                    fontWeight: FontWeight.bold)
                     ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(
-                      color: Color(0xff3CB196),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    Expanded(
+                child : TextField(
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  controller: _ageController,
+                  decoration: InputDecoration(
+                    labelText: '나이',
+                    labelStyle: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!.
+                          copyWith(color: Color(0xff3CB196)),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      borderSide: BorderSide(
+                        color: Color(0xff3CB196),
+                      ),
                     ),
-                  ),
-                ),
-              ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ChoiceChip(
-                    label: const Text('남성'),
-                    selected: _selectedGender == '남성',
-                    onSelected: (_) => setState(() => _selectedGender = '남성'),
-                  ),
-                  ChoiceChip(
-                    label: const Text('여성'),
-                    selected: _selectedGender == '여성',
-                    onSelected: (_) => setState(() => _selectedGender = '여성'),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Row(
-                children: [
-                  Expanded(
-              child : TextField(
-                style: Theme.of(context).textTheme.bodyMedium,
-                controller: _weightController,
-                decoration: InputDecoration(
-                  labelText: '몸무게',
-                  labelStyle: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!.
-                        copyWith(color: Color(0xff3CB196)),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(
-                      color: Color(0xff3CB196),
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(
-                      color: Color(0xff3CB196),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      borderSide: BorderSide(
+                        color: Color(0xff3CB196),
+                      ),
                     ),
                   ),
                 ),
-              ),
                     ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Row(
-                children: [
-                  Expanded(              
-                    child : TextField(
-                style: Theme.of(context).textTheme.bodyMedium,
-                controller: _heightController,
-                decoration: InputDecoration(
-                  labelText: '키',
-                  labelStyle: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!.
-                        copyWith(color: Color(0xff3CB196)),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(
-                      color: Color(0xff3CB196),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ChoiceChip(
+                      label: const Text('남성'),
+                      selected: _selectedGender == '남성',
+                      onSelected: (_) => setState(() => _selectedGender = '남성'),
                     ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(
-                      color: Color(0xff3CB196),
+                    ChoiceChip(
+                      label: const Text('여성'),
+                      selected: _selectedGender == '여성',
+                      onSelected: (_) => setState(() => _selectedGender = '여성'),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    Expanded(
+                child : TextField(
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  controller: _weightController,
+                  decoration: InputDecoration(
+                    labelText: '몸무게',
+                    labelStyle: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!.
+                          copyWith(color: Color(0xff3CB196)),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      borderSide: BorderSide(
+                        color: Color(0xff3CB196),
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      borderSide: BorderSide(
+                        color: Color(0xff3CB196),
+                      ),
                     ),
                   ),
                 ),
-              ),
+                      ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    Expanded(              
+                      child : TextField(
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  controller: _heightController,
+                  decoration: InputDecoration(
+                    labelText: '키',
+                    labelStyle: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!.
+                          copyWith(color: Color(0xff3CB196)),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      borderSide: BorderSide(
+                        color: Color(0xff3CB196),
+                      ),
                     ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              _buildChipList('알레르기', _allergies, 
-              _allergyInputController,
-                  (value) => _addToList(value, _allergies, 
-                  _allergyInputController)),
-              _buildChipList('질환명', _diseases,
-               _diseaseInputController,
-                  (value) => _addToList(value, _diseases, 
-                  _diseaseInputController)),
-              const SizedBox(height: 16),
-              Center(
-                    child: Container(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xffffffff),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      borderSide: BorderSide(
+                        color: Color(0xff3CB196),
+                      ),
+                    ),
+                  ),
+                ),
+                      ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                _buildChipList('알레르기', _allergies, 
+                _allergyInputController,
+                    (value) => _addToList(value, _allergies, 
+                    _allergyInputController)),
+                _buildChipList('질환명', _diseases,
+                 _diseaseInputController,
+                    (value) => _addToList(value, _diseases, 
+                    _diseaseInputController)),
+                _buildChipList('선호하는 메뉴', _preferredMenus,
+                 _preferredMenusController,
+                    (value) => _addToList(value, _preferredMenus, 
+                    _preferredMenusController)),
+                _buildChipList('피해야 할 재료', _avoidIngredients,
+                 _avoidIngredientsController,
+                    (value) => _addToList(value, _avoidIngredients, 
+                    _avoidIngredientsController)),
+                  
+                const SizedBox(height: 16),
+                Center(
+                      child: Container(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xff3CB196),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            padding: const EdgeInsets.symmetric(vertical: 18),
+                            minimumSize: const Size(double.infinity, 50),
+                            elevation: 3,
                           ),
-                          padding: const EdgeInsets.symmetric(vertical: 18),
-                          minimumSize: const Size(double.infinity, 50),
-                          elevation: 3,
-                        ),
-                        onPressed: _editDietInfo,
-                        child: Text(
-                          '저장하기',
-                          style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                            color: Color(0xff3CB196),
+                          onPressed: _editDietInfo,
+                          child: Text(
+                            '저장하기',
+                            style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
         ),
-      ),
     );
   }
 }

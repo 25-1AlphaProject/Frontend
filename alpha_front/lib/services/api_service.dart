@@ -666,4 +666,70 @@ class ApiService {
       throw Exception("요청 실패: $e");
     }
   }
+
+  // 추천 식단을 실제 섭취로 추가
+  static Future<bool> postRealEat({
+    required int recipeId,
+    required DateTime mealDate,
+    required String mealType,
+    required double calories,
+  }) async {
+    try {
+      final token = await AuthManager.getToken();
+      
+      final response = await http.post(
+        Uri.parse('$_baseUrl/api/meal/real-eat'),
+        headers: {
+          if (token != null) 'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'recipeId': recipeId,
+          'mealDate': DateFormat('yyyy-MM-dd').format(mealDate),
+          'mealType': mealType,
+          'calories': calories,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        if (token != null) log("Token: $token");
+        log("추천 식단을 실제 섭취로 추가 완료: ${response.statusCode} ${response.body}");
+        return true;
+      } else {
+        if (token != null) log("Token: $token");
+        log("추천 식단을 실제 섭취로 추가 실패: ${response.statusCode} ${response.body}");
+        return false;
+      }
+    } catch (e) {
+      log("추천 식단을 실제 섭취로 추가 에러: $e");
+      return false;
+    }
+  }
+
+  static Future<bool> deleteRealEat(int realEatId) async {
+    try {
+      final token = await AuthManager.getToken();
+      
+      final response = await http.delete(
+        Uri.parse('$_baseUrl/api/meal/real-eat/$realEatId'),
+        headers: {
+          if (token != null) 'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 204) {
+        if (token != null) log("Token: $token");
+        log("실제 섭취 식단 삭제 완료: ${response.statusCode} ${response.body}");
+        return true;
+      } else {
+        if (token != null) log("Token: $token");
+        log("실제 섭취 식단 삭제 실패: ${response.statusCode} ${response.body}");
+        return false;
+      }
+    } catch (e) {
+      log("실제 섭취 식단 삭제 에러: $e");
+      return false;
+    }
+  }
 }

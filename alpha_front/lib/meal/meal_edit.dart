@@ -1,17 +1,30 @@
-import 'package:alpha_front/Home/home.dart';
-import 'package:alpha_front/meal/camera.dart';
+import 'package:flutter/material.dart';
 import 'package:alpha_front/services/api_service.dart';
 import 'package:alpha_front/widgets/base_app_bar.dart';
-import 'package:flutter/material.dart';
 import 'package:alpha_front/layout.dart';
+import 'package:intl/intl.dart';          // 날짜 포맷(yyyy-MM-dd, M.d(EEE))용
+
+/// MEAL EDIT SCREEN – 아침/점심/저녁 식단 편집
+/// --------------------------------------------------------------
+///   • ⊕ 버튼으로 빈 카드 추가
+///   • 카드 ✎‧✔ 토글 (편집 / 저장 / POST 여부)
+///   • 상단 탭(아침‧점심‧저녁) 네비게이션
+///   • 하단 "식단 저장" → 현재 탭 카드만 POST (postRealEat / foodinfo)
+///   • imageUrl == null ⇒ assets/character.png
+///   • amount 변경 시 총 kcal = baseKcal × amount
+///   • 카드 배경 White, TextField 글꼴 14
+///   • 파일명만 내려오는 이미지 경로 → ApiService.imageBase + 파일명 (CORS 해결)
+///   • CORS 차단 시 placeholder 로 graceful‑fallback
+/// --------------------------------------------------------------
 
 class MealEdit extends StatefulWidget {
-  final int initialIndex; // 1: 아침, 2: 점심, 3:저녁
-
+  final int initialIndex;
   final List<Map<String, dynamic>> recommendBreakfastList;
   final List<Map<String, dynamic>> recommendLunchList;
   final List<Map<String, dynamic>> recommendDinnerList;
-  final int routeNum;
+
+  // (선택) 실제 섭취 kcal 등을 불러오고 싶다면 날짜를 넘겨받자
+  final String mealDate;
 
   const MealEdit({
     super.key,
@@ -19,7 +32,7 @@ class MealEdit extends StatefulWidget {
     required this.recommendBreakfastList,
     required this.recommendLunchList,
     required this.recommendDinnerList,
-    required this.routeNum,
+    required this.mealDate,
   });
 
   @override
@@ -27,360 +40,427 @@ class MealEdit extends StatefulWidget {
 }
 
 class _MealEditState extends State<MealEdit> {
-  void _goToNext() {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const Layout()),
-    );
-  }
+  // ───────────────── 탭 & 카드 리스트 ─────────────────
+  late final PageController _pageController;
+  late int _idx;
 
-  void _skip() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const Camera()),
-    );
-  }
+  late final List<MealCardData> _breakfast;
+  late final List<MealCardData> _lunch;
+  late final List<MealCardData> _dinner;
 
-  late int selectedIndex;
+  // (옵션) 실제 섭취 kcal 정보만 필요하면 여기서 GET
+  Map<String, dynamic>? _dateKcal;
 
   @override
   void initState() {
     super.initState();
-    selectedIndex = widget.initialIndex;
+    _idx = widget.initialIndex - 1;
+    _pageController = PageController(initialPage: _idx);
+
+    // ⬇︎ HomeScreen 에서 이미 만든 리스트 그대로 카드화
+    _breakfast =
+        widget.recommendBreakfastList.map(MealCardData.fromRecommend).toList();
+    _lunch =
+        widget.recommendLunchList.map(MealCardData.fromRecommend).toList();
+    _dinner =
+        widget.recommendDinnerList.map(MealCardData.fromRecommend).toList();
+
+    // ⬇︎ “실제 섭취 kcal” 만 필요하다면 가볍게 한 번만 GET
+    _loadRealEatKcal();
   }
 
-  Widget _getSelectedWidget() {
-    switch (selectedIndex) {
-      case 1:
-        return _BreakfastEdit(
-            recommendBreakfastList: widget.recommendBreakfastList);
-      case 2:
-        return _LunchEdit();
-      case 3:
-        return _DinnerEdit();
-      default:
-        return _BreakfastEdit(
-            recommendBreakfastList: widget.recommendBreakfastList);
+  Future<void> _loadRealEatKcal() async {
+    try {
+      _dateKcal = await ApiService.fetchkcalData(widget.mealDate);
+      // 필요하다면 _breakfast 등에 반영 가능
+    } catch (e) {
+      debugPrint('fetchkcalData 실패: $e');
     }
   }
+  //------------------------------------------------------------------
+  // SAVE -------------------------------------------------------------
+  //------------------------------------------------------------------
+  Future<void> _save() async {
+    final now = DateTime.now();
+    List<MealCardData> list;
+    String mealType;
+    switch (_idx) {
+      case 0:
+        list = _breakfast;
+        mealType = 'BREAKFAST';
+        break;
+      case 1:
+        list = _lunch;
+        mealType = 'LUNCH';
+        break;
+      default:
+        list = _dinner;
+        mealType = 'DINNER';
+    }
 
-  void _onButtonPressed(int index) {
-    setState(() {
-      selectedIndex = index;
-    });
+    for (final card in list) {
+      if (!card.isPosting) continue;
+      if (card.fromRecommend) {
+        await ApiService.postRealEat(
+          recipeId: card.recipeId!,
+          mealDate: now,
+          mealType: mealType,
+          calories: card.totalKcal,
+        );
+      } else {
+        await ApiService.foodinfo(
+          card.name,
+          card.totalKcal,
+          card.amountStr,
+          now,
+          mealType,
+          card.imageUrl ?? '',
+        );
+      }
+    }
+
+    if (!mounted) return;
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (_) => const Layout()));
   }
 
+  //------------------------------------------------------------------
+  // UI ---------------------------------------------------------------
+  //------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.all(33.0),
-        child: Column(
-          children: [
-            Expanded(
-              flex: 1,
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: selectedIndex == 1
-                              ? const Color(0xff3CB196)
-                              : Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                        ),
-                        onPressed: () => _onButtonPressed(1),
-                        child: Text(
-                          '아침',
-                          style: TextStyle(
-                            fontFamily: 'Pretendard-bold',
-                            fontSize: 20,
-                            color: selectedIndex == 1
-                                ? Colors.white
-                                : const Color(0xff3CB196),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    flex: 1,
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: selectedIndex == 2
-                              ? const Color(0xff3CB196)
-                              : Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                        ),
-                        onPressed: () => _onButtonPressed(2),
-                        child: Text(
-                          '점심',
-                          style: TextStyle(
-                            fontFamily: 'Pretendard-bold',
-                            fontSize: 20,
-                            color: selectedIndex == 2
-                                ? Colors.white
-                                : const Color(0xff3CB196),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: SizedBox(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: selectedIndex == 3
-                              ? const Color(0xff3CB196)
-                              : Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                        ),
-                        onPressed: () => _onButtonPressed(3),
-                        child: Text(
-                          '저녁',
-                          style: TextStyle(
-                            fontFamily: 'Pretendard-bold',
-                            fontSize: 20,
-                            color: selectedIndex == 3
-                                ? Colors.white
-                                : const Color(0xff3CB196),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+      // appBar: BaseAppBar(title: '식단 편집', appBar: AppBar()),
+      body: Column(
+        children: [
+          _MealTabs(current: _idx, onTap: (i) {
+            _pageController.animateToPage(i,
+                duration: const Duration(milliseconds: 240),
+                curve: Curves.easeOut);
+          }),
+          Expanded(
+            child: PageView(
+              controller: _pageController,
+              onPageChanged: (v) => setState(() => _idx = v),
+              children: [
+                MealListEditor(items: _breakfast),
+                MealListEditor(items: _lunch),
+                MealListEditor(items: _dinner),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+            child: SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xff3CB196),
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)),
+                ),
+                onPressed: _save,
+                child:
+                    const Text('식단 저장', style: TextStyle(color: Colors.white)),
               ),
             ),
-            Expanded(
-              flex: 6,
-              child: _getSelectedWidget(),
-            ),
-            Expanded(
-              flex: 2,
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xffd9d9d9),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          padding: const EdgeInsets.symmetric(vertical: 18),
-                          minimumSize: const Size(double.infinity, 50),
-                          elevation: 3,
-                        ),
-                        onPressed: _skip,
-                        child: Text(
-                          widget.routeNum == 0 ? '카메라로 등록하기 ' : '다시 인식',
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelMedium!
-                              .copyWith(
-                                  color: widget.routeNum == 0
-                                      ? const Color(0xff3CB196)
-                                      : const Color(0xff4d4d4d)),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 14),
-                  Expanded(
-                    flex: 2,
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xffffffff),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          padding: const EdgeInsets.symmetric(vertical: 18),
-                          minimumSize: const Size(double.infinity, 50),
-                          elevation: 3,
-                        ),
-                        onPressed: _goToNext,
-                        child: Text(
-                          widget.routeNum == 0 ? '식단 추가하기' : '식단에 추가하기',
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelMedium!
-                              .copyWith(color: const Color(0xff3CB196)),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 }
 
-class MealCard extends StatelessWidget {
-  final String? imageURL;
-  final bool isEditing;
-  final bool isPosting;
-  final TextEditingController nameController;
-  final TextEditingController kcalController;
-  final TextEditingController amountController;
-  final VoidCallback onEditToggle;
-  final VoidCallback onEditCheck;
-
-  const MealCard({
-    super.key,
-    required this.imageURL,
-    required this.isEditing,
-    required this.isPosting,
-    required this.nameController,
-    required this.kcalController,
-    required this.amountController,
-    required this.onEditToggle,
-    required this.onEditCheck,
-  });
+//====================================================================
+// MEAL TABS ----------------------------------------------------------
+//====================================================================
+class _MealTabs extends StatelessWidget {
+  final int current;
+  final ValueChanged<int> onTap;
+  const _MealTabs({required this.current, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
+    const labels = ['아침', '점심', '저녁'];
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+      child: Row(
+        children: List.generate(3, (i) {
+          final sel = i == current;
+          return Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  backgroundColor:
+                      sel ? const Color(0xff3CB196) : Colors.white,
+                  side: const BorderSide(color: Color(0xff3CB196)),
+                ),
+                onPressed: () => onTap(i),
+                child: Text(labels[i],
+                    style: TextStyle(
+                      fontFamily: 'Pretendard-regular',
+                      fontSize: 16,
+                      color:
+                          sel ? Colors.white : const Color(0xff3CB196),
+                    )),
+              ),
+            ),
+          );
+        }),
+      ),
+    );
+  }
+}
+
+//====================================================================
+// LIST EDITOR --------------------------------------------------------
+//====================================================================
+class MealListEditor extends StatefulWidget {
+  final List<MealCardData> items;
+  const MealListEditor({super.key, required this.items});
+
+  @override
+  State<MealListEditor> createState() => _MealListEditorState();
+}
+
+class _MealListEditorState extends State<MealListEditor> {
+  void _addBlank() => setState(() => widget.items.add(MealCardData.blank()));
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
+      itemCount: widget.items.length + 1,
+      itemBuilder: (c, i) => i == widget.items.length
+          ? Center(
+              child: IconButton(
+                icon: const Icon(Icons.add_circle,
+                    size: 36, color: Color(0xff3CB196)),
+                onPressed: _addBlank,
+              ),
+            )
+          : Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: MealCard(
+                data: widget.items[i],
+                onChanged: () => setState(() {}),
+              ),
+            ),
+    );
+  }
+}
+
+//====================================================================
+// MODEL --------------------------------------------------------------
+//====================================================================
+class MealCardData {
+  bool isEditing;
+  bool isPosting;
+  bool fromRecommend;
+  int? recipeId;
+  String? imageUrl;
+
+  String name;
+  String amountStr;
+  double baseKcal;
+
+  MealCardData({
+    this.isEditing = false,
+    this.isPosting = false,
+    this.fromRecommend = false,
+    this.recipeId,
+    this.imageUrl,
+    required this.name,
+    required this.amountStr,
+    required this.baseKcal,
+  });
+
+    factory MealCardData.fromDayData(Map<String, dynamic> j) => MealCardData(
+        name: j['name'] ?? '',
+        amountStr: (j['amount'] ?? '1').toString(),
+        baseKcal: (j['calories'] as num?)?.toDouble() ?? 0,
+        imageUrl: _resolveImage(j['imageUrl'] as String?),
+        // 이미 저장된 식단이므로 기본값은 '저장됨·POST 안 함'
+        isEditing: false,
+        isPosting: false,
+      );
+
+  /// 총 kcal = 1인분 kcal × 인분수
+  double get totalKcal =>
+      baseKcal * (int.tryParse(amountStr.isEmpty ? '1' : amountStr) ?? 1);
+
+  // 이미지 경로 보정 (CORS-safe CDN prefix)
+  static const String _cdnBase = 'https://cdn.example.com/'; // TODO: 실제 CDN 도메인으로 교체
+  static String? _resolveImage(String? raw) {
+    if (raw == null || raw.isEmpty) return null;
+    if (raw.startsWith('http')) return raw;
+    return _cdnBase + raw;
+  }
+
+  factory MealCardData.fromRecommend(Map<String, dynamic> j) => MealCardData(
+        fromRecommend: true,
+        recipeId: j['id'] as int?,
+        imageUrl: _resolveImage(j['foodImage'] as String?),
+        name: j['name'] ?? '',
+        amountStr: (j['amount'] ?? '1').toString(),
+        baseKcal: (j['calories'] as num).toDouble(),
+      );
+
+  factory MealCardData.blank() => MealCardData(
+        isEditing: true,
+        name: '',
+        amountStr: '1',
+        baseKcal: 0,
+      );
+}
+
+//====================================================================
+// CARD ---------------------------------------------------------------
+//====================================================================
+class MealCard extends StatefulWidget {
+  final MealCardData data;
+  final VoidCallback onChanged;
+  const MealCard({super.key, required this.data, required this.onChanged});
+
+  @override
+  State<MealCard> createState() => _MealCardState();
+}
+
+class _MealCardState extends State<MealCard> {
+  late final TextEditingController _nameCtrl;
+  late final TextEditingController _amountCtrl;
+  late final TextEditingController _kcalCtrl;
+
+  @override
+  void initState() {
+    super.initState();
+    _nameCtrl = TextEditingController(text: widget.data.name);
+    _amountCtrl = TextEditingController(text: widget.data.amountStr);
+    _kcalCtrl = TextEditingController(
+        text: widget.data.baseKcal == 0
+            ? ''
+            : widget.data.baseKcal.toString());
+  }
+
+  @override
+  void dispose() {
+    _nameCtrl.dispose();
+    _amountCtrl.dispose();
+    _kcalCtrl.dispose();
+    super.dispose();
+  }
+
+  void _toggleEdit() {
+    setState(() {
+      if (widget.data.isEditing) {
+        widget.data
+          ..name = _nameCtrl.text
+          ..amountStr = _amountCtrl.text.isEmpty ? '1' : _amountCtrl.text
+          ..baseKcal = double.tryParse(_kcalCtrl.text) ?? widget.data.baseKcal;
+      }
+      widget.data.isEditing = !widget.data.isEditing;
+      widget.onChanged();
+    });
+  }
+
+  void _togglePost() {
+    setState(() {
+      widget.data.isPosting = !widget.data.isPosting;
+      widget.onChanged();
+    });
+  }
+
+  void _onAmountChanged(String v) {
+    setState(() {
+      widget.data.amountStr = v.isEmpty ? '1' : v;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final d = widget.data;
     return Card(
+      elevation: 2,
       color: Colors.white,
-      elevation: 5,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      child: Container(
-        padding: const EdgeInsets.all(5),
-        margin: const EdgeInsets.symmetric(vertical: 10),
-        height: 130,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
         child: Row(
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: imageURL == null
-                  ? Image.asset('../assets/images/character.png',
-                      width: 50, height: 50, fit: BoxFit.cover)
-                  : Image.network(imageURL!,
-                      width: 50, height: 50, fit: BoxFit.cover),
-            ),
+            _Thumb(url: d.imageUrl),
             const SizedBox(width: 12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  d.isEditing
+                      ? TextField(
+                          controller: _nameCtrl,
+                          style: const TextStyle(fontSize: 14),
+                          decoration: const InputDecoration(
+                              hintText: '음식명',
+                              isDense: true,
+                              border: UnderlineInputBorder()),
+                        )
+                      : Text(_nameCtrl.text,
+                          style: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 4),
                   Row(
                     children: [
-                      Expanded(
-                        child: isEditing
-                            ? TextField(
-                                controller: nameController,
-                                style: const TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                                decoration: const InputDecoration(
-                                  isDense: true,
-                                  contentPadding:
-                                      EdgeInsets.symmetric(vertical: 8),
-                                  border: UnderlineInputBorder(),
-                                ),
-                              )
-                            : Text(
-                                nameController.text,
-                                style: const TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              ),
-                      ),
-                      Row(
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.edit, size: 20),
-                            onPressed: onEditToggle,
-                          ),
-                          IconButton(
-                            icon: !isPosting
-                                ? const Icon(
-                                    Icons.check_circle_outline_rounded,
-                                    size: 20,
-                                    color: Color(0xff3CB196),
-                                  )
-                                : const Icon(
-                                    Icons.check_circle_rounded,
-                                    size: 20,
-                                    color: Color(0xff3CB196),
-                                  ),
-                            onPressed: onEditCheck,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 3),
-                  Row(
-                    children: [
-                      isEditing
-                          ? SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.3,
+                      d.isEditing
+                          ? Flexible(
                               child: TextField(
-                                controller: kcalController,
+                                controller: _amountCtrl,
                                 keyboardType: TextInputType.number,
                                 style: const TextStyle(fontSize: 14),
                                 decoration: const InputDecoration(
-                                  isDense: true,
-                                  contentPadding:
-                                      EdgeInsets.symmetric(vertical: 4),
-                                  border: UnderlineInputBorder(),
-                                ),
+                                    hintText: '인분',
+                                    isDense: true,
+                                    border: UnderlineInputBorder()),
+                                onChanged: _onAmountChanged,
                               ),
                             )
-                          : Text(
-                              "${kcalController.text} kcal",
-                              style: const TextStyle(fontSize: 14),
-                            ),
-                    ],
-                  ),
-                  const SizedBox(height: 3),
-                  Row(
-                    children: [
-                      isEditing
-                          ? SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.3,
+                          : Text('${_amountCtrl.text} 인분'),
+                      const SizedBox(width: 12),
+                      d.isEditing
+                          ? Flexible(
                               child: TextField(
-                                controller: amountController,
+                                controller: _kcalCtrl,
                                 keyboardType: TextInputType.number,
                                 style: const TextStyle(fontSize: 14),
                                 decoration: const InputDecoration(
-                                  isDense: true,
-                                  contentPadding:
-                                      EdgeInsets.symmetric(vertical: 4),
-                                  border: UnderlineInputBorder(),
-                                ),
+                                    hintText: '칼로리(1인분)',
+                                    isDense: true,
+                                    border: UnderlineInputBorder()),
                               ),
                             )
-                          : Text(
-                              "${amountController.text} 인분",
-                              style: const TextStyle(fontSize: 14),
-                            ),
+                          : Text('${d.totalKcal.toStringAsFixed(0)} kcal'),
                     ],
                   ),
                 ],
               ),
             ),
+            Column(
+              children: [
+                IconButton(
+                    icon: const Icon(Icons.edit, size: 20),
+                    onPressed: _toggleEdit),
+                IconButton(
+                  icon: Icon(
+                    d.isPosting
+                        ? Icons.check_circle
+                        : Icons.check_circle_outline,
+                    size: 20,
+                    color: const Color(0xff3CB196),
+                  ),
+                  onPressed: _togglePost,
+                ),
+              ],
+            )
           ],
         ),
       ),
@@ -388,103 +468,33 @@ class MealCard extends StatelessWidget {
   }
 }
 
-class _BreakfastEdit extends StatefulWidget {
-  final List<Map<String, dynamic>> recommendBreakfastList;
-
-  const _BreakfastEdit({required this.recommendBreakfastList});
-
-  @override
-  State<_BreakfastEdit> createState() => _BreakfastEditState();
-}
-
-class _BreakfastEditState extends State<_BreakfastEdit> {
-  bool isEditing = false;
-  bool isPosting = false;
-  bool isVisible = false;
-
-  TextEditingController nameController = TextEditingController();
-  TextEditingController kcalController = TextEditingController();
-  TextEditingController amountController = TextEditingController(text: "1");
-
-  String? imageUrl;
-
-  @override
-  void initState() {
-    super.initState();
-
-    nameController.text = widget.recommendBreakfastList[0]["name"];
-    kcalController.text =
-        widget.recommendBreakfastList[0]["calories"].toString();
-
-    _loadImage(widget.recommendBreakfastList[0]["foodImage"]);
-  }
-
-  Future<void> _loadImage(String imagePath) async {
-    try {
-      final result = await ApiService.getImage(imagePath);
-      setState(() {
-        imageUrl = result;
-      });
-    } catch (e) {
-      debugPrint('이미지 불러오기 실패: $e');
-    }
-  }
-
-  void _toggleEditMode() {
-    setState(() {
-      isEditing = !isEditing;
-    });
-  }
-
-  void _checkPostMode() {
-    setState(() {
-      isPosting = !isPosting;
-    });
-  }
+//====================================================================
+// THUMBNAIL ----------------------------------------------------------
+//====================================================================
+class _Thumb extends StatelessWidget {
+  final String? url;
+  const _Thumb({this.url});
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: MealCard(
-        imageURL: imageUrl,
-        isEditing: isEditing,
-        isPosting: isPosting,
-        amountController: amountController,
-        nameController: nameController,
-        kcalController: kcalController,
-        onEditToggle: _toggleEditMode,
-        onEditCheck: _checkPostMode,
+    final placeholder = ClipRRect(
+      borderRadius: BorderRadius.circular(8),
+      child: Image.asset('../assets/images/character.png',
+          width: 72, height: 72, fit: BoxFit.cover),
+    );
+
+    if (url == null || url!.isEmpty) return placeholder;
+
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(8),
+      child: Image.network(
+        url!,
+        width: 72,
+        height: 72,
+        fit: BoxFit.cover,
+        // 오류(CORS) 시 placeholder 교체
+        errorBuilder: (_, __, ___) => placeholder,
       ),
-    );
-  }
-}
-
-class _LunchEdit extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _LunchEditState();
-}
-
-class _LunchEditState extends State<_LunchEdit> {
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Colors.white,
-      body: Text('점심 식단'),
-    );
-  }
-}
-
-class _DinnerEdit extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _DinnerEditState();
-}
-
-class _DinnerEditState extends State<_DinnerEdit> {
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Colors.white,
-      body: Text('저녁 식단'),
     );
   }
 }

@@ -281,7 +281,11 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                                           recommendBreakfastList,
                                       recommendLunchList: recommendLunchList,
                                       recommendDinnerList: recommendDinnerList,
-                                      routeNum: 0,
+                                      mealDate: getDataDate,
+                                      // routeNum: 0,
+                                      // realBreakfastList: realBreakfastList,
+                                      // realLunchList: realLunchList,
+                                      // realDinnerList: realDinnerList,
                                     ),
                                   ),
                                 ).then((_) {
