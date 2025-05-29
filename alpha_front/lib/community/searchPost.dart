@@ -1,5 +1,6 @@
 import 'package:alpha_front/services/api_service.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:string_similarity/string_similarity.dart';
 import 'package:alpha_front/widgets/post_widget.dart';
 
@@ -15,7 +16,7 @@ class _SearchPostState extends State<SearchPost> {
   bool isLoading = false;
   String searchText = '';
 
-  void searchRecipe(String keyword) async {
+  void searchPost(String keyword) async {
     if (keyword.trim().isEmpty) return;
 
     setState(() {
@@ -23,12 +24,11 @@ class _SearchPostState extends State<SearchPost> {
       posts = [];
     });
 
-    final result = await ApiService.getRecipeList(keyword);
+    final result = await ApiService.getPostList(keyword);
 
-    // 유사도 필터링 0.3
-    final filtered = (result ?? []).where((recipe) {
-      final name = recipe['name']?.toString() ?? '';
-      final similarity = name.similarityTo(keyword);
+    final filtered = (result ?? []).where((post) {
+      final title = post['title']?.toString() ?? '';
+      final similarity = title.similarityTo(keyword);
       return similarity > 0.3;
     }).toList();
 
@@ -48,7 +48,7 @@ class _SearchPostState extends State<SearchPost> {
           children: [
             TextField(
               style: Theme.of(context).textTheme.bodyMedium,
-              onSubmitted: searchRecipe,
+              onSubmitted: searchPost,
               decoration: InputDecoration(
                 icon: const Icon(
                   Icons.search,
@@ -69,15 +69,6 @@ class _SearchPostState extends State<SearchPost> {
                   ),
                 ),
               ),
-            ),
-            const PostIngredient(
-              postTitle: "오늘의 도시락",
-              postDetail: "레시피 추천받은 주먹밥과...",
-              postScrap: 13,
-              postLike: 5,
-              postComment: 3,
-              postDate: "2025/05/27", // api body 가공해서 위젯 불러올 것
-              postURLs: "../assets/images/character.png",
             ),
             const SizedBox(height: 50),
             Expanded(
@@ -101,10 +92,18 @@ class _SearchPostState extends State<SearchPost> {
                       : ListView.builder(
                           itemCount: posts.length,
                           itemBuilder: (context, index) {
-                            final recipe = posts[index];
-                            final name = recipe['name']?.toString() ?? '';
-                            final calories =
-                                recipe['calories']?.toString() ?? '0';
+                            final post = posts[index];
+                            final title = post['title']?.toString() ?? '';
+                            // final detail = post['detail']?.toString() ?? '';
+                            final detail = post['title']?.toString() ?? '';
+                            final scrap = post['scrapCount'] ?? 0;
+                            final like = post['likeCount'] ?? 0;
+                            final comment = post['commnetCount'] ?? 0;
+                            final image =
+                                post['thumbnailUrl']?.toString() ?? '';
+                            final date = post['createdAt']?.toString() ?? '';
+                            final dateFormat =
+                                date.length >= 10 ? date.substring(0, 10) : '';
 
                             return InkWell(
                               onTap: () {
@@ -114,41 +113,14 @@ class _SearchPostState extends State<SearchPost> {
                                 //         builder: (context) =>
                                 //             const 작성된 게시글()));
                               },
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 10.0),
-                                    child: Container(
-                                      alignment: Alignment.centerLeft,
-                                      height: 50,
-                                      child: Text(
-                                        name,
-                                        textAlign: TextAlign.start,
-                                        style: const TextStyle(
-                                          fontFamily: 'Pretendard-regular',
-                                          fontSize: 20,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 15.0),
-                                    child: Container(
-                                      alignment: Alignment.centerLeft,
-                                      height: 50,
-                                      child: Text(
-                                        '$calories kcal',
-                                        style: const TextStyle(
-                                          fontFamily: 'Pretendard-regular',
-                                          fontSize: 15,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  const Divider(
-                                    color: Color(0xff3CB196),
-                                  ),
-                                ],
+                              child: PostIngredient(
+                                postTitle: title,
+                                postDetail: detail,
+                                postScrap: scrap,
+                                postLike: like,
+                                postComment: comment,
+                                postDate: dateFormat,
+                                postURLs: image,
                               ),
                             );
                           },
