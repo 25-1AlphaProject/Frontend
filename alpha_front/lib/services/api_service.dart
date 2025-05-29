@@ -551,6 +551,35 @@ class ApiService {
       throw Exception("요청 실패: $e");
     }
   }
+  static Future<bool> updateProfileImage({
+    required String imageURL,
+  }) async {
+    try {
+      final token = await AuthManager.getToken();
+      final response = await http.put(
+        Uri.parse('$_baseUrl/api/users/profile-image'),
+        headers: {
+          'Content-Type': 'application/json',
+          if (token != null) 'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({
+          'profileImageUrl': imageURL,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        log("프로필이미지 수정 완료: ${response.statusCode} ${response.body}");
+        return true;
+      } else {
+        log("프로필이미지 수정 실패: ${response.statusCode} ${response.body}");
+        return false;
+      }
+    } catch (e) {
+      log("프로필이미지 수정 에러: $e");
+      return false;
+    }
+  }
+
 
   static Future<List<Map<String, dynamic>>?> getPostList(String keyword) async {
     try {
