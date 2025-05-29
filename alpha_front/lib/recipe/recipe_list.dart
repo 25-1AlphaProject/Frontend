@@ -58,7 +58,7 @@ class _RecipeListState extends State<RecipeList> {
                 hintStyle: Theme.of(context)
                     .textTheme
                     .bodyMedium!
-                    .copyWith(color: Color(0xff3CB196)),
+                    .copyWith(color: const Color(0xff3CB196)),
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
                     color: const Color(0xff3CB196).withAlpha(150),
@@ -86,16 +86,20 @@ class _RecipeListState extends State<RecipeList> {
                           itemBuilder: (context, index) {
                             final recipe = recipes[index];
                             final name = recipe['name'] ?? '이름 없음';
-                            final calories = recipe['calories']?.toStringAsFixed(1) ?? '0';
+                            final calories =
+                                recipe['calories']?.toStringAsFixed(1) ?? '0';
 
                             return InkWell(
                               onTap: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => const RecipeDetail(), // 여기가 레시피로 넘어가는 부분
+                                    builder: (context) => RecipeDetail(
+                                      recipeData: recipe,
+                                    ), // 여기가 레시피로 넘어가는 부분
                                   ),
                                 );
+                                print(recipe);
                               },
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,

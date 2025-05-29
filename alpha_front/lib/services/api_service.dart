@@ -553,6 +553,7 @@ class ApiService {
       throw Exception("요청 실패: $e");
     }
   }
+
   static Future<bool> updateProfileImage({
     required String imageURL,
   }) async {
@@ -582,7 +583,6 @@ class ApiService {
     }
   }
 
-
   //게시글 키워드 검색
   static Future<List<Map<String, dynamic>>?> getPostList(String keyword) async {
     try {
@@ -599,13 +599,45 @@ class ApiService {
       if (response.statusCode == 200) {
         final decoded = jsonDecode(response.body);
         log("커뮤니티 검색 성공: ${response.body}");
-        return List<Map<String, dynamic>>.from(decoded['data'] ?? decoded);
+        return decoded;
       } else {
         log("커뮤니티 검색 실패: ${response.statusCode} ${response.body}");
         return null;
       }
     } catch (e) {
       log("커뮤니티 검색 에러: $e");
+      return null;
+    }
+  }
+
+  //게시글 목록 조회
+  static Future<List<Map<String, dynamic>>?> sortSearchPost(
+    String sort,
+    int page,
+    int size,
+  ) async {
+    try {
+      final token = await AuthManager.getToken();
+
+      final response = await http.get(
+        Uri.parse(
+            '$_baseUrl/api/community/posts?sort=$sort&page=$page&size=$size'),
+        headers: {
+          'Content-Type': 'application/json',
+          if (token != null) 'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final decoded = jsonDecode(response.body);
+        log("커뮤니티 검색 정렬 성공: ${response.body}");
+        return List<Map<String, dynamic>>.from(decoded['posts'] ?? decoded);
+      } else {
+        log("커뮤니티 검색 정렬 실패: ${response.statusCode} ${response.body}");
+        return null;
+      }
+    } catch (e) {
+      log("커뮤니티 검색 정렬 에러: $e");
       return null;
     }
   }

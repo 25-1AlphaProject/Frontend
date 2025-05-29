@@ -3,27 +3,94 @@ import 'package:alpha_front/widgets/bottom_nav_bar.dart';
 import 'package:alpha_front/widgets/foodIngredient.dart';
 import 'package:alpha_front/widgets/RecipeStep.dart';
 import 'package:flutter/material.dart';
+import 'package:alpha_front/services/api_service.dart';
 
 class RecipeDetail extends StatefulWidget {
-  const RecipeDetail({super.key});
+  late Map<String, dynamic> recipeData;
+  RecipeDetail({
+    super.key,
+    required this.recipeData,
+  });
 
   @override
   State<RecipeDetail> createState() => _RecipeDetailState();
 }
 
 class _RecipeDetailState extends State<RecipeDetail> {
-  List<String> steps = [
-    "닭가슴살은 소금을 조금 넣고 익혀주세요.",
-    "당근과 피망, 양파 닭가슴살은 적당히 잘게 잘라서 준비하세요.",
-    "익은 닭가슴살은 먹기 좋게 잘라둡니다.",
-    "팬에 양파를 먼저 볶아줍니다.",
-    "당근과 피망을 넣어 볶아주세요.",
-    "익힌 닭가슴살도 넣고 볶아줍니다.",
-    "밥을 넣고 고슬고슬하게 볶아주면 완성!     간은 소금으로 맞춰주세요."
-  ]; // 한 번에 받아와서 리스트에 저장
+  late String name;
+  late List<String> recipeList;
+  late String calories;
+  late String foodImage;
+  late List<String> ingredient;
+  late List<Map<String, String>> parsedIngredients;
+  late List<String> ingredientName;
+  late List<String> ingredientAmount;
 
-  String recipeName = '닭가슴살 야채 볶음밥'; //받아오기
-  int currentStep = 0; //터치하거나 시간 지날 때마다 카운팅 // 필요없어짐.
+  String? imageUrl;
+
+  @override
+  void initState() {
+    super.initState();
+    name = widget.recipeData["name"];
+    recipeList = List<String>.from(widget.recipeData["recipeTexts"]);
+    calories = widget.recipeData["calories"].toString();
+    foodImage = widget.recipeData["foodImage"];
+    // ingredient = widget.recipeData["ingredient"];
+
+    String rawIngredient = widget.recipeData["ingredient"];
+    rawIngredient = rawIngredient.replaceFirst('재료 ', '');
+
+// 줄바꿈, 쉼표 모두 공백으로 변환 후 공백 기준 분리
+    List<String> tokens = rawIngredient
+        .replaceAll('\n', ' ')
+        .replaceAll(',', ' ')
+        .split(' ')
+        .map((e) => e.trim())
+        .where((e) => e.isNotEmpty)
+        .toList();
+
+    ingredientName = [];
+    ingredientAmount = [];
+
+    for (var token in tokens) {
+      if (RegExp(r'^\d+g$').hasMatch(token)) {
+        ingredientAmount.add(token);
+      } else {
+        ingredientName.add(token);
+      }
+    }
+
+    // List<String> ingredientStrings =
+    //     rawIngredient.split(RegExp(r'[,\\n]+')).map((e) => e.trim()).toList();
+
+    // parsedIngredients = ingredientStrings.map((item) {
+    //   final match = RegExp(r'^(.*)\(([^)]+)\)$').firstMatch(item);
+    //   if (match != null) {
+    //     return {
+    //       'foodName': match.group(1)!.trim(),
+    //       'foodUnit': match.group(2)!.trim(),
+    //     };
+    //   } else {
+    //     return {
+    //       'foodName': item.trim(),
+    //       'foodUnit': '',
+    //     };
+    //   }
+    // }).toList();
+
+    loadImage(foodImage);
+  }
+
+  Future<void> loadImage(String imagePath) async {
+    try {
+      final result = await ApiService.getImage(imagePath);
+      setState(() {
+        imageUrl = result;
+      });
+    } catch (e) {
+      debugPrint('이미지 불러오기 실패: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +101,11 @@ class _RecipeDetailState extends State<RecipeDetail> {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.4,
             width: double.infinity,
-            child: const Image(
-              image: AssetImage(
-                // image 변경 - url => network
-                'alpha_front/assets/images/example_recipe.png',
-              ),
-            ),
+            child: imageUrl == null
+                ? Image.asset('../assets/images/character.png',
+                    width: 50, height: 50, fit: BoxFit.cover)
+                : Image.network(imageUrl!,
+                    width: 50, height: 50, fit: BoxFit.cover),
           ),
           DraggableScrollableSheet(
             initialChildSize: 0.55,
@@ -68,10 +134,10 @@ class _RecipeDetailState extends State<RecipeDetail> {
                           ),
                         ),
                       ),
-                      const Center(
+                      Center(
                         child: Text(
-                          '닭가슴살 야채 볶음밥',
-                          style: TextStyle(
+                          name,
+                          style: const TextStyle(
                             fontFamily: "PretendardVariable",
                             fontWeight: FontWeight.bold,
                             color: Color.fromRGBO(0, 0, 0, 1.0),
@@ -99,10 +165,10 @@ class _RecipeDetailState extends State<RecipeDetail> {
                         ],
                       ),
                       const SizedBox(height: 27),
-                      const Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
+                          const Text(
                             '재료',
                             style: TextStyle(
                               fontFamily: "PretendardVariable",
@@ -111,7 +177,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Text(
+                          const Text(
                             '1인 기준',
                             style: TextStyle(
                               fontFamily: "PretendardVariable",
@@ -121,8 +187,8 @@ class _RecipeDetailState extends State<RecipeDetail> {
                             ),
                           ),
                           Text(
-                            '318 kcal', //값 받아오기
-                            style: TextStyle(
+                            '$calories kcal', //값 받아오기
+                            style: const TextStyle(
                               fontFamily: "PretendardVariable",
                               color: Color.fromRGBO(60, 177, 150, 1.0),
                               fontSize: 15,
@@ -137,30 +203,38 @@ class _RecipeDetailState extends State<RecipeDetail> {
                         color: Color.fromRGBO(174, 174, 174, 1.0),
                         thickness: 2,
                       ),
-                      const Column(
-                        children: [
-                          FoodIngredient(
-                            foodName: '밥',
-                            foodUnit: '1인분',
-                          ),
-                          FoodIngredient(
-                            foodName: '닭가슴살',
-                            foodUnit: '150g',
-                          ),
-                          FoodIngredient(
-                            foodName: '당근',
-                            foodUnit: '1/4개',
-                          )
-                        ],
+                      Column(
+                        children: List.generate(ingredientName.length, (index) {
+                          final name = ingredientName[index];
+                          final amount = index < ingredientAmount.length
+                              ? ingredientAmount[index]
+                              : '';
+                          return FoodIngredient(
+                            foodName: name,
+                            foodUnit: amount,
+                          );
+                        }),
                       ),
-                      RecipeStep(stepCOUNT: 1, text: steps[0]),
-                      const SizedBox(height: 60),
-                      RecipeStep(stepCOUNT: 2, text: steps[1]),
-                      const SizedBox(height: 60),
-                      RecipeStep(stepCOUNT: 3, text: steps[2]),
-                      const SizedBox(height: 60),
-                      RecipeStep(stepCOUNT: 10, text: steps[3]),
-                      const SizedBox(height: 60),
+                      Column(
+                        children: recipeList.map((recipe) {
+                          // 정규식으로 숫자 추출
+                          final match =
+                              RegExp(r'^(\d+)\.\s*(.*)').firstMatch(recipe);
+                          final stepCount =
+                              match != null ? int.parse(match.group(1)!) : 0;
+                          final text = match != null ? match.group(2)! : recipe;
+
+                          return Column(
+                            children: [
+                              RecipeStep(
+                                stepCOUNT: stepCount,
+                                text: text,
+                              ),
+                              const SizedBox(height: 60),
+                            ],
+                          );
+                        }).toList(),
+                      ),
                     ],
                   ),
                 ),
@@ -169,30 +243,6 @@ class _RecipeDetailState extends State<RecipeDetail> {
           ),
         ],
       ),
-//       body: Container(
-//         width: double.infinity,
-//         height: MediaQuery.of(context).size.height * 0.35,
-//         child: Stack(
-//           children: [
-//             Image(
-//               image : AssetImage( // image 변경 - url => network
-//                 'alpha_front/assets/images/example_recipe.png',
-//               ),
-//             ),
-//             Container(
-//               width: double.infinity,
-//               height: 200, // 임의 설정
-//               decoration: BoxDecoration(
-//                 color: Colors.white,
-//                 borderRadius: BorderRadius.only(
-//                   topLeft: Radius.circular(15),
-//                   topRight: Radius.circular(15)
-//                 )
-//               ),
-//             )
-//           ],
-//         )
-//       ),
     );
   }
 }
