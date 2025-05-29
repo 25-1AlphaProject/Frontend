@@ -570,4 +570,28 @@ class ApiService {
       return null;
     }
   }
+
+  static Future<String> getImage(String imageURL) async {
+    try {
+      final token = await AuthManager.getToken();
+      final response = await http.get(
+        Uri.parse('$_baseUrl/api/recipe/image?url=$imageURL'),
+        headers: {
+          if (token != null) 'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        log("이미지 조회하기: $data");
+        return data['message'];
+      } else {
+        log("서버 응답 오류: ${response.statusCode}");
+        throw Exception("서버 응답 오류: ${response.statusCode}");
+      }
+    } catch (e) {
+      log("요청 실패: $e");
+      throw Exception("요청 실패: $e");
+    }
+  }
 }
