@@ -323,12 +323,11 @@ class ApiService {
     }
   }
 
-static Future<Map<String, dynamic>?> foodinfoCustom(
+  static Future<Map<String, dynamic>?> foodinfoCustom(
     double amount,
     DateTime mealDate,
     String mealType,
     String mealPhoto,
-
   ) async {
     try {
       final token = await AuthManager.getToken();
@@ -340,9 +339,9 @@ static Future<Map<String, dynamic>?> foodinfoCustom(
           'Content-Type': 'application/json',
         },
         body: jsonEncode({
-          'amount' : amount,
-          'mealDate' : DateFormat('yyyy-MM-dd').format(mealDate),
-          'mealType' : mealType,
+          'amount': amount,
+          'mealDate': DateFormat('yyyy-MM-dd').format(mealDate),
+          'mealType': mealType,
           'mealPhoto': mealPhoto,
         }),
       );
@@ -363,39 +362,38 @@ static Future<Map<String, dynamic>?> foodinfoCustom(
     }
   }
 
+  static Future<List<Map<String, dynamic>>?> getRecipeList(
+      String keyword) async {
+    try {
+      final token = await AuthManager.getToken();
+      final uri = Uri.parse('$_baseUrl/api/recipe/search?keyword=$keyword');
+      final headers = {
+        'Content-Type': 'application/json',
+        if (token != null) 'Authorization': 'Bearer $token',
+      };
 
-static Future<List<Map<String, dynamic>>?> getRecipeList(String keyword) async {
-  try {
-    final token = await AuthManager.getToken();
-    final uri = Uri.parse('$_baseUrl/api/recipe/search?keyword=$keyword');
-    final headers = {
-      'Content-Type': 'application/json',
-      if (token != null) 'Authorization': 'Bearer $token',
-    };
+      final response = await http.get(uri, headers: headers);
 
-    final response = await http.get(uri, headers: headers);
+      if (response.statusCode == 200) {
+        final decoded = jsonDecode(response.body);
+        log("레시피 검색 성공: ${response.body}");
 
-    if (response.statusCode == 200) {
-      final decoded = jsonDecode(response.body);
-      log("레시피 검색 성공: ${response.body}");
-
-      final message = decoded['message'];
-      if (message is List) {
-        return List<Map<String, dynamic>>.from(message);
+        final message = decoded['message'];
+        if (message is List) {
+          return List<Map<String, dynamic>>.from(message);
+        } else {
+          log("message가 리스트가 아님: $message");
+          return null;
+        }
       } else {
-        log("message가 리스트가 아님: $message");
+        log("레시피 검색 실패: ${response.statusCode} ${response.body}");
         return null;
       }
-    } else {
-      log("레시피 검색 실패: ${response.statusCode} ${response.body}");
+    } catch (e) {
+      log("레시피 검색 에러: $e");
       return null;
     }
-  } catch (e) {
-    log("레시피 검색 에러: $e");
-    return null;
   }
-}
-
 
   //해당 날짜 실제 먹은 식단 조회
   static Future<Map<String, dynamic>> fetchkcalData(String date) async {
@@ -544,6 +542,56 @@ static Future<List<Map<String, dynamic>>?> getRecipeList(String keyword) async {
         final data = jsonDecode(response.body);
         log("재료링크 조회하기: $data");
         return data;
+      } else {
+        log("서버 응답 오류: ${response.statusCode}");
+        throw Exception("서버 응답 오류: ${response.statusCode}");
+      }
+    } catch (e) {
+      log("요청 실패: $e");
+      throw Exception("요청 실패: $e");
+    }
+  }
+
+  static Future<List<Map<String, dynamic>>?> getPostList(String keyword) async {
+    try {
+      final token = await AuthManager.getToken();
+
+      final response = await http.get(
+        Uri.parse('$_baseUrl/api/community/posts/search?keyword=$keyword'),
+        headers: {
+          'Content-Type': 'application/json',
+          if (token != null) 'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final decoded = jsonDecode(response.body);
+        log("커뮤니티 검색 성공: ${response.body}");
+        return List<Map<String, dynamic>>.from(decoded['data'] ?? decoded);
+      } else {
+        log("커뮤니티 검색 실패: ${response.statusCode} ${response.body}");
+        return null;
+      }
+    } catch (e) {
+      log("커뮤니티 검색 에러: $e");
+      return null;
+    }
+  }
+
+  static Future<String> getImage(String imageURL) async {
+    try {
+      final token = await AuthManager.getToken();
+      final response = await http.get(
+        Uri.parse('$_baseUrl/api/recipe/image?url=$imageURL'),
+        headers: {
+          if (token != null) 'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        log("이미지 조회하기: $data");
+        return data['message'];
       } else {
         log("서버 응답 오류: ${response.statusCode}");
         throw Exception("서버 응답 오류: ${response.statusCode}");

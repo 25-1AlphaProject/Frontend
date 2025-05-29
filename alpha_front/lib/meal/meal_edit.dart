@@ -1,5 +1,6 @@
 import 'package:alpha_front/Home/home.dart';
 import 'package:alpha_front/meal/camera.dart';
+import 'package:alpha_front/services/api_service.dart';
 import 'package:alpha_front/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:alpha_front/layout.dart';
@@ -38,7 +39,7 @@ class _MealEditState extends State<MealEdit> {
     );
   }
 
-  late int selectedIndex; // 기본
+  late int selectedIndex;
 
   @override
   void initState() {
@@ -71,7 +72,6 @@ class _MealEditState extends State<MealEdit> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      // appBar: BaseAppbar(title: '식단 수정'),
       body: Padding(
         padding: const EdgeInsets.all(33.0),
         child: Column(
@@ -107,9 +107,7 @@ class _MealEditState extends State<MealEdit> {
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
+                  const SizedBox(width: 10),
                   Expanded(
                     flex: 1,
                     child: SizedBox(
@@ -137,9 +135,7 @@ class _MealEditState extends State<MealEdit> {
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
+                  const SizedBox(width: 10),
                   Expanded(
                     child: SizedBox(
                       child: ElevatedButton(
@@ -168,8 +164,6 @@ class _MealEditState extends State<MealEdit> {
                 ],
               ),
             ),
-            //   ],
-            // ),
             Expanded(
               flex: 6,
               child: _getSelectedWidget(),
@@ -179,37 +173,34 @@ class _MealEditState extends State<MealEdit> {
               child: Row(
                 children: [
                   Expanded(
-                      flex: 1,
-                      child: SizedBox(
-                        // margin: const EdgeInsets.fromLTRB(10, 50, 10, 20),
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xffd9d9d9),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            padding: const EdgeInsets.symmetric(vertical: 18),
-                            minimumSize: const Size(double.infinity, 50),
-                            elevation: 3,
+                    flex: 1,
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xffd9d9d9),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
                           ),
-                          onPressed: _skip,
-                          child: Text(
-                            '다시 인식',
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelMedium!
-                                .copyWith(color: const Color(0xff4d4d4d)),
-                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 18),
+                          minimumSize: const Size(double.infinity, 50),
+                          elevation: 3,
                         ),
-                      )),
-                  const SizedBox(
-                    width: 14,
+                        onPressed: _skip,
+                        child: Text(
+                          '다시 인식',
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelMedium!
+                              .copyWith(color: const Color(0xff4d4d4d)),
+                        ),
+                      ),
+                    ),
                   ),
+                  const SizedBox(width: 14),
                   Expanded(
                     flex: 2,
                     child: SizedBox(
-                      // margin: const EdgeInsets.fromLTRB(10, 50, 10, 20),
                       width: double.infinity,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -222,19 +213,19 @@ class _MealEditState extends State<MealEdit> {
                           elevation: 3,
                         ),
                         onPressed: _goToNext,
-                        child: Text('식단 추가',
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelMedium!
-                                .copyWith(
-                                  color: const Color(0xff3CB196),
-                                )),
+                        child: Text(
+                          '식단 추가',
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelMedium!
+                              .copyWith(color: const Color(0xff3CB196)),
+                        ),
                       ),
                     ),
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -317,8 +308,7 @@ class MealCard extends StatelessWidget {
                     children: [
                       isEditing
                           ? SizedBox(
-                              width: MediaQuery.of(context).size.width *
-                                  0.3, // 전체의 약 절반
+                              width: MediaQuery.of(context).size.width * 0.3,
                               child: TextField(
                                 controller: kcalController,
                                 keyboardType: TextInputType.number,
@@ -371,7 +361,6 @@ class MealCard extends StatelessWidget {
   }
 }
 
-// 아침
 class _BreakfastEdit extends StatefulWidget {
   final List<Map<String, dynamic>> recommendBreakfastList;
 
@@ -384,11 +373,33 @@ class _BreakfastEdit extends StatefulWidget {
 class _BreakfastEditState extends State<_BreakfastEdit> {
   bool isEditing = false;
 
-  TextEditingController nameController =
-      TextEditingController(text: recommendBreakfastList[0]["name"]);
-  TextEditingController kcalController = TextEditingController(
-      text: recommendBreakfastList[0]["calories"].toString());
+  TextEditingController nameController = TextEditingController();
+  TextEditingController kcalController = TextEditingController();
   TextEditingController amountController = TextEditingController(text: "1");
+
+  String? imageUrl;
+
+  @override
+  void initState() {
+    super.initState();
+
+    nameController.text = widget.recommendBreakfastList[0]["name"];
+    kcalController.text =
+        widget.recommendBreakfastList[0]["calories"].toString();
+
+    _loadImage(widget.recommendBreakfastList[0]["foodImage"]);
+  }
+
+  Future<void> _loadImage(String imagePath) async {
+    try {
+      final result = await ApiService.getImage(imagePath);
+      setState(() {
+        imageUrl = result;
+      });
+    } catch (e) {
+      debugPrint('이미지 불러오기 실패: $e');
+    }
+  }
 
   void _toggleEditMode() {
     setState(() {
@@ -400,7 +411,7 @@ class _BreakfastEditState extends State<_BreakfastEdit> {
   Widget build(BuildContext context) {
     return Center(
       child: MealCard(
-        imageURL: recommendBreakfastList[0]["foodImage"],
+        imageURL: imageUrl,
         isEditing: isEditing,
         amountController: amountController,
         nameController: nameController,
