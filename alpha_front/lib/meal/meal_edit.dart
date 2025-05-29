@@ -11,6 +11,7 @@ class MealEdit extends StatefulWidget {
   final List<Map<String, dynamic>> recommendBreakfastList;
   final List<Map<String, dynamic>> recommendLunchList;
   final List<Map<String, dynamic>> recommendDinnerList;
+  final int routeNum;
 
   const MealEdit({
     super.key,
@@ -18,6 +19,7 @@ class MealEdit extends StatefulWidget {
     required this.recommendBreakfastList,
     required this.recommendLunchList,
     required this.recommendDinnerList,
+    required this.routeNum,
   });
 
   @override
@@ -188,11 +190,14 @@ class _MealEditState extends State<MealEdit> {
                         ),
                         onPressed: _skip,
                         child: Text(
-                          '다시 인식',
+                          widget.routeNum == 0 ? '카메라로 등록하기 ' : '다시 인식',
                           style: Theme.of(context)
                               .textTheme
                               .labelMedium!
-                              .copyWith(color: const Color(0xff4d4d4d)),
+                              .copyWith(
+                                  color: widget.routeNum == 0
+                                      ? const Color(0xff3CB196)
+                                      : const Color(0xff4d4d4d)),
                         ),
                       ),
                     ),
@@ -214,7 +219,7 @@ class _MealEditState extends State<MealEdit> {
                         ),
                         onPressed: _goToNext,
                         child: Text(
-                          '식단 추가',
+                          widget.routeNum == 0 ? '식단 추가하기' : '식단에 추가하기',
                           style: Theme.of(context)
                               .textTheme
                               .labelMedium!
@@ -236,19 +241,23 @@ class _MealEditState extends State<MealEdit> {
 class MealCard extends StatelessWidget {
   final String? imageURL;
   final bool isEditing;
+  final bool isPosting;
   final TextEditingController nameController;
   final TextEditingController kcalController;
   final TextEditingController amountController;
   final VoidCallback onEditToggle;
+  final VoidCallback onEditCheck;
 
   const MealCard({
     super.key,
     required this.imageURL,
     required this.isEditing,
+    required this.isPosting,
     required this.nameController,
     required this.kcalController,
     required this.amountController,
     required this.onEditToggle,
+    required this.onEditCheck,
   });
 
   @override
@@ -297,9 +306,27 @@ class MealCard extends StatelessWidget {
                                     fontSize: 20, fontWeight: FontWeight.bold),
                               ),
                       ),
-                      IconButton(
-                        icon: const Icon(Icons.edit, size: 20),
-                        onPressed: onEditToggle,
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.edit, size: 20),
+                            onPressed: onEditToggle,
+                          ),
+                          IconButton(
+                            icon: !isPosting
+                                ? const Icon(
+                                    Icons.check_circle_outline_rounded,
+                                    size: 20,
+                                    color: Color(0xff3CB196),
+                                  )
+                                : const Icon(
+                                    Icons.check_circle_rounded,
+                                    size: 20,
+                                    color: Color(0xff3CB196),
+                                  ),
+                            onPressed: onEditCheck,
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -372,6 +399,8 @@ class _BreakfastEdit extends StatefulWidget {
 
 class _BreakfastEditState extends State<_BreakfastEdit> {
   bool isEditing = false;
+  bool isPosting = false;
+  bool isVisible = false;
 
   TextEditingController nameController = TextEditingController();
   TextEditingController kcalController = TextEditingController();
@@ -407,16 +436,24 @@ class _BreakfastEditState extends State<_BreakfastEdit> {
     });
   }
 
+  void _checkPostMode() {
+    setState(() {
+      isPosting = !isPosting;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
       child: MealCard(
         imageURL: imageUrl,
         isEditing: isEditing,
+        isPosting: isPosting,
         amountController: amountController,
         nameController: nameController,
         kcalController: kcalController,
         onEditToggle: _toggleEditMode,
+        onEditCheck: _checkPostMode,
       ),
     );
   }
