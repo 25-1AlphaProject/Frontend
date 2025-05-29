@@ -3,6 +3,7 @@ import 'package:alpha_front/widgets/bottom_nav_bar.dart';
 import 'package:alpha_front/widgets/foodIngredient.dart';
 import 'package:alpha_front/widgets/RecipeStep.dart';
 import 'package:flutter/material.dart';
+import 'package:alpha_front/services/api_service.dart';
 
 class RecipeDetail extends StatefulWidget {
   late Map<String, dynamic> recipeData;
@@ -24,6 +25,8 @@ class _RecipeDetailState extends State<RecipeDetail> {
   late List<Map<String, String>> parsedIngredients;
   late List<String> ingredientName;
   late List<String> ingredientAmount;
+
+  String? imageUrl;
 
   @override
   void initState() {
@@ -74,6 +77,19 @@ class _RecipeDetailState extends State<RecipeDetail> {
     //     };
     //   }
     // }).toList();
+
+    loadImage(foodImage);
+  }
+
+  Future<void> loadImage(String imagePath) async {
+    try {
+      final result = await ApiService.getImage(imagePath);
+      setState(() {
+        imageUrl = result;
+      });
+    } catch (e) {
+      debugPrint('이미지 불러오기 실패: $e');
+    }
   }
 
   @override
@@ -85,11 +101,11 @@ class _RecipeDetailState extends State<RecipeDetail> {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.4,
             width: double.infinity,
-            child: Image(
-              image: NetworkImage(
-                  // image 변경 - url => network
-                  foodImage),
-            ),
+            child: imageUrl == null
+                ? Image.asset('../assets/images/character.png',
+                    width: 50, height: 50, fit: BoxFit.cover)
+                : Image.network(imageUrl!,
+                    width: 50, height: 50, fit: BoxFit.cover),
           ),
           DraggableScrollableSheet(
             initialChildSize: 0.55,
@@ -227,30 +243,6 @@ class _RecipeDetailState extends State<RecipeDetail> {
           ),
         ],
       ),
-//       body: Container(
-//         width: double.infinity,
-//         height: MediaQuery.of(context).size.height * 0.35,
-//         child: Stack(
-//           children: [
-//             Image(
-//               image : AssetImage( // image 변경 - url => network
-//                 'alpha_front/assets/images/example_recipe.png',
-//               ),
-//             ),
-//             Container(
-//               width: double.infinity,
-//               height: 200, // 임의 설정
-//               decoration: BoxDecoration(
-//                 color: Colors.white,
-//                 borderRadius: BorderRadius.only(
-//                   topLeft: Radius.circular(15),
-//                   topRight: Radius.circular(15)
-//                 )
-//               ),
-//             )
-//           ],
-//         )
-//       ),
     );
   }
 }
