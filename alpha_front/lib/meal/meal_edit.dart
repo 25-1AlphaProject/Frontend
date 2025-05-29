@@ -131,7 +131,7 @@ class _MealEditState extends State<MealEdit> {
                       elevation: 3,
                     ),
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const Layout()));

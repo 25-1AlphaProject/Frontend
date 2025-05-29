@@ -64,7 +64,25 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     dateKcal = await ApiService.fetchkcalData(getDataDate); //실제 식단
 
     if (createdMeal['message'] is List && createdMeal['message'].isEmpty) {
+      print("식단이 생성됨");
       createMeal = await ApiService.createMealData();
+    }
+
+    setState(() {}); // UI 갱신
+  }
+
+  Future<void> updateData(DateTime pageDate) async {
+    nowDate = DateFormat('M.d(EEE)', 'ko').format(pageDate);
+    getDataDate = DateFormat('yyyy-MM-dd').format(pageDate);
+
+    createdMeal = await ApiService.mealDayData(getDataDate); //추천 식단
+    dateKcal = await ApiService.fetchkcalData(getDataDate); //실제 식단
+
+    if (createdMeal['message'] is List && createdMeal['message'].isEmpty) {
+      // print("식단이 생성됨");
+      // createMeal = await ApiService.createMealData();
+      print("n일 뒤 다시 생성해주세요");
+      initializeData();
     }
 
     setState(() {}); // UI 갱신
@@ -86,7 +104,10 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const ReportMain()),
-    );
+    ).then((_) {
+      pageDate = DateTime.now();
+      updateData(pageDate); // 돌아오면 새로고침
+    });
   }
 
   @override
@@ -150,13 +171,14 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                           setState(() {
                             pageDate =
                                 pageDate.subtract(const Duration(days: 1));
-                            nowDate =
-                                DateFormat('M.d(EEE)', 'ko').format(pageDate);
-                            getDataDate =
-                                DateFormat('yyyy-MM-dd').format(pageDate);
+                            // nowDate =
+                            //     DateFormat('M.d(EEE)', 'ko').format(pageDate);
+                            // getDataDate =
+                            //     DateFormat('yyyy-MM-dd').format(pageDate);
+                            updateData(pageDate);
                           });
-                          dateKcal =
-                              await ApiService.fetchkcalData(getDataDate);
+                          // dateKcal =
+                          //     await ApiService.fetchkcalData(getDataDate);
                         },
                         icon: const Icon(Icons.arrow_left),
                         iconSize: 60,
@@ -177,13 +199,8 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                           // 현재 페이지 정보 다음 날 날짜 정보 get 해오고 home.dart 정보 reload
                           setState(() {
                             pageDate = pageDate.add(const Duration(days: 1));
-                            nowDate =
-                                DateFormat('M.d(EEE)', 'ko').format(pageDate);
-                            getDataDate =
-                                DateFormat('yyyy-MM-dd').format(pageDate);
+                            updateData(pageDate);
                           });
-                          dateKcal =
-                              await ApiService.fetchkcalData(getDataDate);
                         },
                         icon: const Icon(Icons.arrow_right),
                         iconSize: 60,
@@ -218,7 +235,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                               List.generate(dietWidgetList.length, (index) {
                             return GestureDetector(
                               onTap: () {
-                                Navigator.push(
+                                Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
