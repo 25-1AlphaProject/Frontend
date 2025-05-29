@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:string_similarity/string_similarity.dart';
 import 'package:alpha_front/widgets/post_widget.dart';
+import 'package:alpha_front/community/write.dart';
 
 class SearchPost extends StatefulWidget {
   const SearchPost({super.key});
@@ -70,6 +71,15 @@ class _SearchPostState extends State<SearchPost> {
                 ),
               ),
             ),
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const PostCreatePage()),
+                  );
+                },
+                icon: const Icon(Icons.wifi_password_outlined)),
             const SizedBox(height: 50),
             Expanded(
               child: isLoading
@@ -81,7 +91,7 @@ class _SearchPostState extends State<SearchPost> {
                   : posts.isEmpty
                       ? const Center(
                           child: Text(
-                            "검색어를 입력하세요.",
+                            "검색결과가 없습니다.",
                             style: TextStyle(
                               fontFamily: 'Pretendard-regular',
                               fontSize: 16,
@@ -93,12 +103,11 @@ class _SearchPostState extends State<SearchPost> {
                           itemCount: posts.length,
                           itemBuilder: (context, index) {
                             final post = posts[index];
-                            final title = post['title']?.toString() ?? '';
-                            // final detail = post['detail']?.toString() ?? '';
-                            final detail = post['title']?.toString() ?? '';
-                            final scrap = post['scrapCount'] ?? 0;
+                            final title = post["title"]?.toString() ?? '';
+                            final detail = post['content']?.toString() ?? '';
+                            final scrap = post["scrapCount"] ?? 0;
                             final like = post['likeCount'] ?? 0;
-                            final comment = post['commnetCount'] ?? 0;
+                            final comment = post['commentCount'] ?? 0;
                             final image =
                                 post['thumbnailUrl']?.toString() ?? '';
                             final date = post['createdAt']?.toString() ?? '';
@@ -113,14 +122,19 @@ class _SearchPostState extends State<SearchPost> {
                                 //         builder: (context) =>
                                 //             const 작성된 게시글()));
                               },
-                              child: PostIngredient(
-                                postTitle: title,
-                                postDetail: detail,
-                                postScrap: scrap,
-                                postLike: like,
-                                postComment: comment,
-                                postDate: dateFormat,
-                                postURLs: image,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  PostIngredient(
+                                    postTitle: title,
+                                    postDetail: detail,
+                                    postScrap: scrap,
+                                    postLike: like,
+                                    postComment: comment,
+                                    postDate: dateFormat,
+                                    postURLs: image,
+                                  ),
+                                ],
                               ),
                             );
                           },
