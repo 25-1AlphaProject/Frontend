@@ -50,6 +50,7 @@ class _MealamountEditState extends State<MealamountEdit> {
                 recommendBreakfastList: recommendBreakfastList,
                 recommendLunchList: recommendLunchList,
                 recommendDinnerList: recommendDinnerList,
+                routeNum: 1,
               )),
       // MealEdit(initialIndex: index)
     );

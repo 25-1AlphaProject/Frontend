@@ -276,12 +276,13 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => MealEdit(
-                                        initialIndex: index + 1,
-                                        recommendBreakfastList:
-                                            recommendBreakfastList,
-                                        recommendLunchList: recommendLunchList,
-                                        recommendDinnerList:
-                                            recommendDinnerList),
+                                      initialIndex: index + 1,
+                                      recommendBreakfastList:
+                                          recommendBreakfastList,
+                                      recommendLunchList: recommendLunchList,
+                                      recommendDinnerList: recommendDinnerList,
+                                      routeNum: 0,
+                                    ),
                                   ),
                                 ).then((_) {
                                   initializeData(); // 돌아오면 새로고침
