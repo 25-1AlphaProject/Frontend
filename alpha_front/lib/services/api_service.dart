@@ -302,7 +302,7 @@ class ApiService {
           'name': name,
           'foodCalories': foodCalories,
           'amount': amount,
-          'mealDate': mealDate,
+          'mealDate': DateFormat('yyyy-MM-dd').format(mealDate),
           'mealType': mealType,
           'mealPhoto': mealPhoto,
         }),
