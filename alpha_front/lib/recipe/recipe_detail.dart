@@ -2,6 +2,7 @@ import 'package:alpha_front/widgets/base_app_bar.dart';
 import 'package:alpha_front/widgets/bottom_nav_bar.dart';
 import 'package:alpha_front/widgets/foodIngredient.dart';
 import 'package:alpha_front/widgets/RecipeStep.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:alpha_front/services/api_service.dart';
 
@@ -17,6 +18,7 @@ class RecipeDetail extends StatefulWidget {
 }
 
 class _RecipeDetailState extends State<RecipeDetail> {
+  late int id;
   late String name;
   late List<String> recipeList;
   late String calories;
@@ -27,10 +29,12 @@ class _RecipeDetailState extends State<RecipeDetail> {
   late List<String> ingredientAmount;
 
   String? imageUrl;
+  List<Map<String, dynamic>>? recipeIngredient;
 
   @override
   void initState() {
     super.initState();
+    id = widget.recipeData["id"];
     name = widget.recipeData["name"];
     recipeList = List<String>.from(widget.recipeData["recipeTexts"]);
     calories = widget.recipeData["calories"].toString();
@@ -79,6 +83,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
     // }).toList();
 
     loadImage(foodImage);
+    loadIngredient(id);
   }
 
   Future<void> loadImage(String imagePath) async {
@@ -86,6 +91,18 @@ class _RecipeDetailState extends State<RecipeDetail> {
       final result = await ApiService.getImage(imagePath);
       setState(() {
         imageUrl = result;
+      });
+    } catch (e) {
+      debugPrint('이미지 불러오기 실패: $e');
+    }
+  }
+
+  Future<void> loadIngredient(int recipeId) async {
+    try {
+      final result = await ApiService.getIngredient(recipeId);
+      setState(() {
+        recipeIngredient = result;
+        print(recipeIngredient);
       });
     } catch (e) {
       debugPrint('이미지 불러오기 실패: $e');
