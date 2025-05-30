@@ -104,6 +104,8 @@ class _CameraState extends State<Camera> {
               mealName: responseData['mealName'] ?? 'Unknown Meal',
               foodCalories: responseData['foodCalories'] ?? 0.0,
               amount: amount,
+              mealType: mealType,
+              mealPhotoUrl: uploadedUrl,
             ),
           ),
         );
@@ -144,12 +146,17 @@ class _CameraState extends State<Camera> {
           showImage(),
           SizedBox(height: 30.0),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: TextField(
               controller: _amountController,
               keyboardType: TextInputType.number,
               decoration: const InputDecoration(
                 labelText: '섭취량 입력',
+                labelStyle: TextStyle(
+                  color: Color(0xff3CB196),
+                  fontFamily: 'Pretendard-bold',
+                  fontSize: 17,
+                ),
                 border: OutlineInputBorder(),
               ),
             ),

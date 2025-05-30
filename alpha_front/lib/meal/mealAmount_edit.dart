@@ -4,15 +4,19 @@ import 'package:alpha_front/layout.dart';
 
 import 'package:alpha_front/meal/camera.dart';
 import 'package:alpha_front/meal/meal_edit.dart';
+import 'package:alpha_front/services/api_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class MealamountEdit extends StatefulWidget {
   final Uint8List imageBytes;
   final String mealName;
   final double foodCalories;
   final double amount;
+  final String mealPhotoUrl; 
+  final String mealType;
 
   const MealamountEdit({
     super.key,
@@ -20,6 +24,8 @@ class MealamountEdit extends StatefulWidget {
     required this.mealName,
     required this.foodCalories,
     required this.amount,
+    required this.mealPhotoUrl,
+    required this.mealType,
   });
 
   @override
@@ -30,6 +36,57 @@ class _MealamountEditState extends State<MealamountEdit> {
   List<Map<String, dynamic>> recommendBreakfastList = [];
   List<Map<String, dynamic>> recommendLunchList = [];
   List<Map<String, dynamic>> recommendDinnerList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchCreatedMeal();
+  }
+
+  Future<void> fetchCreatedMeal() async {
+    final getDataDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    final createdMeal = await ApiService.mealDayData(getDataDate);
+    List<dynamic> meals = createdMeal['message'];
+
+    for (var meal in meals) {
+      switch (meal['mealType']) {
+        case 'BREAKFAST':
+          recommendBreakfastList.add(meal);
+          break;
+        case 'LUNCH':
+          recommendLunchList.add(meal);
+          break;
+        case 'DINNER':
+          recommendDinnerList.add(meal);
+          break;
+      }
+    }
+
+    setState(() {});
+  }
+
+  
+  Future<void> _submitMealInfo() async {
+    final success = await ApiService.foodinfo(
+      widget.mealName,
+      widget.foodCalories,
+      widget.amount.toString(),
+      DateTime.now(),
+      widget.mealType,
+      widget.mealPhotoUrl,
+    );
+
+    if (success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("식단이 저장되었습니다.")),
+      );
+      _goToNext();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("식단 저장 실패")),
+      );
+    }
+  }
 
 
   void _goToNext() {
@@ -45,15 +102,14 @@ class _MealamountEditState extends State<MealamountEdit> {
 
     Navigator.push(
       context,
-      MaterialPageRoute(
-          builder: (context) => MealEdit(
-                initialIndex: 1,
-                recommendBreakfastList: recommendBreakfastList,
-                recommendLunchList: recommendLunchList,
-                recommendDinnerList: recommendDinnerList,
-                mealDate: DateTime.now().toIso8601String(),
-                // routeNum: 1,
-              )),
+    MaterialPageRoute(
+      builder: (context) => MealEdit(
+        initialIndex: index,
+        recommendBreakfastList: recommendBreakfastList,
+        recommendLunchList: recommendLunchList,
+        recommendDinnerList: recommendDinnerList,
+        mealDate: DateFormat('yyyy-MM-dd').format(DateTime.now()),
+      ),),
       // MealEdit(initialIndex: index)
     );
   }
@@ -231,7 +287,7 @@ class _MealamountEditState extends State<MealamountEdit> {
                             minimumSize: const Size(double.infinity, 50),
                             elevation: 3,
                           ),
-                          onPressed: _goToNext,
+                          onPressed: _submitMealInfo,
                           child: Text('다음',
                               style: Theme.of(context)
                                   .textTheme

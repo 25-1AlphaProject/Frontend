@@ -129,47 +129,50 @@ class _MealEditState extends State<MealEdit> {
   //------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      // appBar: BaseAppBar(title: '식단 편집', appBar: AppBar()),
-      body: Column(
-        children: [
-          _MealTabs(
-              current: _idx,
-              onTap: (i) {
-                _pageController.animateToPage(i,
-                    duration: const Duration(milliseconds: 240),
-                    curve: Curves.easeOut);
-              }),
-          Expanded(
-            child: PageView(
-              controller: _pageController,
-              onPageChanged: (v) => setState(() => _idx = v),
-              children: [
-                MealListEditor(items: _breakfast),
-                MealListEditor(items: _lunch),
-                MealListEditor(items: _dinner),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
-            child: SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xff3CB196),
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
-                ),
-                onPressed: _save,
-                child:
-                    const Text('식단 저장', style: TextStyle(color: Colors.white)),
+    return Padding(
+      padding: const EdgeInsets.all(33.0),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        // appBar: BaseAppBar(title: '식단 편집', appBar: AppBar()),
+        body: Column(
+          children: [
+            _MealTabs(
+                current: _idx,
+                onTap: (i) {
+                  _pageController.animateToPage(i,
+                      duration: const Duration(milliseconds: 240),
+                      curve: Curves.easeOut);
+                }),
+            Expanded(
+              child: PageView(
+                controller: _pageController,
+                onPageChanged: (v) => setState(() => _idx = v),
+                children: [
+                  MealListEditor(items: _breakfast),
+                  MealListEditor(items: _lunch),
+                  MealListEditor(items: _dinner),
+                ],
               ),
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xff3CB196),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12)),
+                  ),
+                  onPressed: _save,
+                  child:
+                      const Text('식단 저장', style: TextStyle(color: Colors.white)),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
