@@ -30,22 +30,22 @@ List<Map<String, dynamic>> recommendLunchList = [];
 List<Map<String, dynamic>> recommendDinnerList = [];
 
 Map<String, dynamic> dateKcal = {}; // 한 번에 받아와서 리스트에 저장(아침,점심,저녁 당일 실제 먹은 식단)
-List<Map<String, dynamic>> realBreakfastList = [];
-List<Map<String, dynamic>> realLunchList = [];
-List<Map<String, dynamic>> realDinnerList = [];
+List<Map<String, dynamic>> realEatBreakfastList = [];
+List<Map<String, dynamic>> realEatLunchList = [];
+List<Map<String, dynamic>> realEatDinnerList = [];
 
 List<Widget> dietWidgetList = [
   const DietManagementWidget(
     cardname: "아침",
-    kcal: 380,
+    kcal: 0, // 데이터 업데이트
   ),
   const DietManagementWidget(
     cardname: "점심",
-    kcal: 380,
+    kcal: 0,
   ),
   const DietManagementWidget(
     cardname: "저녁",
-    kcal: 380,
+    kcal: 0,
   ),
 ];
 
@@ -84,6 +84,36 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     }
   }
 
+  void categorizeReals(Map<String, dynamic> dateKcal) {
+    realEatBreakfastList.clear();
+    realEatLunchList.clear();
+    realEatDinnerList.clear();
+
+    List<dynamic> meals = dateKcal['message'];
+
+    for (var meal in meals) {
+      switch (meal['mealType']) {
+        case 'BREAKFAST':
+          realEatBreakfastList.add(meal);
+          break;
+        case 'LUNCH':
+          realEatLunchList.add(meal);
+          break;
+        case 'DINNER':
+          realEatDinnerList.add(meal);
+          break;
+      }
+    }
+  }
+
+  int getTotalCalories(List<Map<String, dynamic>> mealList) {
+    int total = 0;
+    for (var meal in mealList) {
+      total += (meal['calories'] as num).toInt(); // 'calories'가 숫자임을 가정
+    }
+    return total;
+  }
+
   Future<void> initializeData() async {
     pageDate = DateTime.now();
     nowDate = DateFormat('M.d(EEE)', 'ko').format(pageDate);
@@ -101,6 +131,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
       });
     } else {
       categorizeMeals(createdMeal); // 생성된 식단 아침,점심, 저녁 별 구분 저장
+      categorizeReals(createdMeal); // 실제 먹은 식단 아침, 점심, 저녁 별 칼로리 구분 저장
     }
 
     setState(() {}); // UI 갱신
