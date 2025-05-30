@@ -304,7 +304,7 @@ class MealCardData {
   factory MealCardData.fromRecommend(Map<String, dynamic> j) => MealCardData(
         fromRecommend: true,
         recipeId: j['id'] as int?,
-        imageUrl: _resolveImage(j['foodImage'] as String?),
+        imageUrl: j['foodImage'],
         name: j['name'] ?? '',
         amountStr: (j['amount'] ?? '1').toString(),
         baseKcal: (j['calories'] as num).toDouble(),
@@ -334,6 +334,7 @@ class _MealCardState extends State<MealCard> {
   late final TextEditingController _nameCtrl;
   late final TextEditingController _amountCtrl;
   late final TextEditingController _kcalCtrl;
+  String? imageUrl;
 
   @override
   void initState() {
@@ -342,6 +343,16 @@ class _MealCardState extends State<MealCard> {
     _amountCtrl = TextEditingController(text: widget.data.amountStr);
     _kcalCtrl = TextEditingController(
         text: widget.data.baseKcal == 0 ? '' : widget.data.baseKcal.toString());
+    loadImage(widget.data.imageUrl.toString());
+  }
+
+  Future<void> loadImage(String imagePath) async {
+    try {
+      final result = await ApiService.getImage(imagePath);
+      imageUrl = result;
+    } catch (e) {
+      debugPrint('이미지 불러오기 실패: $e');
+    }
   }
 
   @override
@@ -389,7 +400,7 @@ class _MealCardState extends State<MealCard> {
         padding: const EdgeInsets.all(16),
         child: Row(
           children: [
-            _Thumb(url: d.imageUrl),
+            _Thumb(url: imageUrl),
             const SizedBox(width: 12),
             Expanded(
               child: Column(
