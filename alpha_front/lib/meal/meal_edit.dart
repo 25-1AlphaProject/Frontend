@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:alpha_front/services/api_service.dart';
 import 'package:alpha_front/widgets/base_app_bar.dart';
 import 'package:alpha_front/layout.dart';
-import 'package:intl/intl.dart';          // 날짜 포맷(yyyy-MM-dd, M.d(EEE))용
+import 'package:intl/intl.dart'; // 날짜 포맷(yyyy-MM-dd, M.d(EEE))용
 
 /// MEAL EDIT SCREEN – 아침/점심/저녁 식단 편집
 /// --------------------------------------------------------------
@@ -60,8 +60,7 @@ class _MealEditState extends State<MealEdit> {
     // ⬇︎ HomeScreen 에서 이미 만든 리스트 그대로 카드화
     _breakfast =
         widget.recommendBreakfastList.map(MealCardData.fromRecommend).toList();
-    _lunch =
-        widget.recommendLunchList.map(MealCardData.fromRecommend).toList();
+    _lunch = widget.recommendLunchList.map(MealCardData.fromRecommend).toList();
     _dinner =
         widget.recommendDinnerList.map(MealCardData.fromRecommend).toList();
 
@@ -77,6 +76,7 @@ class _MealEditState extends State<MealEdit> {
       debugPrint('fetchkcalData 실패: $e');
     }
   }
+
   //------------------------------------------------------------------
   // SAVE -------------------------------------------------------------
   //------------------------------------------------------------------
@@ -134,11 +134,13 @@ class _MealEditState extends State<MealEdit> {
       // appBar: BaseAppBar(title: '식단 편집', appBar: AppBar()),
       body: Column(
         children: [
-          _MealTabs(current: _idx, onTap: (i) {
-            _pageController.animateToPage(i,
-                duration: const Duration(milliseconds: 240),
-                curve: Curves.easeOut);
-          }),
+          _MealTabs(
+              current: _idx,
+              onTap: (i) {
+                _pageController.animateToPage(i,
+                    duration: const Duration(milliseconds: 240),
+                    curve: Curves.easeOut);
+              }),
           Expanded(
             child: PageView(
               controller: _pageController,
@@ -194,8 +196,7 @@ class _MealTabs extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 4),
               child: OutlinedButton(
                 style: OutlinedButton.styleFrom(
-                  backgroundColor:
-                      sel ? const Color(0xff3CB196) : Colors.white,
+                  backgroundColor: sel ? const Color(0xff3CB196) : Colors.white,
                   side: const BorderSide(color: Color(0xff3CB196)),
                 ),
                 onPressed: () => onTap(i),
@@ -203,8 +204,7 @@ class _MealTabs extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: 'Pretendard-regular',
                       fontSize: 16,
-                      color:
-                          sel ? Colors.white : const Color(0xff3CB196),
+                      color: sel ? Colors.white : const Color(0xff3CB196),
                     )),
               ),
             ),
@@ -278,7 +278,7 @@ class MealCardData {
     required this.baseKcal,
   });
 
-    factory MealCardData.fromDayData(Map<String, dynamic> j) => MealCardData(
+  factory MealCardData.fromDayData(Map<String, dynamic> j) => MealCardData(
         name: j['name'] ?? '',
         amountStr: (j['amount'] ?? '1').toString(),
         baseKcal: (j['calories'] as num?)?.toDouble() ?? 0,
@@ -293,7 +293,8 @@ class MealCardData {
       baseKcal * (int.tryParse(amountStr.isEmpty ? '1' : amountStr) ?? 1);
 
   // 이미지 경로 보정 (CORS-safe CDN prefix)
-  static const String _cdnBase = 'https://cdn.example.com/'; // TODO: 실제 CDN 도메인으로 교체
+  static const String _cdnBase =
+      'https://cdn.example.com/'; // TODO: 실제 CDN 도메인으로 교체
   static String? _resolveImage(String? raw) {
     if (raw == null || raw.isEmpty) return null;
     if (raw.startsWith('http')) return raw;
@@ -340,9 +341,7 @@ class _MealCardState extends State<MealCard> {
     _nameCtrl = TextEditingController(text: widget.data.name);
     _amountCtrl = TextEditingController(text: widget.data.amountStr);
     _kcalCtrl = TextEditingController(
-        text: widget.data.baseKcal == 0
-            ? ''
-            : widget.data.baseKcal.toString());
+        text: widget.data.baseKcal == 0 ? '' : widget.data.baseKcal.toString());
   }
 
   @override

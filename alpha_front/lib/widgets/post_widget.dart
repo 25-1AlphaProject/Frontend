@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:alpha_front/services/api_service.dart';
 
 class PostIngredient extends StatefulWidget {
   final VoidCallback? onEdit;
@@ -27,6 +28,25 @@ class PostIngredient extends StatefulWidget {
 }
 
 class _PostIngredientState extends State<PostIngredient> {
+  String imageUrl = '';
+
+  @override
+  void initState() {
+    super.initState();
+    loadImage(widget.postURLs);
+  }
+
+  Future<void> loadImage(String imagePath) async {
+    try {
+      final result = await ApiService.getImage(imagePath);
+      setState(() {
+        imageUrl = result;
+      });
+    } catch (e) {
+      debugPrint('이미지 불러오기 실패: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -153,10 +173,8 @@ class _PostIngredientState extends State<PostIngredient> {
                 const SizedBox(
                   width: 30,
                 ),
-                Image(
-                  image: AssetImage(
-                    widget.postURLs,
-                  ),
+                SizedBox(
+                  child: Image.asset(imageUrl),
                 ),
               ],
             ),
