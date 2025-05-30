@@ -46,6 +46,11 @@ class _PostCreatePageState extends State<PostCreatePage> {
               controller: titleController,
               decoration: const InputDecoration(
                 hintText: '글 제목을 입력하세요',
+                hintStyle: TextStyle(
+                  fontFamily: 'Pretendard-regular',
+                  fontSize: 20,
+                  color: Colors.grey,
+                ),
                 border: InputBorder.none,
               ),
             ),
@@ -57,18 +62,23 @@ class _PostCreatePageState extends State<PostCreatePage> {
                 expands: true,
                 decoration: const InputDecoration(
                   hintText: '내용을 입력하세요',
+                  hintStyle: TextStyle(
+                    fontFamily: 'Pretendard-regular',
+                    fontSize: 16,
+                    color: Colors.grey,
+                  ),
                   border: InputBorder.none,
                 ),
               ),
             ),
             const Divider(),
             const SizedBox(height: 8),
-            const Text(
-              '소분류 해시태그',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            // const Text(
+            //   '소분류 해시태그',
+            //   style: TextStyle(
+            //     fontWeight: FontWeight.bold,
+            //   ),
+            // ),
             const SizedBox(height: 12),
             IconButton(
               icon: const Icon(Icons.upload_rounded, color: Colors.teal),
