@@ -1,3 +1,4 @@
+import 'package:alpha_front/services/api_service.dart';
 import 'package:flutter/material.dart';
 
 class FoodIngredient extends StatefulWidget {
@@ -46,7 +47,10 @@ class _FoodIngredientState extends State<FoodIngredient> {
                 width: 30,
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  // String url = await ApiService.linksIngredient(receipeid);
+                  // Navigator.push();
+                },
                 style: TextButton.styleFrom(
                   side: const BorderSide(color: Color(0xFF1ABC9C)),
                   foregroundColor: const Color(0xFF1ABC9C),
