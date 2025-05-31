@@ -39,7 +39,7 @@ double goalCalories = 2000;
 List<Widget> dietWidgetList = [
   const DietManagementWidget(
     cardname: "아침",
-    kcal: 0, // 데이터 업데이트
+    kcal: 0,
   ),
   const DietManagementWidget(
     cardname: "점심",
@@ -86,14 +86,12 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     }
   }
 
-  void categorizeReals(List<dynamic> dateKcal) {
+  void categorizeReals(List<dynamic> dateKcalList) {
     realEatBreakfastList.clear();
     realEatLunchList.clear();
     realEatDinnerList.clear();
 
-    // List<dynamic> meals = dateKcal['message'];
-
-    for (var meal in dateKcal) {
+    for (var meal in dateKcalList) {
       switch (meal['mealType']) {
         case 'BREAKFAST':
           realEatBreakfastList.add(meal);
@@ -108,8 +106,10 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     }
   }
 
+  late int total;
+
   int getTotalCalories(List<Map<String, dynamic>> mealList) {
-    int total = 0;
+    total = 0;
     for (var meal in mealList) {
       total += (meal['calories'] as num).toInt(); // 'calories'가 숫자임을 가정
     }
@@ -145,6 +145,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
         createdMeal = result;
         categorizeMeals(createdMeal);
       });
+      await getGoalCalories();
     } else {
       categorizeMeals(createdMeal); // 생성된 식단 아침,점심, 저녁 별 구분 저장
       categorizeReals(dateKcal); // 실제 먹은 식단 아침, 점심, 저녁 별 칼로리 구분 저장
@@ -156,7 +157,6 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
         DietManagementWidget(
             cardname: "저녁", kcal: getTotalCalories(realEatDinnerList)),
       ];
-
       total = getTotalCalories(realEatBreakfastList) +
           getTotalCalories(realEatLunchList) +
           getTotalCalories(realEatDinnerList);
@@ -197,7 +197,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
         DietManagementWidget(
             cardname: "저녁", kcal: getTotalCalories(realEatDinnerList)),
       ];
-      int total = getTotalCalories(realEatBreakfastList) +
+      total = getTotalCalories(realEatBreakfastList) +
           getTotalCalories(realEatLunchList) +
           getTotalCalories(realEatDinnerList);
       print(total);
@@ -214,17 +214,6 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
 
     setState(() {}); // UI 갱신
   }
-
-  // void onEditClicked() {
-  //   print("수정 아이콘 클릭됨");
-  //   //page 이동
-  //   Navigator.push(
-  //       context, MaterialPageRoute(builder: (context) => const MealEdit()));
-  // }
-
-  // void _onDragUpdate(Offset position) {
-  //   print("드래그 동작함");
-  // }
 
   void _onKcalWidgetTap() {
     print("KcalWidget이 클릭됨");
@@ -246,16 +235,18 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
         child: Center(
           child: Stack(
             children: [
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  height: 658,
-                  width: double.infinity,
-                  decoration: const BoxDecoration(
-                    color: Color.fromRGBO(60, 177, 150, 0.08),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15),
+              IgnorePointer(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    height: 658,
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                      color: Color.fromRGBO(60, 177, 150, 0.08),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(15),
+                        topRight: Radius.circular(15),
+                      ),
                     ),
                   ),
                 ),
@@ -267,7 +258,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                   // const Weekcal(),
                   const SizedBox(height: 78),
                   GradientElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       _onKcalWidgetTap();
                     },
                     style: GradientElevatedButton.styleFrom(
@@ -305,8 +296,8 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                             //     DateFormat('M.d(EEE)', 'ko').format(pageDate);
                             // getDataDate =
                             //     DateFormat('yyyy-MM-dd').format(pageDate);
-                            updateData(pageDate);
                           });
+                          updateData(pageDate);
                           // dateKcal =
                           //     await ApiService.fetchkcalData(getDataDate);
                         },
@@ -329,8 +320,8 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                           // 현재 페이지 정보 다음 날 날짜 정보 get 해오고 home.dart 정보 reload
                           setState(() {
                             pageDate = pageDate.add(const Duration(days: 1));
-                            updateData(pageDate);
                           });
+                          updateData(pageDate);
                         },
                         icon: const Icon(Icons.arrow_right),
                         iconSize: 60,
