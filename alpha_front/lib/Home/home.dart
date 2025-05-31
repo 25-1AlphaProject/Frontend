@@ -122,11 +122,13 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     return total;
   }
 
+  double goalCalories = 2000;
+
   Future<void> getGoalCalories() async {
     final userData = await ApiService.getUserDietInfo();
     if (userData != null) {
       setState(() {
-        double goalCalories = userData['targetCalories'];
+        goalCalories = userData['targetCalories'];
         print(goalCalories);
       });
     }
