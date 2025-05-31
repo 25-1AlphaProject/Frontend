@@ -22,6 +22,7 @@ class MealEdit extends StatefulWidget {
   final List<Map<String, dynamic>> recommendBreakfastList;
   final List<Map<String, dynamic>> recommendLunchList;
   final List<Map<String, dynamic>> recommendDinnerList;
+  final Map<String, dynamic>? fetchedRealEatData;
 
   // (선택) 실제 섭취 kcal 등을 불러오고 싶다면 날짜를 넘겨받자
   final String mealDate;
@@ -33,6 +34,7 @@ class MealEdit extends StatefulWidget {
     required this.recommendLunchList,
     required this.recommendDinnerList,
     required this.mealDate,
+    this.fetchedRealEatData,
   });
 
   @override
@@ -49,7 +51,7 @@ class _MealEditState extends State<MealEdit> {
   late final List<MealCardData> _dinner;
 
   // (옵션) 실제 섭취 kcal 정보만 필요하면 여기서 GET
-  Map<String, dynamic>? _dateKcal;
+Map<String, List<Map<String, dynamic>>> _dateKcal = {};
 
   @override
   void initState() {
@@ -57,25 +59,79 @@ class _MealEditState extends State<MealEdit> {
     _idx = widget.initialIndex - 1;
     _pageController = PageController(initialPage: _idx);
 
+
     // ⬇︎ HomeScreen 에서 이미 만든 리스트 그대로 카드화
     _breakfast =
         widget.recommendBreakfastList.map(MealCardData.fromRecommend).toList();
     _lunch = widget.recommendLunchList.map(MealCardData.fromRecommend).toList();
     _dinner =
         widget.recommendDinnerList.map(MealCardData.fromRecommend).toList();
+      _appendFetchedRealEatData(widget.fetchedRealEatData ?? {});
+      setState(() {}); 
 
-    // ⬇︎ “실제 섭취 kcal” 만 필요하다면 가볍게 한 번만 GET
-    _loadRealEatKcal();
+    // // ⬇︎ “실제 섭취 kcal” 만 필요하다면 가볍게 한 번만 GET
+    // _loadRealEatKcal();
   }
 
   Future<void> _loadRealEatKcal() async {
-    try {
-      _dateKcal = await ApiService.fetchkcalData(widget.mealDate);
-      // 필요하다면 _breakfast 등에 반영 가능
-    } catch (e) {
-      debugPrint('fetchkcalData 실패: $e');
+  try {
+    List<dynamic> rawData = await ApiService.fetchkcalData(widget.mealDate);
+
+    final Map<String, List<Map<String, dynamic>>> kcalData = {};
+
+    for (final meal in rawData) {
+      if (meal is! Map<String, dynamic>) continue;
+
+      final mealType = meal['mealType'] as String?;
+      if (mealType == null) continue;
+
+      kcalData.putIfAbsent(mealType, () => []);
+      kcalData[mealType]!.add(meal);
     }
+
+    setState(() {
+      _dateKcal = kcalData;
+    });
+  } catch (e) {
+    debugPrint('fetchkcalData 실패: $e');
   }
+}
+
+void _appendFetchedRealEatData(Map<String, dynamic> fetchedRealEatData) {
+  if (fetchedRealEatData.isEmpty) return;
+
+  fetchedRealEatData.forEach((key, value) {
+    final mealType = key.toUpperCase();
+    final List<dynamic> meals = value;
+
+    for (final meal in meals) {
+      final mealData = MealCardData(
+        name: meal['mealName'] ?? '', // 수정
+        baseKcal: (meal['calories'] ?? 0).toDouble(), // 수정
+        amountStr: (meal['amount'] ?? '1').toString(), // 실제 데이터에 없으면 '1'
+        imageUrl: meal['mealPhoto'] ?? null, // 수정
+        isPosting: true,
+        isEditing: false,
+        isChecked: true,
+        fromRecommend: false,
+          );
+      switch (mealType) {
+        case 'BREAKFAST':
+          _breakfast.add(mealData);
+          break;
+        case 'LUNCH':
+          _lunch.add(mealData);
+          break;
+        case 'DINNER':
+          _dinner.add(mealData);
+          break;
+        default:
+          break;
+      }
+    }
+  });
+}
+
 
   //------------------------------------------------------------------
   // SAVE -------------------------------------------------------------
@@ -265,6 +321,7 @@ class MealCardData {
   bool fromRecommend;
   int? recipeId;
   String? imageUrl;
+  bool isChecked;
 
   String name;
   String amountStr;
@@ -276,6 +333,7 @@ class MealCardData {
     this.fromRecommend = false,
     this.recipeId,
     this.imageUrl,
+    this.isChecked = false,
     required this.name,
     required this.amountStr,
     required this.baseKcal,
@@ -286,7 +344,6 @@ class MealCardData {
         amountStr: (j['amount'] ?? '1').toString(),
         baseKcal: (j['calories'] as num?)?.toDouble() ?? 0,
         imageUrl: _resolveImage(j['imageUrl'] as String?),
-        // 이미 저장된 식단이므로 기본값은 '저장됨·POST 안 함'
         isEditing: false,
         isPosting: false,
       );
