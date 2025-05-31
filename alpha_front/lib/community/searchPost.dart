@@ -30,6 +30,7 @@ class _SearchPostState extends State<SearchPost> {
   void initState() {
     super.initState();
     _scrollController = ScrollController()..addListener(_onScroll);
+    _loadSortedPosts('recent');
   }
 
   @override
@@ -225,6 +226,7 @@ class _SearchPostState extends State<SearchPost> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    const SizedBox(height: 5),
                                     PostIngredient(
                                       postTitle: title,
                                       postDetail: detail,
@@ -234,6 +236,7 @@ class _SearchPostState extends State<SearchPost> {
                                       postDate: dateFormat,
                                       postURLs: image,
                                     ),
+                                    const SizedBox(height: 5),
                                   ],
                                 ),
                               );

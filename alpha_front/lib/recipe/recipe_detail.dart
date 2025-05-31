@@ -29,7 +29,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
   late List<String> ingredientAmount;
 
   String? imageUrl;
-  List<Map<String, dynamic>>? recipeIngredient;
+  late List<Map<String, String>> linkedIngredients;
 
   @override
   void initState() {
@@ -39,16 +39,15 @@ class _RecipeDetailState extends State<RecipeDetail> {
     recipeList = List<String>.from(widget.recipeData["recipeTexts"]);
     calories = widget.recipeData["calories"].toString();
     foodImage = widget.recipeData["foodImage"];
-    // ingredient = widget.recipeData["ingredient"];
+    linkedIngredients = [];
 
     String rawIngredient = widget.recipeData["ingredient"];
     rawIngredient = rawIngredient.replaceFirst('재료 ', '');
 
-// 줄바꿈, 쉼표 모두 공백으로 변환 후 공백 기준 분리
     List<String> tokens = rawIngredient
-        .replaceAll('\n', ' ')
-        .replaceAll(',', ' ')
-        .split(' ')
+        .replaceAll('\n', ',')
+        // .replaceAll(',', ',')
+        .split(',')
         .map((e) => e.trim())
         .where((e) => e.isNotEmpty)
         .toList();
@@ -63,24 +62,6 @@ class _RecipeDetailState extends State<RecipeDetail> {
         ingredientName.add(token);
       }
     }
-
-    // List<String> ingredientStrings =
-    //     rawIngredient.split(RegExp(r'[,\\n]+')).map((e) => e.trim()).toList();
-
-    // parsedIngredients = ingredientStrings.map((item) {
-    //   final match = RegExp(r'^(.*)\(([^)]+)\)$').firstMatch(item);
-    //   if (match != null) {
-    //     return {
-    //       'foodName': match.group(1)!.trim(),
-    //       'foodUnit': match.group(2)!.trim(),
-    //     };
-    //   } else {
-    //     return {
-    //       'foodName': item.trim(),
-    //       'foodUnit': '',
-    //     };
-    //   }
-    // }).toList();
 
     loadImage(foodImage);
     loadIngredient(id);
@@ -99,13 +80,23 @@ class _RecipeDetailState extends State<RecipeDetail> {
 
   Future<void> loadIngredient(int recipeId) async {
     try {
-      final result = await ApiService.getIngredient(recipeId);
+      final result = await ApiService.linksIngredient(recipeId);
+      final List<Map<String, String>> parsed = [];
+
+      if (result != null && result['message'] != null) {
+        for (var item in result['message']) {
+          parsed.add({
+            'ingredient': item['ingredient'],
+            'link': item['link'],
+          });
+        }
+      }
+
       setState(() {
-        recipeIngredient = result;
-        print(recipeIngredient);
+        linkedIngredients = parsed;
       });
     } catch (e) {
-      debugPrint('이미지 불러오기 실패: $e');
+      debugPrint('재료 링크 불러오기 실패: $e');
     }
   }
 
@@ -226,17 +217,27 @@ class _RecipeDetailState extends State<RecipeDetail> {
                           final amount = index < ingredientAmount.length
                               ? ingredientAmount[index]
                               : '';
+                          final link = linkedIngredients.firstWhere(
+                            (item) {
+                              final linkedName = item['ingredient'] ?? '';
+                              return linkedName.contains(name) ||
+                                  name.contains(linkedName);
+                            },
+                            orElse: () => {'link': ''},
+                          )['link'];
+
                           return FoodIngredient(
                             foodName: name,
                             foodUnit: amount,
+                            url: link ?? '',
                           );
                         }),
                       ),
                       Column(
                         children: recipeList.map((recipe) {
                           // 정규식으로 숫자 추출
-                          final match =
-                              RegExp(r'^(\d+)\.\s*(.*)').firstMatch(recipe);
+                          final match = RegExp(r'^(\d+)\.\s*(.*)', dotAll: true)
+                              .firstMatch(recipe);
                           final stepCount =
                               match != null ? int.parse(match.group(1)!) : 0;
                           final text = match != null ? match.group(2)! : recipe;

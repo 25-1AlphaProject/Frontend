@@ -173,13 +173,13 @@ class _PostIngredientState extends State<PostIngredient> {
                 const SizedBox(
                   width: 30,
                 ),
-                SizedBox(
-                  child: Image.asset(imageUrl),
-                ),
+                widget.postURLs != ""
+                    ? SizedBox(child: Image.asset(widget.postURLs))
+                    : const SizedBox.shrink(),
               ],
             ),
             const Divider(
-              height: 10,
+              height: 1,
               color: Color.fromRGBO(60, 177, 150, 1.0),
               thickness: 1,
             ),
