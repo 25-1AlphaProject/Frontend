@@ -1,13 +1,20 @@
 import 'package:alpha_front/services/api_service.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 
 class FoodIngredient extends StatefulWidget {
   final VoidCallback? onEdit;
   final String foodUnit;
   final String foodName;
+  late String url;
 
-  const FoodIngredient(
-      {super.key, this.onEdit, required this.foodName, required this.foodUnit});
+  FoodIngredient({
+    super.key,
+    this.onEdit,
+    required this.foodName,
+    required this.foodUnit,
+    required url,
+  });
 
   @override
   _FoodIngredientState createState() => _FoodIngredientState();
@@ -48,8 +55,7 @@ class _FoodIngredientState extends State<FoodIngredient> {
               ),
               TextButton(
                 onPressed: () {
-                  // String url = await ApiService.linksIngredient(receipeid);
-                  // Navigator.push();
+                  launchUrl(Uri.parse(widget.url));
                 },
                 style: TextButton.styleFrom(
                   side: const BorderSide(color: Color(0xFF1ABC9C)),

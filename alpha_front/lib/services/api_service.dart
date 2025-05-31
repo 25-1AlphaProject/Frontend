@@ -530,7 +530,7 @@ class ApiService {
   }
 
   //재료 링크 조회하기
-  static Future<bool> linksIngredient(String recipeId) async {
+  static Future<Map<String, dynamic>?> linksIngredient(int recipeId) async {
     try {
       final token = await AuthManager.getToken();
       final response = await http.get(
@@ -666,33 +666,6 @@ class ApiService {
       }
     } catch (e) {
       log("레시피 조회 에러: $e");
-      return null;
-    }
-  }
-
-  //재료 링크 조회하기
-  static Future<List<Map<String, dynamic>>?> getIngredient(int recipeId) async {
-    try {
-      final token = await AuthManager.getToken();
-
-      final response = await http.get(
-        Uri.parse('$_baseUrl/api/meal/igredient-links/$recipeId'),
-        headers: {
-          'Content-Type': 'application/json',
-          if (token != null) 'Authorization': 'Bearer $token',
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final decoded = jsonDecode(response.body);
-        log("재료 링크 조회 성공: ${response.body}");
-        return decoded;
-      } else {
-        log("재료 링크 조회 실패: ${response.statusCode} ${response.body}");
-        return null;
-      }
-    } catch (e) {
-      log("재료 링크 조회 에러: $e");
       return null;
     }
   }
