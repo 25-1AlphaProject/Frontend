@@ -396,29 +396,36 @@ class ApiService {
   }
 
   //해당 날짜 실제 먹은 식단 조회
-  static Future<Map<String, dynamic>> fetchkcalData(String date) async {
-    try {
-      final token = await AuthManager.getToken();
-      final response = await http.get(
-        Uri.parse('$_baseUrl/api/meal/real-eat/$date'),
-        headers: {
-          if (token != null) 'Authorization': 'Bearer $token',
-          'Content-Type': 'application/json',
-        },
-      );
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        log("실제로 먹은 음식: $data");
-        return data;
-      } else {
-        log("서버 응답 오류: ${response.statusCode}");
-        throw Exception("서버 응답 오류: ${response.statusCode}");
+static Future<List<dynamic>> fetchkcalData(String date) async {
+  try {
+    final token = await AuthManager.getToken();
+    final response = await http.get(
+      Uri.parse('$_baseUrl/api/meal/real-eat/$date'),
+      headers: {
+        if (token != null) 'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+    );
+    
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      log("실제로 먹은 음식: $data");
+
+      // 1. message 필드가 List인지 확인
+      if (data['message'] is! List) {
+        throw FormatException('Invalid response format: message is not a list');
       }
-    } catch (e) {
-      log("요청 실패: $e");
-      throw Exception("요청 실패: $e");
+
+      // 2. message 배열 반환
+      return data['message'] as List<dynamic>;
+    } else {
+      throw Exception('HTTP ${response.statusCode}');
     }
+  } catch (e) {
+    log("요청 실패: $e");
+    rethrow;
   }
+}
 
   //해당 날짜 생성된 식단 조회
   static Future<Map<String, dynamic>> mealDayData(String date) async {

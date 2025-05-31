@@ -120,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     getDataDate = DateFormat('yyyy-MM-dd').format(pageDate);
 
     createdMeal = await ApiService.mealDayData(getDataDate); //추천 식단
-    dateKcal = await ApiService.fetchkcalData(getDataDate); //실제 식단
+    List<dynamic> dateKcal = await ApiService.fetchkcalData(getDataDate); //실제 식단
 
     if (createdMeal['message'] is List && createdMeal['message'].isEmpty) {
       print("식단이 생성됨");
@@ -142,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     getDataDate = DateFormat('yyyy-MM-dd').format(pageDate);
 
     createdMeal = await ApiService.mealDayData(getDataDate); //추천 식단
-    dateKcal = await ApiService.fetchkcalData(getDataDate); //실제 식단
+    List<dynamic> dateKcal = await ApiService.fetchkcalData(getDataDate); //실제 식단
 
     if (createdMeal['message'] is List && createdMeal['message'].isEmpty) {
       // print("식단이 생성됨");
