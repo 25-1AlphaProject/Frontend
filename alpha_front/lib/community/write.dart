@@ -2,6 +2,8 @@ import 'package:alpha_front/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:alpha_front/services/api_service.dart';
 import 'package:alpha_front/widgets/base_app_bar.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:typed_data';
 
 class PostCreatePage extends StatefulWidget {
   const PostCreatePage({super.key});
@@ -13,6 +15,22 @@ class PostCreatePage extends StatefulWidget {
 class _PostCreatePageState extends State<PostCreatePage> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController contentController = TextEditingController();
+
+  List<Uint8List> _imageBytesList = [];
+  final picker = ImagePicker();
+
+  Future<void> getImages() async {
+    final List<XFile> images = await picker.pickMultiImage();
+    final List<Uint8List> bytesList = [];
+    for (final image in images) {
+      final bytes = await image.readAsBytes();
+      bytesList.add(bytes);
+    }
+
+    setState(() {
+      _imageBytesList = bytesList;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,10 +99,25 @@ class _PostCreatePageState extends State<PostCreatePage> {
             // ),
             const SizedBox(height: 12),
             IconButton(
-              icon: const Icon(Icons.upload_rounded, color: Colors.teal),
-              onPressed: () {
-                // 사진 업로드 기능
-              },
+              icon: const Icon(
+                Icons.upload_rounded,
+                color: Colors.teal,
+                size: 25,
+              ),
+              onPressed: getImages, //사진 업로드
+            ),
+            SizedBox(
+              height: 100,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: _imageBytesList.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Image.memory(_imageBytesList[index]),
+                  );
+                },
+              ),
             ),
           ],
         ),

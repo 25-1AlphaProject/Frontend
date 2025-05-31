@@ -281,6 +281,7 @@ class ApiService {
     }
   }
 
+  //실제 먹은 식단 추가하기[수기로 추가하는 경우]
   static Future<bool> foodinfo(
     String name,
     double foodCalories,
