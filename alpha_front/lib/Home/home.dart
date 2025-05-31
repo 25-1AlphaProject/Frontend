@@ -29,7 +29,7 @@ List<Map<String, dynamic>> recommendBreakfastList = [];
 List<Map<String, dynamic>> recommendLunchList = [];
 List<Map<String, dynamic>> recommendDinnerList = [];
 
-Map<String, dynamic> dateKcal = {}; // 한 번에 받아와서 리스트에 저장(아침,점심,저녁 당일 실제 먹은 식단)
+List<dynamic> dateKcal = []; // 한 번에 받아와서 리스트에 저장(아침,점심,저녁 당일 실제 먹은 식단)
 List<Map<String, dynamic>> realEatBreakfastList = [];
 List<Map<String, dynamic>> realEatLunchList = [];
 List<Map<String, dynamic>> realEatDinnerList = [];
@@ -37,7 +37,7 @@ List<Map<String, dynamic>> realEatDinnerList = [];
 List<Widget> dietWidgetList = [
   const DietManagementWidget(
     cardname: "아침",
-    kcal: 0, // 데이터 업데이트
+    kcal: 0,
   ),
   const DietManagementWidget(
     cardname: "점심",
@@ -84,14 +84,12 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     }
   }
 
-  void categorizeReals(Map<String, dynamic> dateKcal) {
+  void categorizeReals(List<dynamic> dateKcalList) {
     realEatBreakfastList.clear();
     realEatLunchList.clear();
     realEatDinnerList.clear();
 
-    List<dynamic> meals = dateKcal['message'];
-
-    for (var meal in meals) {
+    for (var meal in dateKcalList) {
       switch (meal['mealType']) {
         case 'BREAKFAST':
           realEatBreakfastList.add(meal);
@@ -120,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     getDataDate = DateFormat('yyyy-MM-dd').format(pageDate);
 
     createdMeal = await ApiService.mealDayData(getDataDate); //추천 식단
-    List<dynamic> dateKcal = await ApiService.fetchkcalData(getDataDate); //실제 식단
+    dateKcal = await ApiService.fetchkcalData(getDataDate); //실제 식단
 
     if (createdMeal['message'] is List && createdMeal['message'].isEmpty) {
       print("식단이 생성됨");
@@ -131,7 +129,15 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
       });
     } else {
       categorizeMeals(createdMeal); // 생성된 식단 아침,점심, 저녁 별 구분 저장
-      categorizeReals(createdMeal); // 실제 먹은 식단 아침, 점심, 저녁 별 칼로리 구분 저장
+      categorizeReals(dateKcal); // 실제 먹은 식단 아침, 점심, 저녁 별 칼로리 구분 저장
+      dietWidgetList = [
+        DietManagementWidget(
+            cardname: "아침", kcal: getTotalCalories(realEatBreakfastList)),
+        DietManagementWidget(
+            cardname: "점심", kcal: getTotalCalories(realEatLunchList)),
+        DietManagementWidget(
+            cardname: "저녁", kcal: getTotalCalories(realEatDinnerList)),
+      ];
     }
 
     setState(() {}); // UI 갱신
@@ -142,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     getDataDate = DateFormat('yyyy-MM-dd').format(pageDate);
 
     createdMeal = await ApiService.mealDayData(getDataDate); //추천 식단
-    List<dynamic> dateKcal = await ApiService.fetchkcalData(getDataDate); //실제 식단
+    dateKcal = await ApiService.fetchkcalData(getDataDate); //실제 식단
 
     if (createdMeal['message'] is List && createdMeal['message'].isEmpty) {
       // print("식단이 생성됨");
@@ -151,6 +157,15 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
       initializeData();
     } else {
       categorizeMeals(createdMeal); // 생성된 식단 아침,점심, 저녁 별 구분 저장
+      categorizeReals(dateKcal); // 실제 먹은 식단 아침, 점심, 저녁 별 칼로리 구분 저장
+      dietWidgetList = [
+        DietManagementWidget(
+            cardname: "아침", kcal: getTotalCalories(realEatBreakfastList)),
+        DietManagementWidget(
+            cardname: "점심", kcal: getTotalCalories(realEatLunchList)),
+        DietManagementWidget(
+            cardname: "저녁", kcal: getTotalCalories(realEatDinnerList)),
+      ];
     }
 
     setState(() {}); // UI 갱신
