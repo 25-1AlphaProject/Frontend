@@ -112,6 +112,26 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     return total;
   }
 
+  // int totalCalories = breakfastCalories + lunchCalories + dinnerCalories;
+
+  int getTotalDayCalories() {
+    int total = getTotalCalories(realEatBreakfastList) +
+        getTotalCalories(realEatLunchList) +
+        getTotalCalories(realEatDinnerList);
+    print(total);
+    return total;
+  }
+
+  Future<void> getGoalCalories() async {
+    final userData = await ApiService.getUserDietInfo();
+    if (userData != null) {
+      setState(() {
+        double goalCalories = userData['targetCalories'];
+        print(goalCalories);
+      });
+    }
+  }
+
   Future<void> initializeData() async {
     pageDate = DateTime.now();
     nowDate = DateFormat('M.d(EEE)', 'ko').format(pageDate);
@@ -127,6 +147,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
         createdMeal = result;
         categorizeMeals(createdMeal);
       });
+      await getGoalCalories();
     } else {
       categorizeMeals(createdMeal); // 생성된 식단 아침,점심, 저녁 별 구분 저장
       categorizeReals(dateKcal); // 실제 먹은 식단 아침, 점심, 저녁 별 칼로리 구분 저장
@@ -138,6 +159,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
         DietManagementWidget(
             cardname: "저녁", kcal: getTotalCalories(realEatDinnerList)),
       ];
+      await getGoalCalories();
     }
 
     setState(() {}); // UI 갱신
@@ -166,6 +188,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
         DietManagementWidget(
             cardname: "저녁", kcal: getTotalCalories(realEatDinnerList)),
       ];
+      await getGoalCalories();
     }
 
     setState(() {}); // UI 갱신
@@ -223,7 +246,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                   // const Weekcal(),
                   const SizedBox(height: 78),
                   GradientElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       _onKcalWidgetTap();
                     },
                     style: GradientElevatedButton.styleFrom(
@@ -242,7 +265,10 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                       // backgroundColor: const Color.fromRGBO(60, 177, 150, 0.8),
                       foregroundColor: Colors.white,
                     ),
-                    child: const KcalWidget(),
+                    child: KcalWidget(
+                      realCalories: getTotalDayCalories(),
+                      goalCalories: goalCalories,
+                    ),
                   ),
                   const SizedBox(height: 38),
                   Row(
@@ -258,8 +284,8 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                             //     DateFormat('M.d(EEE)', 'ko').format(pageDate);
                             // getDataDate =
                             //     DateFormat('yyyy-MM-dd').format(pageDate);
-                            updateData(pageDate);
                           });
+                          updateData(pageDate);
                           // dateKcal =
                           //     await ApiService.fetchkcalData(getDataDate);
                         },
@@ -282,8 +308,8 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                           // 현재 페이지 정보 다음 날 날짜 정보 get 해오고 home.dart 정보 reload
                           setState(() {
                             pageDate = pageDate.add(const Duration(days: 1));
-                            updateData(pageDate);
                           });
+                          updateData(pageDate);
                         },
                         icon: const Icon(Icons.arrow_right),
                         iconSize: 60,

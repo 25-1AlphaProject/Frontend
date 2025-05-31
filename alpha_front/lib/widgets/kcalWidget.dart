@@ -1,17 +1,32 @@
+// import 'dart:nativewrappers/_internal/vm/lib/ffi_native_type_patch.dart';
 import 'package:flutter/material.dart';
+// import 'package:alpha_front/services/api_service.dart';
 
 class KcalWidget extends StatefulWidget {
   // final VoidCallback? onTap;
+  final int realCalories;
+  final double goalCalories;
 
-  const KcalWidget({super.key});
+  const KcalWidget({
+    super.key,
+    required this.realCalories,
+    required this.goalCalories,
+  });
 
   @override
   _KcalWidgetState createState() => _KcalWidgetState();
 }
 
 class _KcalWidgetState extends State<KcalWidget> {
-  double intakeCalories = 1207; // 서버에서 받아올 값
-  double goalCalories = 2000; // 목표 칼로리
+  late int intakeCalories;
+  late double goalCalories;
+
+  @override
+  void initState() {
+    super.initState();
+    intakeCalories = widget.realCalories; // 이제 접근 가능
+    goalCalories = widget.goalCalories;
+  }
 
   @override
   Widget build(BuildContext context) {
