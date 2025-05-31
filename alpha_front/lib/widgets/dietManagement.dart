@@ -46,6 +46,11 @@ class _DietManagementWidgetState extends State<DietManagementWidget> {
     }
 
     return GestureDetector(
+        onTap: () {
+          if (widget.onEdit != null) {
+            widget.onEdit!(); // onEdit 콜백 호출 (예: ReportMain에서 kcal 업데이트)
+          }
+        },
       child: Container(
         width: 326,
         height: 300,

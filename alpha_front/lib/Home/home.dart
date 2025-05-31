@@ -29,7 +29,7 @@ List<Map<String, dynamic>> recommendBreakfastList = [];
 List<Map<String, dynamic>> recommendLunchList = [];
 List<Map<String, dynamic>> recommendDinnerList = [];
 
-List<dynamic> dateKcal = []; // 한 번에 받아와서 리스트에 저장(아침,점심,저녁 당일 실제 먹은 식단)
+Map<String, dynamic> dateKcal = {}; // 한 번에 받아와서 리스트에 저장(아침,점심,저녁 당일 실제 먹은 식단)
 List<Map<String, dynamic>> realEatBreakfastList = [];
 List<Map<String, dynamic>> realEatLunchList = [];
 List<Map<String, dynamic>> realEatDinnerList = [];
@@ -37,7 +37,7 @@ List<Map<String, dynamic>> realEatDinnerList = [];
 List<Widget> dietWidgetList = [
   const DietManagementWidget(
     cardname: "아침",
-    kcal: 0,
+    kcal: 0, // 데이터 업데이트
   ),
   const DietManagementWidget(
     cardname: "점심",
@@ -84,12 +84,14 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     }
   }
 
-  void categorizeReals(List<dynamic> dateKcalList) {
+  void categorizeReals(Map<String, dynamic> dateKcal) {
     realEatBreakfastList.clear();
     realEatLunchList.clear();
     realEatDinnerList.clear();
 
-    for (var meal in dateKcalList) {
+    List<dynamic> meals = dateKcal['message'];
+
+    for (var meal in meals) {
       switch (meal['mealType']) {
         case 'BREAKFAST':
           realEatBreakfastList.add(meal);
@@ -112,35 +114,13 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     return total;
   }
 
-  // int totalCalories = breakfastCalories + lunchCalories + dinnerCalories;
-
-  int getTotalDayCalories() {
-    int total = getTotalCalories(realEatBreakfastList) +
-        getTotalCalories(realEatLunchList) +
-        getTotalCalories(realEatDinnerList);
-    print(total);
-    return total;
-  }
-
-  double goalCalories = 2000;
-
-  Future<void> getGoalCalories() async {
-    final userData = await ApiService.getUserDietInfo();
-    if (userData != null) {
-      setState(() {
-        goalCalories = userData['targetCalories'];
-        print(goalCalories);
-      });
-    }
-  }
-
   Future<void> initializeData() async {
     pageDate = DateTime.now();
     nowDate = DateFormat('M.d(EEE)', 'ko').format(pageDate);
     getDataDate = DateFormat('yyyy-MM-dd').format(pageDate);
 
     createdMeal = await ApiService.mealDayData(getDataDate); //추천 식단
-    dateKcal = await ApiService.fetchkcalData(getDataDate); //실제 식단
+    List<dynamic> dateKcal = await ApiService.fetchkcalData(getDataDate); //실제 식단
 
     if (createdMeal['message'] is List && createdMeal['message'].isEmpty) {
       print("식단이 생성됨");
@@ -149,19 +129,9 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
         createdMeal = result;
         categorizeMeals(createdMeal);
       });
-      await getGoalCalories();
     } else {
       categorizeMeals(createdMeal); // 생성된 식단 아침,점심, 저녁 별 구분 저장
-      categorizeReals(dateKcal); // 실제 먹은 식단 아침, 점심, 저녁 별 칼로리 구분 저장
-      dietWidgetList = [
-        DietManagementWidget(
-            cardname: "아침", kcal: getTotalCalories(realEatBreakfastList)),
-        DietManagementWidget(
-            cardname: "점심", kcal: getTotalCalories(realEatLunchList)),
-        DietManagementWidget(
-            cardname: "저녁", kcal: getTotalCalories(realEatDinnerList)),
-      ];
-      await getGoalCalories();
+      categorizeReals(createdMeal); // 실제 먹은 식단 아침, 점심, 저녁 별 칼로리 구분 저장
     }
 
     setState(() {}); // UI 갱신
@@ -172,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     getDataDate = DateFormat('yyyy-MM-dd').format(pageDate);
 
     createdMeal = await ApiService.mealDayData(getDataDate); //추천 식단
-    dateKcal = await ApiService.fetchkcalData(getDataDate); //실제 식단
+    List<dynamic> dateKcal = await ApiService.fetchkcalData(getDataDate); //실제 식단
 
     if (createdMeal['message'] is List && createdMeal['message'].isEmpty) {
       // print("식단이 생성됨");
@@ -181,16 +151,6 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
       initializeData();
     } else {
       categorizeMeals(createdMeal); // 생성된 식단 아침,점심, 저녁 별 구분 저장
-      categorizeReals(dateKcal); // 실제 먹은 식단 아침, 점심, 저녁 별 칼로리 구분 저장
-      dietWidgetList = [
-        DietManagementWidget(
-            cardname: "아침", kcal: getTotalCalories(realEatBreakfastList)),
-        DietManagementWidget(
-            cardname: "점심", kcal: getTotalCalories(realEatLunchList)),
-        DietManagementWidget(
-            cardname: "저녁", kcal: getTotalCalories(realEatDinnerList)),
-      ];
-      await getGoalCalories();
     }
 
     setState(() {}); // UI 갱신
@@ -248,7 +208,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                   // const Weekcal(),
                   const SizedBox(height: 78),
                   GradientElevatedButton(
-                    onPressed: () async {
+                    onPressed: () {
                       _onKcalWidgetTap();
                     },
                     style: GradientElevatedButton.styleFrom(
@@ -268,8 +228,10 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                       foregroundColor: Colors.white,
                     ),
                     child: KcalWidget(
-                      realCalories: getTotalDayCalories(),
-                      goalCalories: goalCalories,
+                      realCalories: getTotalCalories(realEatBreakfastList) +
+                          getTotalCalories(realEatLunchList) +
+                          getTotalCalories(realEatDinnerList),
+                      goalCalories: 2000, // Replace 2000 with your actual goal if needed
                     ),
                   ),
                   const SizedBox(height: 38),
@@ -286,8 +248,8 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                             //     DateFormat('M.d(EEE)', 'ko').format(pageDate);
                             // getDataDate =
                             //     DateFormat('yyyy-MM-dd').format(pageDate);
+                            updateData(pageDate);
                           });
-                          updateData(pageDate);
                           // dateKcal =
                           //     await ApiService.fetchkcalData(getDataDate);
                         },
@@ -310,8 +272,8 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                           // 현재 페이지 정보 다음 날 날짜 정보 get 해오고 home.dart 정보 reload
                           setState(() {
                             pageDate = pageDate.add(const Duration(days: 1));
+                            updateData(pageDate);
                           });
-                          updateData(pageDate);
                         },
                         icon: const Icon(Icons.arrow_right),
                         iconSize: 60,
