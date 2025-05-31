@@ -33,6 +33,8 @@ List<dynamic> dateKcal = []; // 한 번에 받아와서 리스트에 저장(아�
 List<Map<String, dynamic>> realEatBreakfastList = [];
 List<Map<String, dynamic>> realEatLunchList = [];
 List<Map<String, dynamic>> realEatDinnerList = [];
+int total = 0;
+double goalCalories = 2000;
 
 List<Widget> dietWidgetList = [
   const DietManagementWidget(
@@ -114,25 +116,17 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
 
   // int totalCalories = breakfastCalories + lunchCalories + dinnerCalories;
 
-  int getTotalDayCalories() {
-    int total = getTotalCalories(realEatBreakfastList) +
-        getTotalCalories(realEatLunchList) +
-        getTotalCalories(realEatDinnerList);
-    print(total);
-    return total;
-  }
+  // int getTotalDayCalories() {
+  //   int total = getTotalCalories(realEatBreakfastList) +
+  //       getTotalCalories(realEatLunchList) +
+  //       getTotalCalories(realEatDinnerList);
+  //   print(total);
+  //   return total;
+  // }
 
   double goalCalories = 2000;
 
-  Future<void> getGoalCalories() async {
-    final userData = await ApiService.getUserDietInfo();
-    if (userData != null) {
-      setState(() {
-        goalCalories = userData['targetCalories'];
-        print(goalCalories);
-      });
-    }
-  }
+  Future<void> getGoalCalories() async {}
 
   Future<void> initializeData() async {
     pageDate = DateTime.now();
@@ -161,7 +155,19 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
         DietManagementWidget(
             cardname: "저녁", kcal: getTotalCalories(realEatDinnerList)),
       ];
-      await getGoalCalories();
+
+      total = getTotalCalories(realEatBreakfastList) +
+          getTotalCalories(realEatLunchList) +
+          getTotalCalories(realEatDinnerList);
+
+      final userData = await ApiService.getUserDietInfo();
+      if (userData != null) {
+        setState(() {
+          goalCalories = userData['targetCalories'];
+          print(goalCalories);
+        });
+      }
+      // await getGoalCalories();
     }
 
     setState(() {}); // UI 갱신
@@ -190,7 +196,19 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
         DietManagementWidget(
             cardname: "저녁", kcal: getTotalCalories(realEatDinnerList)),
       ];
-      await getGoalCalories();
+      int total = getTotalCalories(realEatBreakfastList) +
+          getTotalCalories(realEatLunchList) +
+          getTotalCalories(realEatDinnerList);
+      print(total);
+
+      final userData = await ApiService.getUserDietInfo();
+      if (userData != null) {
+        setState(() {
+          goalCalories = userData['targetCalories'];
+          print(goalCalories);
+        });
+      }
+      // await getGoalCalories();
     }
 
     setState(() {}); // UI 갱신
@@ -268,7 +286,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                       foregroundColor: Colors.white,
                     ),
                     child: KcalWidget(
-                      realCalories: getTotalDayCalories(),
+                      realCalories: total,
                       goalCalories: goalCalories,
                     ),
                   ),
