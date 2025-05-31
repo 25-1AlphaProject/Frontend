@@ -236,8 +236,8 @@ class _RecipeDetailState extends State<RecipeDetail> {
                       Column(
                         children: recipeList.map((recipe) {
                           // 정규식으로 숫자 추출
-                          final match =
-                              RegExp(r'^(\d+)\.\s*(.*)').firstMatch(recipe);
+                          final match = RegExp(r'^(\d+)\.\s*(.*)', dotAll: true)
+                              .firstMatch(recipe);
                           final stepCount =
                               match != null ? int.parse(match.group(1)!) : 0;
                           final text = match != null ? match.group(2)! : recipe;

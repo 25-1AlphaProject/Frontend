@@ -6,14 +6,14 @@ class FoodIngredient extends StatefulWidget {
   final VoidCallback? onEdit;
   final String foodUnit;
   final String foodName;
-  late String url;
+  final String url;
 
-  FoodIngredient({
+  const FoodIngredient({
     super.key,
     this.onEdit,
     required this.foodName,
     required this.foodUnit,
-    required url,
+    required this.url,
   });
 
   @override
@@ -55,6 +55,7 @@ class _FoodIngredientState extends State<FoodIngredient> {
               ),
               TextButton(
                 onPressed: () {
+                  print(widget.url);
                   launchUrl(Uri.parse(widget.url));
                 },
                 style: TextButton.styleFrom(

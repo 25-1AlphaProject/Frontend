@@ -173,9 +173,9 @@ class _PostIngredientState extends State<PostIngredient> {
                 const SizedBox(
                   width: 30,
                 ),
-                SizedBox(
-                  child: Image.asset(imageUrl),
-                ),
+                widget.postURLs != null
+                    ? SizedBox(child: Image.asset(widget.postURLs))
+                    : const SizedBox.shrink(),
               ],
             ),
             const Divider(

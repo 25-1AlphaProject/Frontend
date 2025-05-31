@@ -30,6 +30,7 @@ class _SearchPostState extends State<SearchPost> {
   void initState() {
     super.initState();
     _scrollController = ScrollController()..addListener(_onScroll);
+    _loadSortedPosts('recent');
   }
 
   @override
