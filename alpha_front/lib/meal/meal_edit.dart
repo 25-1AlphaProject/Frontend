@@ -98,39 +98,59 @@ Map<String, List<Map<String, dynamic>>> _dateKcal = {};
 }
 
 void _appendFetchedRealEatData(Map<String, dynamic> fetchedRealEatData) {
-  if (fetchedRealEatData.isEmpty) return;
+  if (fetchedRealEatData.isEmpty) {
+    debugPrint('받은 실섭취 데이터가 비어 있습니다.');
+    return;
+  }
 
-  fetchedRealEatData.forEach((key, value) {
-    final mealType = key.toUpperCase();
-    final List<dynamic> meals = value;
+  try {
+    fetchedRealEatData.forEach((key, value) {
+      final mealType = key.toUpperCase();
 
-    for (final meal in meals) {
-      final mealData = MealCardData(
-        name: meal['mealName'] ?? '', // 수정
-        baseKcal: (meal['calories'] ?? 0).toDouble(), // 수정
-        amountStr: (meal['amount'] ?? '1').toString(), // 실제 데이터에 없으면 '1'
-        imageUrl: meal['mealPhoto'] ?? null, // 수정
-        isPosting: true,
-        isEditing: false,
-        isChecked: true,
-        fromRecommend: false,
-          );
-      switch (mealType) {
-        case 'BREAKFAST':
-          _breakfast.add(mealData);
-          break;
-        case 'LUNCH':
-          _lunch.add(mealData);
-          break;
-        case 'DINNER':
-          _dinner.add(mealData);
-          break;
-        default:
-          break;
+      if (value is! List) {
+        debugPrint('[$mealType]의 값이 리스트 형식이 아닙니다. value: $value');
+        return;
       }
-    }
-  });
+
+      final List<dynamic> meals = value;
+
+      for (final meal in meals) {
+        try {
+          final mealData = MealCardData(
+            name: meal['mealName'] ?? '',
+            baseKcal: (meal['calories'] ?? 0).toDouble(),
+            amountStr: (meal['amount'] ?? '1').toString(),
+            imageUrl: meal['mealPhoto'],
+            isPosting: true,
+            isEditing: false,
+            isChecked: true,
+            fromRecommend: false,
+          );
+
+          switch (mealType) {
+            case 'BREAKFAST':
+              _breakfast.add(mealData);
+              break;
+            case 'LUNCH':
+              _lunch.add(mealData);
+              break;
+            case 'DINNER':
+              _dinner.add(mealData);
+              break;
+            default:
+              debugPrint('알 수 없는 식사 유형: $mealType');
+              break;
+          }
+        } catch (e) {
+          debugPrint('[$mealType] 항목 추가 중 오류 발생: $e\n문제의 meal 데이터: $meal');
+        }
+      }
+    });
+  } catch (e) {
+    debugPrint('실섭취 데이터 append 중 전체 오류 발생: $e\n데이터: $fetchedRealEatData');
+  }
 }
+
 
 
   //------------------------------------------------------------------
@@ -154,25 +174,22 @@ void _appendFetchedRealEatData(Map<String, dynamic> fetchedRealEatData) {
         mealType = 'DINNER';
     }
 
-    for (final card in list) {
-      if (!card.isPosting) continue;
-      if (card.fromRecommend) {
-        await ApiService.postRealEat(
-          recipeId: card.recipeId!,
-          mealDate: now,
-          mealType: mealType,
-          calories: card.totalKcal,
-        );
-      } else {
-        await ApiService.foodinfo(
-          card.name,
-          card.totalKcal,
-          card.amountStr,
-          now,
-          mealType,
-          card.imageUrl ?? '',
-        );
-      }
+for (final card in list) {
+  if (!card.isPosting) continue;
+
+  if (card.fromRecommend) {
+    if (card.recipeId == null) {
+      debugPrint('⚠️ recipeId가 null인 추천 카드 발견: ${card.name}');
+      continue; // 또는 예외 던지기
+    }
+
+    await ApiService.postRealEat(
+      recipeId: card.recipeId!,
+      mealDate: now,
+      mealType: mealType,
+      calories: card.totalKcal,
+    );
+  }
     }
 
     if (!mounted) return;
