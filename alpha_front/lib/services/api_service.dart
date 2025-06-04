@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
 class ApiService {
-  static const _baseUrl = 'http://43.203.32.75:8080';
+  static const _baseUrl = 'http://3.38.66.123:8080';
 
   //로그인
   static Future<bool> login(String id, String pw) async {
@@ -334,7 +334,7 @@ class ApiService {
       final token = await AuthManager.getToken();
 
       final response = await http.post(
-        Uri.parse('http://43.203.32.75:8080/api/meal/real-eat/custom'),
+        Uri.parse('$_baseUrl/api/meal/real-eat/custom'),
         headers: {
           if (token != null) 'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
