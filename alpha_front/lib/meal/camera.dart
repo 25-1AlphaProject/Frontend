@@ -1,4 +1,5 @@
 import 'package:alpha_front/meal/mealAmount_edit.dart';
+import 'package:alpha_front/widgets/base_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:typed_data';
@@ -141,6 +142,7 @@ class _CameraState extends State<Camera> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xffffffff),
+      appBar: BaseAppbar(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
