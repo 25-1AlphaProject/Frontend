@@ -58,6 +58,8 @@ class _CameraState extends State<Camera> {
         SnackBar(content: Text('Presigned URL을 가져오지 못했습니다.')),
       );
       return;
+    } else if (presignedUrl != null) {
+      print('Presigned URL: $presignedUrl');
     }
 
     final response = await http.put(

@@ -44,9 +44,8 @@ class _FoodIngredientState extends State<FoodIngredient> {
               Text(
                 widget.foodUnit,
                 style: const TextStyle(
-                  fontFamily: "PretenderardVariable",
+                  fontFamily: "Pretenderard-bold",
                   fontSize: 16,
-                  fontWeight: FontWeight.bold,
                   color: Color.fromRGBO(32, 32, 32, 1.0),
                 ),
               ),

@@ -1,3 +1,4 @@
+import 'package:alpha_front/Home/home.dart';
 import 'package:alpha_front/Management/nutrientM.dart';
 import 'package:alpha_front/widgets/base_app_bar.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -138,9 +139,20 @@ class ReportMain extends StatefulWidget {
 }
 
 class _ReportMainState extends State<ReportMain> {
-  double breakfastKcal = 0;
-  double lunchKcal = 0;
-  double dinnerKcal = 0;
+  double breakfastKcal = getTotalCalories(realEatBreakfastList) ?? 0.0;
+  double lunchKcal = getTotalCalories(realEatLunchList) ?? 0.0;
+  double dinnerKcal = getTotalCalories(realEatDinnerList) ?? 0.0;
+
+  static double? getTotalCalories(List<dynamic> mealList) {
+    if (mealList == null) return 0.0;
+    double total = 0.0;
+    for (var item in mealList) {
+      if (item != null && item['calories'] != null) {
+        total += item['calories'] as double;
+      }
+    }
+    return total;
+  }
 
     void updateKcal(String mealType, int kcal) {
     setState(() {
