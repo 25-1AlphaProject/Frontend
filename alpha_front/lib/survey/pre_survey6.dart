@@ -50,27 +50,30 @@ class _PreSurvey6State extends State<PreSurvey6> {
   Widget _buildGoalButton(String goalKor) {
     final bool isSelected = selectedGoalKor == goalKor;
 
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: isSelected ? const Color(0xff3CB196) : Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.3,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: isSelected ? const Color(0xff3CB196) : Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          side: const BorderSide(color: Color(0xff3CB196), width: 1),
+          elevation: 3,
         ),
-        side: const BorderSide(color: Color(0xff3CB196), width: 1),
-        elevation: 3,
-      ),
-      onPressed: () {
-        setState(() {
-          selectedGoalKor = goalKor;
-        });
-      },
-      child: Text(
-        goalKor,
-        style: const TextStyle(
-          fontFamily: 'Pretendard-bold',
-          fontSize: 15,
-        ).copyWith(
-          color: isSelected ? Colors.white : const Color(0xff3CB196),
+        onPressed: () {
+          setState(() {
+            selectedGoalKor = goalKor;
+          });
+        },
+        child: Text(
+          goalKor,
+          style: const TextStyle(
+            fontFamily: 'Pretendard-bold',
+            fontSize: 15,
+          ).copyWith(
+            color: isSelected ? Colors.white : const Color(0xff3CB196),
+          ),
         ),
       ),
     );
