@@ -153,46 +153,46 @@ void _appendFetchedRealEatData(Map<String, dynamic> fetchedRealEatData) {
   //------------------------------------------------------------------
   // SAVE -------------------------------------------------------------
   //------------------------------------------------------------------
-  Future<void> _save() async {
-    final now = DateTime.now();
-    List<MealCardData> list;
-    String mealType;
-    switch (_idx) {
-      case 0:
-        list = _breakfast;
-        mealType = 'BREAKFAST';
-        break;
-      case 1:
-        list = _lunch;
-        mealType = 'LUNCH';
-        break;
-      default:
-        list = _dinner;
-        mealType = 'DINNER';
-    }
-
-for (final card in list) {
-  if (!card.isPosting) continue;
-
-  if (card.fromRecommend) {
-    if (card.recipeId == null) {
-      debugPrint('⚠️ recipeId가 null인 추천 카드 발견: ${card.name}');
-      continue; // 또는 예외 던지기
-    }
-
-    await ApiService.postRealEat(
-      recipeId: card.recipeId!,
-      mealDate: now,
-      mealType: mealType,
-      calories: card.totalKcal,
-    );
+Future<void> _save() async {
+  final now = DateTime.now();
+  List<MealCardData> list;
+  String mealType;
+  switch (_idx) {
+    case 0:
+      list = _breakfast;
+      mealType = 'BREAKFAST';
+      break;
+    case 1:
+      list = _lunch;
+      mealType = 'LUNCH';
+      break;
+    default:
+      list = _dinner;
+      mealType = 'DINNER';
   }
-    }
 
-    if (!mounted) return;
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (_) => const Layout()));
+  for (final card in list) {
+    if (!card.isPosting) continue;
+
+    if (card.recipeId != null) {
+      // 추천 카드 post
+      await ApiService.postRealEat(
+        recipeId: card.recipeId!,
+        mealDate: now,
+        mealType: mealType,
+        calories: card.totalKcal,
+      );
+    } else {
+      // 일반 카드 post
+    }
   }
+
+  if (!mounted) return;
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(builder: (_) => const Layout()),
+  );
+}
 
   //------------------------------------------------------------------
   // UI ---------------------------------------------------------------
