@@ -1,6 +1,7 @@
 import 'package:alpha_front/Home/home.dart';
 import 'package:alpha_front/Management/nutrientM.dart';
 import 'package:alpha_front/widgets/base_app_bar.dart';
+import 'package:alpha_front/services/api_service.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -143,6 +144,8 @@ class _ReportMainState extends State<ReportMain> {
   double lunchKcal = getTotalCalories(realEatLunchList) ?? 0.0;
   double dinnerKcal = getTotalCalories(realEatDinnerList) ?? 0.0;
 
+  Map<String, double>? nutrientRatios;
+
   static double? getTotalCalories(List<dynamic> mealList) {
     if (mealList == null) return 0.0;
     double total = 0.0;
@@ -166,6 +169,20 @@ class _ReportMainState extends State<ReportMain> {
     });
   }
 
+    @override
+  void initState() {
+    super.initState();
+    _loadNutrientRatios();
+  }
+
+  Future<void> _loadNutrientRatios() async {
+    final ratios = await calculateNutrientRatios(DateFormat('yyyy-MM-dd').format(DateTime.now()));
+    setState(() {
+      nutrientRatios = ratios;
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -184,8 +201,13 @@ class _ReportMainState extends State<ReportMain> {
             ),
             _buildCard(
               title: '오늘의 영양소 섭취',
-              child: Nutrientm(mealDate: DateFormat('yyyy-MM-dd').format(DateTime.now())),              
-              gap: 0,
+              child: nutrientRatios == null
+                  ? const CircularProgressIndicator()
+                  : PieChartExample(
+                      carbRatio: nutrientRatios!['carbRatio']!,
+                      proteinRatio: nutrientRatios!['proteinRatio']!,
+                      fatRatio: nutrientRatios!['fatRatio']!,
+                    ),              gap: 0,
             ),
           ],
         ),
@@ -355,5 +377,56 @@ class BarChartExample extends StatelessWidget {
     
 
     
+  }
+}
+Future<Map<String, double>> calculateNutrientRatios(String date) async {
+  try {
+    final data = await ApiService.fetchkcalData(date);
+
+    double totalProtein = 0;
+    double totalFat = 0;
+    double totalCarb = 0;
+    double totalCalories = 0;
+
+    for (final meal in data) {
+      final double protein = (meal['protein'] ?? 0).toDouble();
+      final double fat = (meal['fat'] ?? 0).toDouble();
+      final double carb = (meal['carbohydrate'] ?? 0).toDouble();
+      final double calories = (meal['calories'] ?? 0).toDouble();
+
+      totalProtein += protein;
+      totalFat += fat;
+      totalCarb += carb;
+      totalCalories += calories;
+    }
+
+    // macronutrients kcal 계산
+    final proteinKcal = totalProtein * 4;
+    final fatKcal = totalFat * 9;
+    final carbKcal = totalCarb * 4;
+
+    final double sum = proteinKcal + fatKcal + carbKcal;
+    if (sum == 0) {
+      return {
+        'carbRatio': 0,
+        'proteinRatio': 0,
+        'fatRatio': 0,
+      };
+    }
+
+    print("탄수화물 kcal: $carbKcal, 단백질 kcal: $proteinKcal, 지방 kcal: $fatKcal, 총합: $sum");
+
+    return {
+      'carbRatio': (carbKcal / sum) * 100,
+      'proteinRatio': (proteinKcal / sum) * 100,
+      'fatRatio': (fatKcal / sum) * 100,
+    };
+  } catch (e) {
+    print('영양소 비율 계산 오류: $e');
+    return {
+      'carbRatio': 20,
+      'proteinRatio': 40,
+      'fatRatio': 40,
+    };
   }
 }
