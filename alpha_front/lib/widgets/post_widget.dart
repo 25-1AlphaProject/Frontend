@@ -33,7 +33,7 @@ class _PostIngredientState extends State<PostIngredient> {
   @override
   void initState() {
     super.initState();
-    loadImage(widget.postURLs);
+    // loadImage(widget.postURLs);
   }
 
   Future<void> loadImage(String imagePath) async {
@@ -173,11 +173,26 @@ class _PostIngredientState extends State<PostIngredient> {
                 const SizedBox(
                   width: 30,
                 ),
-                widget.postURLs != ""
-                    ? SizedBox(child: Image.asset(widget.postURLs))
-                    : const SizedBox.shrink(),
+                widget.postURLs != ''
+                    ? SizedBox(
+                        width: 100,
+                        height: 100,
+                        child: Image.network(
+                          widget.postURLs,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return const Icon(
+                                Icons.broken_image); // 로드 실패 시 대체 위젯
+                          },
+                        ),
+                      )
+                    : const SizedBox(
+                        width: 100,
+                        height: 100,
+                      ),
               ],
             ),
+            const SizedBox(height: 5),
             const Divider(
               height: 1,
               color: Color.fromRGBO(60, 177, 150, 1.0),
