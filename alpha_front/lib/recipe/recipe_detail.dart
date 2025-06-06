@@ -30,6 +30,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
 
   String? imageUrl;
   late List<Map<String, String>> linkedIngredients;
+  bool isLike = false;
 
   @override
   void initState() {
@@ -46,7 +47,6 @@ class _RecipeDetailState extends State<RecipeDetail> {
 
     List<String> tokens = rawIngredient
         .replaceAll('\n', ',')
-        // .replaceAll(',', ',')
         .split(',')
         .map((e) => e.trim())
         .where((e) => e.isNotEmpty)
@@ -116,7 +116,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                     width: 50, height: 50, fit: BoxFit.cover),
           ),
           DraggableScrollableSheet(
-            initialChildSize: 0.55,
+            initialChildSize: 0.6,
             minChildSize: 0.5,
             maxChildSize: 1.0,
             builder: (context, ScrollController) {
@@ -156,19 +156,62 @@ class _RecipeDetailState extends State<RecipeDetail> {
                       const SizedBox(
                         height: 8,
                       ),
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Icon(Icons.access_time, size: 16),
-                          SizedBox(width: 4),
-                          Text(
-                            '15분 이내', // 값 받아오기
-                            style: TextStyle(
-                              fontFamily: "PretendardVariable",
-                              fontWeight: FontWeight.normal,
-                              color: Color.fromRGBO(154, 154, 154, 1.0),
-                              fontSize: 15,
-                            ),
+                          const Icon(
+                            Icons.bookmark,
+                            size: 22,
+                            color: Colors.white,
+                          ),
+                          const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.access_time, size: 16),
+                              SizedBox(width: 4),
+                              Text(
+                                '15분 이내', // 값 받아오기
+                                style: TextStyle(
+                                  fontFamily: "PretendardVariable",
+                                  fontWeight: FontWeight.normal,
+                                  color: Color.fromRGBO(154, 154, 154, 1.0),
+                                  fontSize: 15,
+                                ),
+                              ),
+                            ],
+                          ),
+                          IconButton(
+                            onPressed: () async {
+                              setState(() {
+                                isLike = !isLike;
+                              });
+                              bool success;
+                              if (isLike) {
+                                success =
+                                    await ApiService.postRecipeFavorite(id);
+                              } else {
+                                success =
+                                    await ApiService.deleteRecipeFavorite(id);
+                              }
+
+                              if (!success) {
+                                // 실패 시 롤백 처리
+                                setState(() {
+                                  isLike = !isLike;
+                                });
+                              }
+                            },
+                            icon: isLike
+                                ? const Icon(
+                                    Icons.bookmark,
+                                    size: 22,
+                                    color: Color.fromRGBO(60, 177, 150, 1.0),
+                                  )
+                                : const Icon(
+                                    Icons.bookmark_border,
+                                    size: 22,
+                                    color: Color.fromRGBO(60, 177, 150, 1.0),
+                                  ),
                           ),
                         ],
                       ),

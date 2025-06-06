@@ -356,7 +356,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                               List.generate(dietWidgetList.length, (index) {
                             return GestureDetector(
                               onTap: () {
-                                Navigator.push(
+                                Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => MealEdit(
