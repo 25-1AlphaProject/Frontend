@@ -4,19 +4,6 @@ import 'package:alpha_front/widgets/base_app_bar.dart';
 import 'package:alpha_front/layout.dart';
 import 'package:intl/intl.dart'; // 날짜 포맷(yyyy-MM-dd, M.d(EEE))용
 
-/// MEAL EDIT SCREEN – 아침/점심/저녁 식단 편집
-/// --------------------------------------------------------------
-///   • ⊕ 버튼으로 빈 카드 추가
-///   • 카드 ✎‧✔ 토글 (편집 / 저장 / POST 여부)
-///   • 상단 탭(아침‧점심‧저녁) 네비게이션
-///   • 하단 "식단 저장" → 현재 탭 카드만 POST (postRealEat / foodinfo)
-///   • imageUrl == null ⇒ assets/character.png
-///   • amount 변경 시 총 kcal = baseKcal × amount
-///   • 카드 배경 White, TextField 글꼴 14
-///   • 파일명만 내려오는 이미지 경로 → ApiService.imageBase + 파일명 (CORS 해결)
-///   • CORS 차단 시 placeholder 로 graceful‑fallback
-/// --------------------------------------------------------------
-
 class MealEdit extends StatefulWidget {
   final int initialIndex;
   final List<Map<String, dynamic>> recommendBreakfastList;
@@ -49,6 +36,10 @@ class _MealEditState extends State<MealEdit> {
   late final List<MealCardData> _breakfast;
   late final List<MealCardData> _lunch;
   late final List<MealCardData> _dinner;
+
+  bool isDuplicate(List<MealCardData> list, String name) {
+    return list.any((e) => e.name == name);
+  }
 
   // (옵션) 실제 섭취 kcal 정보만 필요하면 여기서 GET
 Map<String, List<Map<String, dynamic>>> _dateKcal = {};
@@ -129,13 +120,19 @@ void _appendFetchedRealEatData(Map<String, dynamic> fetchedRealEatData) {
 
           switch (mealType) {
             case 'BREAKFAST':
-              _breakfast.add(mealData);
+              if (!isDuplicate(_breakfast, mealData.name)) {
+                _breakfast.add(mealData);
+              }
               break;
             case 'LUNCH':
-              _lunch.add(mealData);
+              if (!isDuplicate(_lunch, mealData.name)) {
+                _lunch.add(mealData);
+              }
               break;
             case 'DINNER':
-              _dinner.add(mealData);
+              if (!isDuplicate(_dinner, mealData.name)) {
+                _dinner.add(mealData);
+              }
               break;
             default:
               debugPrint('알 수 없는 식사 유형: $mealType');

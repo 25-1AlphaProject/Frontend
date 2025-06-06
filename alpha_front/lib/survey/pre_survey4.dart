@@ -106,6 +106,7 @@ void _removeDisease(String term) {
                 margin: EdgeInsets.fromLTRB(10, 20, 10, 20),
                 child: TextField(
                   style: Theme.of(context).textTheme.bodyMedium,
+                  controller: searchController,
                   decoration: InputDecoration(
                     hintText: '질환명',
                       hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Color(0xffffffff)),
