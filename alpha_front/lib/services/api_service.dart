@@ -770,4 +770,56 @@ class ApiService {
       return false;
     }
   }
+
+  static Future<bool> deleteRecipeFavorite(int recipeId) async {
+    try {
+      final token = await AuthManager.getToken();
+
+      final response = await http.delete(
+        Uri.parse('$_baseUrl/api/recipe/favorite/$recipeId'),
+        headers: {
+          if (token != null) 'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 204) {
+        if (token != null) log("Token: $token");
+        log("좋아하는 레시피 삭제 완료: ${response.statusCode} ${response.body}");
+        return true;
+      } else {
+        if (token != null) log("Token: $token");
+        log("좋아하는 레시피 삭제 실패: ${response.statusCode} ${response.body}");
+        return false;
+      }
+    } catch (e) {
+      log("좋아하는 레시피 삭제 에러: $e");
+      return false;
+    }
+  }
+
+  static Future<bool> postRecipeFavorite(int recipeId) async {
+    try {
+      final token = await AuthManager.getToken();
+
+      final response = await http.post(
+        Uri.parse('$_baseUrl/api/recipe/favorite/$recipeId'),
+        headers: {
+          if (token != null) 'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        log("좋아하는 레시피 등록 완료: ${response.statusCode} ${response.body}");
+        return true;
+      } else {
+        log("좋아하는 레시피 등록 실패: ${response.statusCode} ${response.body}");
+        return false;
+      }
+    } catch (e) {
+      log("좋아하는 레시피 등록 에러: $e");
+      return false;
+    }
+  }
 }
