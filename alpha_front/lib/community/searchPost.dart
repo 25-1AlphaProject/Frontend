@@ -178,7 +178,7 @@ class _SearchPostState extends State<SearchPost> {
                 ),
               ],
             ),
-            const SizedBox(height: 50),
+            // const SizedBox(height: 50),
             Expanded(
               child: isLoading
                   ? const Center(
