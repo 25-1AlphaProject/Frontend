@@ -33,7 +33,7 @@ class _PostIngredientState extends State<PostIngredient> {
   @override
   void initState() {
     super.initState();
-    loadImage(widget.postURLs);
+    // loadImage(widget.postURLs);
   }
 
   Future<void> loadImage(String imagePath) async {
@@ -173,7 +173,7 @@ class _PostIngredientState extends State<PostIngredient> {
                 const SizedBox(
                   width: 30,
                 ),
-                widget.postURLs != ""
+                widget.postURLs != ''
                     ? SizedBox(child: Image.asset(widget.postURLs))
                     : const SizedBox.shrink(),
               ],
