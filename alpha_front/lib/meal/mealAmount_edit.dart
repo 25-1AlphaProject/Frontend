@@ -70,44 +70,44 @@ class _MealamountEditState extends State<MealamountEdit> {
   }
 
   
-Future<void> _submitMealInfo() async {
-  // 전달할 값들을 변수에 저장
-  final String mealName = widget.mealName;
-  final double foodCalories = widget.foodCalories;
-  final String amount = widget.amount.toString();
-  final DateTime now = DateTime.now();
-  final String mealType = widget.mealType;
-  final String mealPhotoUrl = widget.mealPhotoUrl;
+// Future<void> _submitMealInfo() async {
+//   // 전달할 값들을 변수에 저장
+//   final String mealName = widget.mealName;
+//   final double foodCalories = widget.foodCalories;
+//   final String amount = widget.amount.toString();
+//   final DateTime now = DateTime.now();
+//   final String mealType = widget.mealType;
+//   final String mealPhotoUrl = widget.mealPhotoUrl;
 
-  // 디버깅 또는 활용을 위해 출력
-  print('mealName: $mealName');
-  print('foodCalories: $foodCalories');
-  print('amount: $amount');
-  print('time: $now');
-  print('mealType: $mealType');
-  print('photoUrl: $mealPhotoUrl');
+//   // 디버깅 또는 활용을 위해 출력
+//   print('mealName: $mealName');
+//   print('foodCalories: $foodCalories');
+//   print('amount: $amount');
+//   print('time: $now');
+//   print('mealType: $mealType');
+//   print('photoUrl: $mealPhotoUrl');
 
-  final success = await ApiService.foodinfo(
-    mealName,
-    foodCalories,
-    amount,
-    now,
-    mealType,
-    mealPhotoUrl,
-  );
+//   final success = await ApiService.foodinfo(
+//     mealName,
+//     foodCalories,
+//     amount,
+//     now,
+//     mealType,
+//     mealPhotoUrl,
+//   );
 
-  if (success) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("식단이 저장되었습니다.")),
-    );
-    _goToNext();
+//   if (success) {
+//     ScaffoldMessenger.of(context).showSnackBar(
+//       const SnackBar(content: Text("식단이 저장되었습니다.")),
+//     );
+//     _goToNext();
 
-  } else {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("식단 저장 실패")),
-    );
-  }
-}
+//   } else {
+//     ScaffoldMessenger.of(context).showSnackBar(
+//       const SnackBar(content: Text("식단 저장 실패")),
+//     );
+//   }
+// }
 
 Future<void> _goToNext() async {
   int index = 1;
@@ -335,7 +335,7 @@ for (final meal in rawData) {
                             minimumSize: const Size(double.infinity, 50),
                             elevation: 3,
                           ),
-                          onPressed: _submitMealInfo,
+                          onPressed: _goToNext,
                           child: Text('다음',
                               style: Theme.of(context)
                                   .textTheme
