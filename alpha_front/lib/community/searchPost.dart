@@ -18,6 +18,7 @@ class _SearchPostState extends State<SearchPost> {
   bool isLoading = false;
   bool isLoadingMore = false;
   bool hasMore = true;
+  bool isSearching = false;
 
   String searchText = '';
   String sort = 'recent';
@@ -51,28 +52,23 @@ class _SearchPostState extends State<SearchPost> {
 
     setState(() {
       searchText = keyword;
+      isSearching = true;
       isLoading = true;
       posts = [];
       page = 0;
-      hasMore = true;
+      hasMore = false;
     });
 
     final result = await ApiService.getPostList(keyword);
 
-    final filtered = (result ?? []).where((post) {
-      final title = post['title']?.toString() ?? '';
-      final similarity = title.similarityTo(keyword);
-      return similarity > 0.3;
-    }).toList();
-
     setState(() {
-      posts = filtered;
+      posts = result ?? [];
       isLoading = false;
     });
   }
 
   Future<void> _fetchMorePosts() async {
-    if (isLoadingMore || !hasMore) return;
+    if (isLoadingMore || !hasMore || isSearching) return;
 
     setState(() {
       isLoadingMore = true;
@@ -104,6 +100,7 @@ class _SearchPostState extends State<SearchPost> {
       posts = [];
       hasMore = true;
       isLoading = true;
+      isSearching = false;
     });
 
     final result = await ApiService.sortSearchPost(sort, page, size);

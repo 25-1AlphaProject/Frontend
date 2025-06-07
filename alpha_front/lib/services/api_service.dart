@@ -609,7 +609,11 @@ class ApiService {
       if (response.statusCode == 200) {
         final decoded = jsonDecode(response.body);
         log("커뮤니티 검색 성공: ${response.body}");
-        return decoded;
+        // final List<Map<String, dynamic>> result =
+        //     decoded.map((e) => Map<String, dynamic>.from(e as Map)).toList();
+        // return result;
+        // print(List<Map<String, dynamic>>.from(decoded));
+        return List<Map<String, dynamic>>.from(decoded);
       } else {
         log("커뮤니티 검색 실패: ${response.statusCode} ${response.body}");
         return null;
