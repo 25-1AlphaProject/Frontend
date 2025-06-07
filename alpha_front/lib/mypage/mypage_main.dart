@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:alpha_front/mypage/mypage_myrecipe.dart';
 import 'package:alpha_front/mypage/mypage_mywrite.dart';
 import 'package:alpha_front/services/api_service.dart';
 import 'package:alpha_front/widgets/base_app_bar.dart';
@@ -288,7 +289,7 @@ Future<void> _editInfo() async {
                               title: '내가 저장한 레시피',
                               iconPath: '../assets/images/recipeIcon.png',
                               onTap: () {
-                                // 저장한 레시피 화면으로 이동
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => MypageMyrecipe()));
                               },
                             ),
                           ],
