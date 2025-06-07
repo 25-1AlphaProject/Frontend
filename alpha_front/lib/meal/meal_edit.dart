@@ -172,7 +172,7 @@ Future<void> _save() async {
   }
 
   for (final card in list) {
-    if (!card.isPosting) continue;
+    if (!card.isPosting) continue; // 체크 안 된 것 제외
 
     if (card.recipeId != null) {
       // 추천 카드 post
@@ -183,7 +183,15 @@ Future<void> _save() async {
         calories: card.totalKcal,
       );
     } else {
-      // 일반 카드 post
+      // 일반 카드 post (직접 입력한 것)
+      await ApiService.foodinfo(
+        card.name,
+        card.totalKcal,
+        card.amountStr,
+        now,
+        mealType,
+        card.imageUrl ?? '',
+      );
     }
   }
 
@@ -193,6 +201,7 @@ Future<void> _save() async {
     MaterialPageRoute(builder: (_) => const Layout()),
   );
 }
+
 
   //------------------------------------------------------------------
   // UI ---------------------------------------------------------------
@@ -382,6 +391,8 @@ class MealCardData {
         name: j['name'] ?? '',
         amountStr: (j['amount'] ?? '1').toString(),
         baseKcal: (j['calories'] as num).toDouble(),
+        isPosting: false, // 체크 여부 초기값
+        isChecked: false, // UI 표시용 체크
       );
 
   factory MealCardData.blank() => MealCardData(
@@ -389,6 +400,8 @@ class MealCardData {
         name: '',
         amountStr: '1',
         baseKcal: 0,
+        isPosting: true, // 기본적으로 POST 대상
+        isChecked: true, // 체크 true
       );
 }
 

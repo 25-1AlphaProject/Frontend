@@ -826,4 +826,47 @@ class ApiService {
       return false;
     }
   }
+
+static Future<List<dynamic>> getRecipeFavorite() async {
+  try {
+    final token = await AuthManager.getToken();
+
+    final response = await http.get(
+      Uri.parse('$_baseUrl/api/recipe/favorite'),
+      headers: {
+        if (token != null) 'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      log("좋아하는 레시피 불러오기 완료: ${response.statusCode} ${response.body}");
+      
+      final Map<String, dynamic> jsonData = jsonDecode(response.body);
+
+      final message = jsonData['message'];
+
+      // message 자체가 리스트인 경우
+      if (message is List) {
+        return message;
+      }
+
+      // message 안에 recipes 키가 있고 리스트인 경우
+      if (message is Map && message['recipes'] is List) {
+        return message['recipes'] as List<dynamic>;
+      }
+
+      // 그 외 → 빈 리스트 반환
+      return [];
+    } else {
+      log("좋아하는 레시피 불러오기 실패: ${response.statusCode} ${response.body}");
+      return [];
+    }
+  } catch (e) {
+    log("좋아하는 레시피 불러오기 에러: $e");
+    return [];
+  }
+}
+
+
 }
