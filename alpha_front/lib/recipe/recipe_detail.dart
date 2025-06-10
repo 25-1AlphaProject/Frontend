@@ -146,8 +146,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                         child: Text(
                           name,
                           style: const TextStyle(
-                            fontFamily: "PretendardVariable",
-                            fontWeight: FontWeight.bold,
+                            fontFamily: "Pretendard-bold",
                             color: Color.fromRGBO(0, 0, 0, 1.0),
                             fontSize: 20,
                           ),
@@ -172,8 +171,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
                               Text(
                                 '15분 이내', // 값 받아오기
                                 style: TextStyle(
-                                  fontFamily: "PretendardVariable",
-                                  fontWeight: FontWeight.normal,
+                                  fontFamily: "Pretendard-regular",
                                   color: Color.fromRGBO(154, 154, 154, 1.0),
                                   fontSize: 15,
                                 ),
@@ -222,28 +220,25 @@ class _RecipeDetailState extends State<RecipeDetail> {
                           const Text(
                             '재료',
                             style: TextStyle(
-                              fontFamily: "PretendardVariable",
+                              fontFamily: "Pretendard-bold",
                               color: Color.fromRGBO(0, 0, 0, 1.0),
                               fontSize: 20,
-                              fontWeight: FontWeight.bold,
                             ),
                           ),
                           const Text(
                             '1인 기준',
                             style: TextStyle(
-                              fontFamily: "PretendardVariable",
+                              fontFamily: "Pretendard-bold",
                               color: Color.fromRGBO(60, 177, 150, 1.0),
                               fontSize: 15,
-                              fontWeight: FontWeight.bold,
                             ),
                           ),
                           Text(
                             '$calories kcal', //값 받아오기
                             style: const TextStyle(
-                              fontFamily: "PretendardVariable",
+                              fontFamily: "Pretendard-bold",
                               color: Color.fromRGBO(60, 177, 150, 1.0),
                               fontSize: 15,
-                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ],

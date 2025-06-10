@@ -121,19 +121,19 @@ class _PreSurvey5State extends State<PreSurvey5> {
                               children: [
                                 TextSpan(
                                   text: '계산식\n',
-                                  style: TextStyle(fontFamily: 'PretendardVariable', fontSize: 11,fontWeight: FontWeight.bold),
+                                  style: TextStyle(fontFamily: 'Pretendard-regular', fontSize: 11,fontWeight: FontWeight.bold),
                                 ),
                                 TextSpan(
                                   text: '체중(kg)x24x활동계수=하루 섭취량\n남자\n66.47+(13.75x체중)+(5x키)-(6.76x나이)\n여자\n655.1+(9.56x체중)+(1.85x키)-(4.68x나이)\n',
-                                  style: TextStyle(fontFamily: 'PretendardVariable', fontSize: 11,fontWeight: FontWeight.w500),
+                                  style: TextStyle(fontFamily: 'Pretendard-regular', fontSize: 11,fontWeight: FontWeight.w500),
                                 ),
                                 TextSpan(
                                   text: '활동계수\n',
-                                  style: TextStyle(fontFamily: 'PretendardVariable', fontSize: 11,fontWeight: FontWeight.bold),
+                                  style: TextStyle(fontFamily: 'Pretendard-regular', fontSize: 11,fontWeight: FontWeight.bold),
                                 ),
                                 TextSpan(
                                   text: '좌식 생활자 : 1.2\n회사원 : 1.5\n노동 강도 높은 사람 : 1.7\n을 활동계수에 넣습니다.',
-                                  style: TextStyle(fontFamily: 'PretendardVariable', fontSize: 11,fontWeight: FontWeight.w500),
+                                  style: TextStyle(fontFamily: 'Pretendard-regular', fontSize: 11,fontWeight: FontWeight.w500),
                                 )
                               ]
                               )
