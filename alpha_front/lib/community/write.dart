@@ -71,6 +71,7 @@ class _PostCreatePageState extends State<PostCreatePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: BaseAppbar(
         actionButton: TextButton(
           onPressed: () async {
@@ -94,7 +95,14 @@ class _PostCreatePageState extends State<PostCreatePage> {
               );
             }
           },
-          child: const Text('완료'),
+          child: const Text(
+            '완료',
+            style: TextStyle(
+              fontFamily: 'Pretendard-regular',
+              fontSize: 15,
+              color: Color(0xff3CB196),
+            ),
+          ),
         ),
       ),
       body: Padding(
@@ -143,7 +151,7 @@ class _PostCreatePageState extends State<PostCreatePage> {
             IconButton(
               icon: const Icon(
                 Icons.upload_rounded,
-                color: Colors.teal,
+                color: Color(0xff3CB196),
                 size: 25,
               ),
               onPressed: getImages, //사진 업로드

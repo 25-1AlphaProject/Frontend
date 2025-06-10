@@ -117,6 +117,7 @@ class _PostDetailState extends State<PostDetail> {
   Widget build(BuildContext context) {
     if (isLoading) {
       return const Scaffold(
+        backgroundColor: Colors.white,
         body: Center(
             child: CircularProgressIndicator(
           color: Color(0xff3CB196),
@@ -125,13 +126,17 @@ class _PostDetailState extends State<PostDetail> {
     }
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: BaseAppbar(
         title: '커뮤니티',
         actionButton: IconButton(
           onPressed: () {
             // 버튼에 딸린 팝업창 열리기
           },
-          icon: const Icon(Icons.menu_rounded),
+          icon: const Icon(
+            Icons.menu_rounded,
+            color: Color.fromRGBO(60, 177, 150, 1.0),
+          ),
         ),
       ),
       body: SingleChildScrollView(

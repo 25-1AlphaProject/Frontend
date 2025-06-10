@@ -55,6 +55,7 @@ class _signuploadingState extends State<signuploading> {
     double percentbarWidth = max(233, MediaQuery.of(context).size.width - 160);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -67,7 +68,7 @@ class _signuploadingState extends State<signuploading> {
                   fontFamily: 'yg-jalnan',
                   fontSize: 30,
                   fontWeight: FontWeight.normal,
-                  color: Color.fromRGBO(17, 139, 80, 1.0),
+                  color: Color(0xFF3CB196),
                 ),
               ),
             ),
