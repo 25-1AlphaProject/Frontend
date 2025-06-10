@@ -145,8 +145,7 @@ class _PostDetailState extends State<PostDetail> {
               Text(
                 title,
                 style: const TextStyle(
-                  fontFamily: "PretendardVariable",
-                  fontWeight: FontWeight.bold,
+                  fontFamily: "Pretendard-bold",
                   color: Color.fromRGBO(0, 0, 0, 1.0),
                   fontSize: 20,
                 ),
@@ -181,7 +180,7 @@ class _PostDetailState extends State<PostDetail> {
                       Text(
                         createdAtString,
                         style: const TextStyle(
-                          fontFamily: "PretendardVariable",
+                          fontFamily: "Pretendard-bold",
                           fontWeight: FontWeight.normal,
                           color: Color.fromRGBO(154, 154, 154, 1.0),
                           fontSize: 15,
@@ -199,7 +198,7 @@ class _PostDetailState extends State<PostDetail> {
               Text(
                 content,
                 style: const TextStyle(
-                  fontFamily: "PretendardVariable",
+                  fontFamily: "Pretendard-bold",
                   color: Colors.black,
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
@@ -265,7 +264,7 @@ class _PostDetailState extends State<PostDetail> {
                       Text(
                         scrapCount,
                         style: const TextStyle(
-                          fontFamily: "PretendardVariable",
+                          fontFamily: "Pretendard-regular",
                           color: Color.fromRGBO(60, 177, 150, 1.0),
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
@@ -309,7 +308,7 @@ class _PostDetailState extends State<PostDetail> {
                       Text(
                         likeCount,
                         style: const TextStyle(
-                          fontFamily: "PretendardVariable",
+                          fontFamily: "Pretendard-regular",
                           color: Color.fromRGBO(255, 0, 4, 1.0),
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
@@ -332,7 +331,7 @@ class _PostDetailState extends State<PostDetail> {
                       Text(
                         commentCount,
                         style: const TextStyle(
-                          fontFamily: "PretendardVariable",
+                          fontFamily: "Pretendard-regular",
                           color: Color.fromRGBO(0, 153, 255, 1.0),
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
