@@ -33,8 +33,10 @@ List<dynamic> dateKcal = []; // 한 번에 받아와서 리스트에 저장(아�
 List<Map<String, dynamic>> realEatBreakfastList = [];
 List<Map<String, dynamic>> realEatLunchList = [];
 List<Map<String, dynamic>> realEatDinnerList = [];
-int total = 0;
-double goalCalories = 2000;
+
+// late int total;
+// late double goalCalories;
+bool isLoading = true;
 
 List<Widget> dietWidgetList = [
   const DietManagementWidget(
@@ -57,6 +59,8 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
   late String nowDate;
   late String getDataDate;
   late Map<String, dynamic> createMeal;
+  int total = 0;
+  double goalCalories = 2000;
 
   @override
   void initState() {
@@ -106,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     }
   }
 
-  late int total;
+  // late int total;
 
   int getTotalCalories(List<Map<String, dynamic>> mealList) {
     total = 0;
@@ -125,8 +129,6 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
   //   print(total);
   //   return total;
   // }
-
-  double goalCalories = 2000;
 
   Future<void> getGoalCalories() async {}
 
@@ -171,7 +173,9 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
       // await getGoalCalories();
     }
 
-    setState(() {}); // UI 갱신
+    setState(() {
+      isLoading = false;
+    }); // UI 갱신
   }
 
   Future<void> updateData(DateTime pageDate) async {
@@ -212,7 +216,9 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
       // await getGoalCalories();
     }
 
-    setState(() {}); // UI 갱신
+    setState(() {
+      isLoading = false;
+    }); // UI 갱신
   }
 
   void _onKcalWidgetTap() {
@@ -228,6 +234,16 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
 
   @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+      return const Scaffold(
+        backgroundColor: Colors.white,
+        body: Center(
+            child: CircularProgressIndicator(
+          color: Color(0xff3CB196),
+        )),
+      );
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
