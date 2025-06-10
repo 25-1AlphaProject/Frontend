@@ -103,6 +103,7 @@ class _RecipeDetailState extends State<RecipeDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: const BaseAppbar(),
       body: Stack(
         children: [
