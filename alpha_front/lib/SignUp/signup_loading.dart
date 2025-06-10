@@ -83,7 +83,7 @@ class _signuploadingState extends State<signuploading> {
               height: 50,
             ),
             const Text(
-              '곧 로그인 페이지로 이동할게요',
+              '곧 사전설문 페이지로 이동할게요',
               style: TextStyle(
                   fontFamily: 'yg-jalnan',
                   fontSize: 20,

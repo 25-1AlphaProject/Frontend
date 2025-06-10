@@ -59,7 +59,7 @@ class _PostIngredientState extends State<PostIngredient> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 SizedBox(
-                  width: 200,
+                  width: widget.postURLs != '' ? 200 : 300,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -79,7 +79,7 @@ class _PostIngredientState extends State<PostIngredient> {
                       ),
                       Text(
                         widget.postDetail,
-                        maxLines: 1,
+                        maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                           fontFamily: "PretenderardVariable",
@@ -89,7 +89,7 @@ class _PostIngredientState extends State<PostIngredient> {
                         ),
                       ),
                       const SizedBox(
-                        height: 1,
+                        height: 6,
                       ),
                       Row(
                         children: [
@@ -187,8 +187,8 @@ class _PostIngredientState extends State<PostIngredient> {
                         ),
                       )
                     : const SizedBox(
-                        width: 100,
-                        height: 100,
+                        width: 1,
+                        height: 1,
                       ),
               ],
             ),

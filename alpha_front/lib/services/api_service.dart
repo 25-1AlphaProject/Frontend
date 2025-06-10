@@ -868,7 +868,8 @@ class ApiService {
     }
   }
 
-  static Future<bool> postCommunityFavorite(int postId) async {
+  // 좋아요 토글
+  static Future<Map<String, dynamic>> postCommunityFavorite(int postId) async {
     try {
       final token = await AuthManager.getToken();
 
@@ -882,18 +883,20 @@ class ApiService {
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         log("좋아하는 게시글 토글상태 등록 완료: ${response.statusCode} ${response.body}");
-        return true;
+        final decoded = jsonDecode(response.body);
+        return Map<String, dynamic>.from(decoded);
       } else {
         log("좋아하는 게시글 토글상태 등록 실패: ${response.statusCode} ${response.body}");
-        return false;
+        throw Exception("서버 응답 오류: ${response.statusCode}");
       }
     } catch (e) {
       log("좋아하는 게시글 토글상태 등록 에러: $e");
-      return false;
+      throw Exception("요청 실패: $e");
     }
   }
 
-  static Future<bool> postCommunityScrap(int postId) async {
+  // 스크랩 토글
+  static Future<Map<String, dynamic>> postCommunityScrap(int postId) async {
     try {
       final token = await AuthManager.getToken();
 
@@ -907,14 +910,42 @@ class ApiService {
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         log("좋아하는 게시글 토글상태 등록 완료: ${response.statusCode} ${response.body}");
-        return true;
+        final decoded = jsonDecode(response.body);
+        return Map<String, dynamic>.from(decoded);
       } else {
         log("좋아하는 게시글 토글상태 등록 실패: ${response.statusCode} ${response.body}");
-        return false;
+        throw Exception("서버 응답 오류: ${response.statusCode}");
       }
     } catch (e) {
       log("좋아하는 게시글 토글상태 등록 에러: $e");
-      return false;
+      throw Exception("요청 실패: $e");
+    }
+  }
+
+  // 게시글 상세 조회
+  static Future<Map<String, dynamic>> getPostDetail(int postId) async {
+    try {
+      final token = await AuthManager.getToken();
+
+      final response = await http.get(
+        Uri.parse('$_baseUrl/api/community/posts/$postId'),
+        headers: {
+          'Content-Type': 'application/json',
+          if (token != null) 'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final decoded = jsonDecode(response.body);
+        log("게시글 상세 조회 성공: ${response.body}");
+        return Map<String, dynamic>.from(decoded);
+      } else {
+        log("게시글 상세 조회 실패: ${response.statusCode} ${response.body}");
+        throw Exception("서버 응답 오류: ${response.statusCode}");
+      }
+    } catch (e) {
+      log("게시글 상세 조회 에러: $e");
+      throw Exception("요청 실패: $e");
     }
   }
 }

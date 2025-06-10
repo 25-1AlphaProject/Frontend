@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:string_similarity/string_similarity.dart';
 import 'package:alpha_front/widgets/post_widget.dart';
 import 'package:alpha_front/community/write.dart';
+import 'package:alpha_front/community/postDetail.dart';
 
 class SearchPost extends StatefulWidget {
   const SearchPost({super.key});
@@ -214,11 +215,13 @@ class _SearchPostState extends State<SearchPost> {
 
                               return InkWell(
                                 onTap: () {
-                                  // Navigator.push(
-                                  //     context,
-                                  //     MaterialPageRoute(
-                                  //         builder: (context) =>
-                                  //             const 작성된 게시글()));
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          PostDetail(postData: post),
+                                    ),
+                                  );
                                 },
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
