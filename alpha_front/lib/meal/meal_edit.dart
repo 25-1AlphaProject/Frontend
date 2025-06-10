@@ -116,6 +116,7 @@ void _appendFetchedRealEatData(Map<String, dynamic> fetchedRealEatData) {
             isEditing: false,
             isChecked: true,
             fromRecommend: false,
+            isAlreadyPosted: true,
           );
 
           switch (mealType) {
@@ -173,6 +174,7 @@ Future<void> _save() async {
 
   for (final card in list) {
     if (!card.isPosting) continue; // 체크 안 된 것 제외
+    if (card.isAlreadyPosted) continue;
 
     if (card.recipeId != null) {
       // 추천 카드 post
@@ -345,6 +347,7 @@ class MealCardData {
   int? recipeId;
   String? imageUrl;
   bool isChecked;
+  bool isAlreadyPosted;
 
   String name;
   String amountStr;
@@ -360,6 +363,7 @@ class MealCardData {
     required this.name,
     required this.amountStr,
     required this.baseKcal,
+    this.isAlreadyPosted = false,
   });
 
   factory MealCardData.fromDayData(Map<String, dynamic> j) => MealCardData(
