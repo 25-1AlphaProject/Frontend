@@ -948,4 +948,34 @@ class ApiService {
       throw Exception("요청 실패: $e");
     }
   }
+
+static Future<List<dynamic>> getCommunityFavorite() async {
+  try {
+    final token = await AuthManager.getToken();
+
+    final response = await http.get(
+      Uri.parse('$_baseUrl/api/community/posts/liked'),
+      headers: {
+        if (token != null) 'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      log("좋아하는 게시글 불러오기 완료: ${response.statusCode} ${response.body}");
+
+      final List<dynamic> jsonData = jsonDecode(response.body);
+
+      return jsonData;  // List를 바로 반환
+    } else {
+      log("좋아하는 게시글 불러오기 실패: ${response.statusCode} ${response.body}");
+      return [];
+    }
+  } catch (e) {
+    log("좋아하는 게시글 불러오기 에러: $e");
+    return [];
+  }
+}
+
+
 }
