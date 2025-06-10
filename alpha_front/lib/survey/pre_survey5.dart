@@ -64,7 +64,7 @@ class _PreSurvey5State extends State<PreSurvey5> {
                   alignment: Alignment.topLeft,
                    child: Text.rich(
                       TextSpan(
-                        text: '한 끼 희망 칼로리',
+                        text: '하루 희망 칼로리',
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontFamily: 'Pretendard-bold', color: Colors.white),
                         children: [
                           TextSpan(
