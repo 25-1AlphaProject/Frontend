@@ -102,7 +102,7 @@ class _signuploadingState extends State<signuploading> {
                   percent: 0.5, // 서버와 통신(percent 변수 추후 수정)
                   barRadius: const Radius.circular(10),
                   backgroundColor: const Color.fromRGBO(227, 227, 227, 1.0),
-                  progressColor: const Color.fromRGBO(17, 139, 80, 1.0)),
+                  progressColor: const Color(0xFF3CB196)),
             ),
           ],
         ),

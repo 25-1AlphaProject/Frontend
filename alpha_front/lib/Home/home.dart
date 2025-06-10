@@ -363,7 +363,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                       ],
                     ),
                     child: SizedBox(
-                      height: 275,
+                      height: 300,
                       width: MediaQuery.of(context).size.width,
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,

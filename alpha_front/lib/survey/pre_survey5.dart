@@ -11,20 +11,20 @@ class PreSurvey5 extends StatefulWidget {
 }
 
 class _PreSurvey5State extends State<PreSurvey5> {
-
-  final TextEditingController targetCaloriesController = TextEditingController();
+  final TextEditingController targetCaloriesController =
+      TextEditingController();
 
   void _goToNext() {
-    int target_calories = int.tryParse(targetCaloriesController.text.trim()) ?? 0;
-      
-    DietInfo.targetCalories = target_calories;
+    int targetCalories =
+        int.tryParse(targetCaloriesController.text.trim()) ?? 0;
+
+    DietInfo.targetCalories = targetCalories;
 
     print('targetCalories 저장됨: ${DietInfo.targetCalories}');
 
-
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => PreSurvey6()),
+      MaterialPageRoute(builder: (context) => const PreSurvey6()),
     );
   }
 
@@ -32,14 +32,14 @@ class _PreSurvey5State extends State<PreSurvey5> {
     DietInfo.targetCalories = 0;
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => PreSurvey6()),
+      MaterialPageRoute(builder: (context) => const PreSurvey6()),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
@@ -50,167 +50,184 @@ class _PreSurvey5State extends State<PreSurvey5> {
         ),
       ),
       child: Scaffold(
-        backgroundColor: Colors.transparent,
-        resizeToAvoidBottomInset: false,
-        // appBar: BaseAppbar(),
-        body: Padding(
-          padding: EdgeInsets.fromLTRB(33, 78, 33, 31),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.2,
-                child: Align(
-                  alignment: Alignment.topLeft,
-                   child: Text.rich(
-                      TextSpan(
-                        text: '한 끼 희망 칼로리',
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontFamily: 'Pretendard-bold', color: Colors.white),
-                        children: [
-                          TextSpan(
-                            text: '를\n알려주세요!',
-                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.white),
-                          ),
-                        ],
-                      ),
-                    )
-                ),
-              ),
-      
-              Container(
-                margin: EdgeInsets.fromLTRB(10, 20, 10, 20),
-                child: TextField(
-                  controller: targetCaloriesController,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                  keyboardType : TextInputType.number,
-                  decoration: InputDecoration(
-                    hintText: '칼로리',
-                      hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Color(0xffffffff)),
-      
-                    enabledBorder : UnderlineInputBorder(
-                      borderSide: BorderSide(color: Color(0xffffffff),
-                      )
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Color(0xffffffff),
-                      ),  
-                    ),
-                  ), 
-                ),
-              ),
-      
-              Center(
-                child: Container(
-                  padding: EdgeInsets.all(15),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: Colors.green[50],
-      
-                  ),
-                  child: Row(
-                    children: [
-                      Image(
-                        image: AssetImage(
-                          '../assets/images/character.png'
-                          )
-                        ),
-                      Column(
-                        children: [
-                          Text.rich(
+          backgroundColor: Colors.transparent,
+          resizeToAvoidBottomInset: false,
+          // appBar: BaseAppbar(),
+          body: Padding(
+              padding: const EdgeInsets.fromLTRB(33, 78, 33, 31),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.2,
+                      child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Text.rich(
                             TextSpan(
+                              text: '하루 희망 칼로리',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                      fontFamily: 'Pretendard-bold',
+                                      color: Colors.white),
                               children: [
                                 TextSpan(
-                                  text: '계산식\n',
-                                  style: TextStyle(fontFamily: 'Pretendard-regular', fontSize: 11,fontWeight: FontWeight.bold),
+                                  text: '를\n알려주세요!',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(color: Colors.white),
                                 ),
-                                TextSpan(
-                                  text: '체중(kg)x24x활동계수=하루 섭취량\n남자\n66.47+(13.75x체중)+(5x키)-(6.76x나이)\n여자\n655.1+(9.56x체중)+(1.85x키)-(4.68x나이)\n',
-                                  style: TextStyle(fontFamily: 'Pretendard-regular', fontSize: 11,fontWeight: FontWeight.w500),
-                                ),
-                                TextSpan(
-                                  text: '활동계수\n',
-                                  style: TextStyle(fontFamily: 'Pretendard-regular', fontSize: 11,fontWeight: FontWeight.bold),
-                                ),
-                                TextSpan(
-                                  text: '좌식 생활자 : 1.2\n회사원 : 1.5\n노동 강도 높은 사람 : 1.7\n을 활동계수에 넣습니다.',
-                                  style: TextStyle(fontFamily: 'Pretendard-regular', fontSize: 11,fontWeight: FontWeight.w500),
-                                )
-                              ]
-                              )
-                          )
-                        ],
+                              ],
+                            ),
+                          )),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(10, 20, 10, 20),
+                      child: TextField(
+                        controller: targetCaloriesController,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          hintText: '칼로리',
+                          hintStyle: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(color: const Color(0xffffffff)),
+                          enabledBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(
+                            color: Color(0xffffffff),
+                          )),
+                          focusedBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color(0xffffffff),
+                            ),
+                          ),
+                        ),
                       ),
-                    ],
-                  )
-                ),
-              ),
-      
-                SizedBox(height: 100,),
-                Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
+                    ),
+                    Center(
                       child: Container(
-                          // margin: const EdgeInsets.fromLTRB(10, 50, 10, 20),
-                          width: double.infinity,
-                          child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xffd9d9d9),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            padding: const EdgeInsets.symmetric(vertical: 18),
-                            minimumSize: const Size(double.infinity, 50),
-                            elevation: 3,
-                            ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => PreSurvey6())
-                            );
-                          }, 
-                            child: Text(
-                            '생략할게요',
-                                style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Color(0xff4d4d4d)),
-                      
+                          padding: const EdgeInsets.all(15),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.green[50],
                           ),
-                          ),
-                      )
+                          child: const Row(
+                            children: [
+                              Image(
+                                  image: AssetImage(
+                                      '../assets/images/character.png')),
+                              Column(
+                                children: [
+                                  Text.rich(TextSpan(children: [
+                                    TextSpan(
+                                      text: '계산식\n',
+                                      style: TextStyle(
+                                          fontFamily: 'Pretendard-regular',
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    TextSpan(
+                                      text:
+                                          '체중(kg)x24x활동계수=하루 섭취량\n남자\n66.47+(13.75x체중)+(5x키)-(6.76x나이)\n여자\n655.1+(9.56x체중)+(1.85x키)-(4.68x나이)\n',
+                                      style: TextStyle(
+                                          fontFamily: 'Pretendard-regular',
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    TextSpan(
+                                      text: '활동계수\n',
+                                      style: TextStyle(
+                                          fontFamily: 'Pretendard-regular',
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    TextSpan(
+                                      text:
+                                          '좌식 생활자 : 1.2\n회사원 : 1.5\n노동 강도 높은 사람 : 1.7\n을 활동계수에 넣습니다.',
+                                      style: TextStyle(
+                                          fontFamily: 'Pretendard-regular',
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w500),
+                                    )
+                                  ]))
+                                ],
+                              ),
+                            ],
+                          )),
                     ),
-                    SizedBox(width: 14,),
-                    Expanded(
-                      flex: 2,
-                        child: Container(
-                          // margin: const EdgeInsets.fromLTRB(10, 50, 10, 20),
-                          width: double.infinity,
-                          child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xffffffff),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            padding: const EdgeInsets.symmetric(vertical: 18),
-                            minimumSize: const Size(double.infinity, 50),
-                            elevation: 3,
-                            ),
-                          onPressed: _goToNext,
-                            child: Text(
-                            '다음',
-                                style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                                  color: Color(0xff3CB196),
-                                )
-                      
-                          ),
-                          ),
-                      ),
+                    const SizedBox(
+                      height: 100,
                     ),
-                  ],
-                ),
-            ]
-          )
-        )
-      ),
+                    Row(
+                      children: [
+                        Expanded(
+                            flex: 1,
+                            child: SizedBox(
+                              // margin: const EdgeInsets.fromLTRB(10, 50, 10, 20),
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xffd9d9d9),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 18),
+                                  minimumSize: const Size(double.infinity, 50),
+                                  elevation: 3,
+                                ),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const PreSurvey6()));
+                                },
+                                child: Text(
+                                  '생략할게요',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelMedium!
+                                      .copyWith(color: const Color(0xff4d4d4d)),
+                                ),
+                              ),
+                            )),
+                        const SizedBox(
+                          width: 14,
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: SizedBox(
+                            // margin: const EdgeInsets.fromLTRB(10, 50, 10, 20),
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xffffffff),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 18),
+                                minimumSize: const Size(double.infinity, 50),
+                                elevation: 3,
+                              ),
+                              onPressed: _goToNext,
+                              child: Text('다음',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelMedium!
+                                      .copyWith(
+                                        color: const Color(0xff3CB196),
+                                      )),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ]))),
     );
   }
 }
